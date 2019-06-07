@@ -1,0 +1,9 @@
+connect await ROUTED_SERVER
+        "nukleus://streams/amqp#0"
+  option nukleus:window 8192
+  option nukleus:transmission "duplex"
+
+connected
+
+write "AMQP" [0x00 0x01 0x00 0x00]
+read "AMQP" [0x00 0x01 0x00 0x00]
