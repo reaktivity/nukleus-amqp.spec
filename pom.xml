@@ -89,6 +89,21 @@
     </resources>
     <plugins>
       <plugin>
+        <groupId>org.reaktivity</groupId>
+        <artifactId>nukleus-maven-plugin</artifactId>
+        <version>${nukleus.plugin.version}</version>
+        <configuration>
+          <scopeNames>amqp</scopeNames>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>validate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
         <version>3.0</version>
