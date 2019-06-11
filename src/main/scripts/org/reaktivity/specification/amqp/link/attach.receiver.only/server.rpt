@@ -93,3 +93,16 @@ write [0x00 0x00 0x00 0x17]                                       # length = 23
       [0xa1 0x05 0x6c 0x69 0x6e 0x6b 0x31]                        # name = "link1"
       [0x43]                                                      # handle = 0
       [0x42]                                                      # role = sender
+
+# flow frame
+read [0x00 0x00 0x00 0x1c]                                        # length = 28
+     [0x02]                                                       # dof = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x01]                                                  # channel = 1
+     [0x00 0x53 0x13]                                             # performative = attach (19)
+     [0xc0 0x0f]                                                  # list type (list8), physical length = 15
+     [0x04]                                                       # number of fields in list = 4
+     [0x52 0x01]                                                  # next-incoming-id = 1
+     [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
+     [0x52 0x01]                                                  # next-outgoing-id = 1
+     [0x70 0x7f 0xff 0xff 0xff]                                   # incoming-window = 2147483647
