@@ -39,8 +39,8 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/attach.receiver.only/client",
-        "${scripts}/attach.receiver.only/server"})
+        "${scripts}/attach.as.receiver.only/client",
+        "${scripts}/attach.as.receiver.only/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldExchangeAttachAsReceiver() throws Exception
     {
@@ -51,8 +51,8 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/attach.sender.only/client",
-        "${scripts}/attach.sender.only/server"})
+        "${scripts}/attach.as.sender.only/client",
+        "${scripts}/attach.as.sender.only/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldExchangeAttachAsSender() throws Exception
     {
@@ -63,8 +63,8 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/attach.sender.and.receiver/client",
-        "${scripts}/attach.sender.and.receiver/server"})
+        "${scripts}/attach.as.sender.and.receiver/client",
+        "${scripts}/attach.as.sender.and.receiver/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldExchangeAttachAsSenderAndReceiver() throws Exception
     {
