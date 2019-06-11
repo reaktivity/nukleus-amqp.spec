@@ -28,47 +28,45 @@ read "AMQP" [0x00 0x01 0x00 0x00]
 write "AMQP" [0x00 0x01 0x00 0x00]
 
 # open frame exchange
-read [0x00 0x00 0x00 0x18]                              # length = 24
-     [0x02]                                             # dof = 2
-     [0x00]                                             # type = AMQP (0)
-     [0x00 0x00]                                        # channel = 0
-     [0x00 0x53 0x10]                                   # performative = open (16)
-     [0xd0 0x00 0x00 0x00 0x08]                         # list type (list32), physical length = 8
-     [0x00 0x00 0x00 0x01]                              # number of fields in list = 1
-     [0xa1 0x02]                                        # type = string, length of string = 2
-     [0x63 0x31]                                        # container-id = c1
+read [0x00 0x00 0x00 0x18]                                        # length = 24
+     [0x02]                                                       # dof = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x00]                                                  # channel = 0
+     [0x00 0x53 0x10]                                             # performative = open (16)
+     [0xd0 0x00 0x00 0x00 0x08]                                   # list type (list32), physical length = 8
+     [0x00 0x00 0x00 0x01]                                        # number of fields in list = 1
+     [0xa1 0x02 0x63 0x31]                                        # type = string, length = 2, container-id = "c1"
 
-write [0x00 0x00 0x00 0x19]                             # length = 25
-      [0x02]                                            # dof = 2
-      [0x00]                                            # type = AMQP (0)
-      [0x00 0x00]                                       # channel = 0
-      [0x00 0x53 0x10]                                  # performative = open (16)
-      [0xc0 0x0c]                                       # list type (list8), physical length = 12
-      [0x01]                                            # number of fields in list = 1
-      [0xa1 0x09]                                       # type = string, length of string = 9
-      [0x6c 0x6f 0x63 0x61 0x6c 0x68 0x6f 0x73 0x74]    # container-id = localhost
+write [0x00 0x00 0x00 0x19]                                       # length = 25
+      [0x02]                                                      # dof = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x00]                                                 # channel = 0
+      [0x00 0x53 0x10]                                            # performative = open (16)
+      [0xc0 0x0c]                                                 # list type (list8), physical length = 12
+      [0x01]                                                      # number of fields in list = 1
+      [0xa1 0x09 0x6c 0x6f 0x63 0x61 0x6c 0x68 0x6f 0x73 0x74]    # type = string, length = 9, container-id = "localhost"
 
 #begin frame exchange
-read [0x00 0x00 0x00 0x1b]                              # length = 27
-     [0x02]                                             # dof = 2
-     [0x00]                                             # type = AMQP (0)
-     [0x00 0x00]                                        # channel = 0
-     [0x00 0x53 0x11]                                   # performative = begin (17)
-     [0xc0 0x0e]                                        # list type (list8), physical length = 14
-     [0x04]                                             # number of fields in list = 4
-     [0x40]                                             # type = null, remote-channel = null
-     [0x52 0x01]                                        # type = smalluint, next-outgoing-id = 1
-     [0x70 0x00 0x00 0x07 0xff]                         # type = uint, incoming-window = 2047
-     [0x70 0x7f 0xff 0xff 0xff]                         # type = uint, outgoing-window = 2147483647
+read [0x00 0x00 0x00 0x1b]                                        # length = 27
+     [0x02]                                                       # dof = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x00]                                                  # channel = 0
+     [0x00 0x53 0x11]                                             # performative = begin (17)
+     [0xc0 0x0e]                                                  # list type (list8), physical length = 14
+     [0x04]                                                       # number of fields in list = 4
+     [0x40]                                                       # type = null, remote-channel = null
+     [0x52 0x01]                                                  # type = smalluint, next-outgoing-id = 1
+     [0x70 0x00 0x00 0x07 0xff]                                   # type = uint, incoming-window = 2047
+     [0x70 0x7f 0xff 0xff 0xff]                                   # type = uint, outgoing-window = 2147483647
 
-write [0x00 0x00 0x00 0x1d]                             # length = 29
-      [0x02]                                            # dof = 2
-      [0x00]                                            # type = AMQP (0)
-      [0x00 0x00]                                       # channel = 0
-      [0x00 0x53 0x11]                                  # performative = begin (17)
-      [0xc0 0x10]                                       # list type (list8), physical length = 16
-      [0x04]                                            # number of fields in list = 4
-      [0x60 0x00 0x00]                                  # type = ushort, remote-channel = 0
-      [0x52 0x01]                                       # type = smalluint, next-outgoing-id = 1
-      [0x70 0x00 0x00 0x3f 0xff]                        # type = uint, incoming-window = 16383
-      [0x70 0x7f 0xff 0xff 0xff]                        # type = uint, outgoing-window = 2147483647
+write [0x00 0x00 0x00 0x1d]                                       # length = 29
+      [0x02]                                                      # dof = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x00]                                                 # channel = 0
+      [0x00 0x53 0x11]                                            # performative = begin (17)
+      [0xc0 0x10]                                                 # list type (list8), physical length = 16
+      [0x04]                                                      # number of fields in list = 4
+      [0x60 0x00 0x00]                                            # type = ushort, remote-channel = 0
+      [0x52 0x01]                                                 # type = smalluint, next-outgoing-id = 1
+      [0x70 0x00 0x00 0x3f 0xff]                                  # type = uint, incoming-window = 16383
+      [0x70 0x7f 0xff 0xff 0xff]                                  # type = uint, outgoing-window = 2147483647
