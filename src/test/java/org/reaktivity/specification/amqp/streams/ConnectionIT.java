@@ -30,7 +30,7 @@ import org.kaazing.k3po.junit.rules.K3poRule;
 public class ConnectionIT
 {
     private final K3poRule k3po = new K3poRule()
-            .addScriptRoot("scripts", "org/reaktivity/specification/amqp/connection");
+            .addScriptRoot("scripts", "org/reaktivity/specification/amqp");
 
     private final TestRule timeout = new DisableOnDebug(new Timeout(5, SECONDS));
 
@@ -39,8 +39,8 @@ public class ConnectionIT
 
     @Test
     @Specification({
-        "${scripts}/header.exchange/handshake.client",
-        "${scripts}/header.exchange/handshake.server"})
+        "${scripts}/connection/header.exchange/handshake.client",
+        "${scripts}/connection/header.exchange/handshake.server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldExchangeHeader() throws Exception
     {
@@ -51,10 +51,22 @@ public class ConnectionIT
 
     @Test
     @Specification({
-        "${scripts}/open.exchange/client",
-        "${scripts}/open.exchange/server"})
+        "${scripts}/connection/open.exchange/client",
+        "${scripts}/connection/open.exchange/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldExchangeOpen() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/session/begin.exchange/client",
+        "${scripts}/session/begin.exchange/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldExchangeBegin() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
