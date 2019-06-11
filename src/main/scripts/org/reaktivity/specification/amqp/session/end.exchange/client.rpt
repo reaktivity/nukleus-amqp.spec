@@ -68,3 +68,18 @@ read [0x00 0x00 0x00 0x1d]                                       # length = 29
      [0x52 0x01]                                                 # next-outgoing-id = 1
      [0x70 0x00 0x00 0x3f 0xff]                                  # incoming-window = 16383
      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
+
+# end frame exchange
+write [0x00 0x00 0x00 0x0c]                                      # length = 12
+      [0x02]                                                     # dof = 2
+      [0x00]                                                     # type = AMQP (0)
+      [0x00 0x00]                                                # channel = 0
+      [0x00 0x53 0x17]                                           # performative = end (23)
+      [0x45]                                                     # list type (list0)
+
+read [0x00 0x00 0x00 0x0c]                                       # length = 12
+     [0x02]                                                      # dof = 2
+     [0x00]                                                      # type = AMQP (0)
+     [0x00 0x00]                                                 # channel = 0
+     [0x00 0x53 0x17]                                            # performative = end (23)
+     [0x45]                                                      # list type (list0)

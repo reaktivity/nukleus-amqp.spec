@@ -46,7 +46,7 @@ write [0x00 0x00 0x00 0x19]                                       # length = 25
       [0x01]                                                      # number of fields in list = 1
       [0xa1 0x09 0x6c 0x6f 0x63 0x61 0x6c 0x68 0x6f 0x73 0x74]    # container-id = "localhost"
 
-# begin frame exchange
+#begin frame exchange
 read [0x00 0x00 0x00 0x1b]                                        # length = 27
      [0x02]                                                       # dof = 2
      [0x00]                                                       # type = AMQP (0)
@@ -70,3 +70,18 @@ write [0x00 0x00 0x00 0x1d]                                       # length = 29
       [0x52 0x01]                                                 # next-outgoing-id = 1
       [0x70 0x00 0x00 0x3f 0xff]                                  # incoming-window = 16383
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
+
+# end frame exchange
+read [0x00 0x00 0x00 0x0c]                                        # length = 12
+     [0x02]                                                       # dof = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x00]                                                  # channel = 0
+     [0x00 0x53 0x17]                                             # performative = end (23)
+     [0x45]                                                       # list type (list0)
+
+write [0x00 0x00 0x00 0x0c]                                       # length = 12
+      [0x02]                                                      # dof = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x00]                                                 # channel = 0
+      [0x00 0x53 0x17]                                            # performative = end (23)
+      [0x45]                                                      # list type (list0)
