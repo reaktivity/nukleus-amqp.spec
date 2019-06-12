@@ -96,4 +96,4 @@ read [0x00 0x00 0x00 0x2d]                                       # length = 45
      [0x00 0x53 0x18]                                            # performative = close (24)
      [0xc0 0x20]                                                 # list type (list8), physical length = 32
      [0x01]                                                      # number of fields in list = 1
-     [0xa3 0x1d] "amqp:connection:framing-error" 29              # error = framing-error
+     [0xa3 0x1d] "amqp:connection:framing-error"                 # error = framing-error

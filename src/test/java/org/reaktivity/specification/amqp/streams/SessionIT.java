@@ -60,4 +60,16 @@ public class SessionIT
         k3po.notifyBarrier("ROUTED_SERVER");
         k3po.finish();
     }
+
+    @Test
+    @Specification({
+        "${scripts}/begin.channel.max.exceeded/client",
+        "${scripts}/begin.channel.max.exceeded/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldBeErrorWhenChannelMaxExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
 }
