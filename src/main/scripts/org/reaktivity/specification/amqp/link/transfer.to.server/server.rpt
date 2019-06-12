@@ -116,14 +116,3 @@ read [0x00 0x00 0x00 0x0f]                                        # length = 15
      [0xc0 0x02]                                                  # list type (list8), physical length = 2
      [0x01]                                                       # number of fields in list = 1
      [0x43]                                                       # handle = 0
-
-# disposition frame
-write [0x00 0x00 0x00 0x10]                                       # length = 16
-      [0x02]                                                      # dof = 2
-      [0x00]                                                      # type = AMQP (0)
-      [0x00 0x01]                                                 # channel = 1
-      [0x00 0x53 0x15]                                            # performative = disposition (21)
-      [0xc0 0x03]                                                 # list type (list8), physical length = 3
-      [0x02]                                                      # number of fields in list = 2
-      [0x41]                                                      # role = receiver
-      [0x43]                                                      # first = 0
