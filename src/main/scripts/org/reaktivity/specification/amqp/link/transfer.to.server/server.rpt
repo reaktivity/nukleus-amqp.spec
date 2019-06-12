@@ -108,11 +108,15 @@ write [0x00 0x00 0x00 0x1c]                                       # length = 28
       [0x70 0x7f 0xff 0xff 0xff]                                  # incoming-window = 2147483647
 
 # transfer frame
-read [0x00 0x00 0x00 0x0f]                                        # length = 15
-     [0x02]                                                       # dof = 2
-     [0x00]                                                       # type = AMQP (0)
-     [0x00 0x01]                                                  # channel = 1
-     [0x00 0x53 0x14]                                             # performative = transfer (20)
-     [0xc0 0x02]                                                  # list type (list8), physical length = 2
-     [0x01]                                                       # number of fields in list = 1
-     [0x43]                                                       # handle = 0
+read [0x00 0x00 0x00 0x15]                                       # length = 21
+     [0x02]                                                      # dof = 2
+     [0x00]                                                      # type = AMQP (0)
+     [0x00 0x01]                                                 # channel = 1
+     [0x00 0x53 0x14]                                            # performative = transfer (20)
+     [0xc0 0x08]                                                 # list type (list8), physical length = 8
+     [0x05]                                                      # number of fields in list = 1
+     [0x43]                                                      # handle = 0
+     [0x43]                                                      # delivery-id = 0
+     [0xa0 0x01 0x00]                                            # delivery-tag = 00
+     [0x43]                                                      # message-format = 0
+     [0x41]                                                      # settled = true
