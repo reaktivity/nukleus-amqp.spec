@@ -87,10 +87,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.client/client",
-        "${scripts}/transfer.to.client/server"})
+        "${scripts}/transfer.to.client.at.most.once/client",
+        "${scripts}/transfer.to.client.at.most.once/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToClient() throws Exception
+    public void shouldTransferToClientAtMostOnce() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -99,10 +99,34 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.server/client",
-        "${scripts}/transfer.to.server/server"})
+        "${scripts}/transfer.to.server.at.most.once/client",
+        "${scripts}/transfer.to.server.at.most.once/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToServer() throws Exception
+    public void shouldTransferToServerAtMostOnce() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.at.least.once/client",
+        "${scripts}/transfer.to.client.at.least.once/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientAtLeastOnce() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.at.least.once/client",
+        "${scripts}/transfer.to.server.at.least.once/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerAtLeastOnce() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
