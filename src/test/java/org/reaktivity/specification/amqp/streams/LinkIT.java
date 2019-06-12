@@ -87,10 +87,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.as.receiver/client",
-        "${scripts}/transfer.as.receiver/server"})
+        "${scripts}/transfer.to.client/client",
+        "${scripts}/transfer.to.client/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldReceiveTransferAndSendDisposition() throws Exception
+    public void shouldTransferToClient() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
