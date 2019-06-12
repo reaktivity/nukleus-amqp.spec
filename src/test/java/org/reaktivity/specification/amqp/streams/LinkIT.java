@@ -75,10 +75,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/attach.as.receiver.and.sender/client",
-        "${scripts}/attach.as.receiver.and.sender/server"})
+        "${scripts}/attach.as.receiver.then.sender/client",
+        "${scripts}/attach.as.receiver.then.sender/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldExchangeAttachAsReceiverAndSender() throws Exception
+    public void shouldExchangeAttachAsReceiverThenSender() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
