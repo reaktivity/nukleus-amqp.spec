@@ -17,9 +17,57 @@ scope amqp
 {
     scope control
     {
+        struct AmqpRouteEx
+        {
+            string linkTargetAddress;
+            uint8 linkRole;
+        }
     }
 
     scope stream
     {
+        struct AmqpBeginEx
+        {
+            string container-id;
+            uint16 channel-number;
+            string target-address;
+            uint8 role;
+        }
+
+        struct AmqpDataEx
+        {
+            // AmqpTransferDataArguments
+            uint32 handle;
+            uint32 deliveryId;
+            octets[32] deliveryTag;
+            uint32 messageFormat;
+            uint8 settled;
+
+            // AmqpTransferDataMessageAnnotations
+            // TODO: need to add message annotations
+
+            // AmqpTransferDataMessageProperties
+            string messageId;
+            string to;
+            int64 creationTime;
+        }
+
+        struct AmqpEndEx
+        {
+            uint32 handle;
+        }
+
+        struct AmqpWindowEx
+        {
+            // session flow control
+            uint32 nextIncomingId;
+            uint32 incomingWindow;
+            uint32 nextOutgoingId;
+            uint32 outgoingWindow;
+
+            // link flow control
+            uint32 deliveryCount;
+            uint32 linkCredit;
+        }
     }
 }
