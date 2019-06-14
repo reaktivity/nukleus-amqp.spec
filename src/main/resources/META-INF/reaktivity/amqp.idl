@@ -19,8 +19,8 @@ scope amqp
     {
         struct AmqpRouteEx
         {
-            string linkTargetAddress;
-            uint8 linkRole;
+            string targetAddress;
+            uint8 role;
         }
     }
 
