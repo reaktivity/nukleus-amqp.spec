@@ -15,16 +15,62 @@
  */
 scope amqp
 {
-    struct AmqpTransferDataMessageProperties
+    union AmqpMessageId switch (uint8)
     {
-        string messageId;
-        string to;
-        int64 creationTime;
+        case 1: uint64 ulong;
+        case 2: octets[16] uuid;
+        case 3: octets[16] binary;
+        case 4: string stringtype;
     }
 
-    struct AmqpTransferDataMessageAnnotations
+    struct AmqpMessageProperties
     {
-         // TODO: add message annotations
+        AmqpMessageId messageId;
+        AmqpBinary userId;
+        string to;
+        string subject;
+        string replyTo;
+        AmqpMessageId correlationId;
+        string contentType;
+        string contentEncoding;
+        int64 absoluteExpiryTime;
+        int64 creationTime;
+        string groupId;
+        int32 groupSequence;
+        string replyToGroupId;
+    }
+
+    union AmqpAnnotationKey switch (uint8)
+    {
+        case 1: uint64 id;
+        case 2: string name;
+    }
+
+    struct AmqpAnnotation
+    {
+        AmqpAnnotationKey key;
+        AmqpBinary value;
+    }
+
+    struct AmqpBinary
+    {
+        uint16 length;
+        octets[length] bytes;
+    }
+
+    enum AmqpRole
+    {
+        SENDER,
+        RECEIVER,
+        BOTH
+    }
+
+    enum AmqpTransferFlag
+    {
+        BATCHABLE,
+        ABORTED,
+        RESUME,
+        SETTLED
     }
 
     scope control
@@ -43,22 +89,20 @@ scope amqp
             string containerId;
             uint16 channel;
             string targetAddress;
-            uint8 role;
+            AmqpRole role;
+            uint32 nextOutgoingId;
+            uint32 incomingWindow;
+            uint32 outgoingWindow;
         }
 
         struct AmqpDataEx
         {
-            // AmqpTransferDataArguments
             uint32 deliveryId;
-            octets[32] deliveryTag;
+            AmqpBinary deliveryTag;
             uint32 messageFormat;
-            uint8 settled;
-
-            // AmqpTransferDataMessageAnnotations
-            list<amqp::AmqpTransferDataMessageAnnotations> annotations;
-
-            // AmqpTransferDataMessageProperties
-            list<amqp::AmqpTransferDataMessageProperties> properties;
+            uint8 flags;   // set of AmqpTransferFlag
+            list<amqp::AmqpAnnotation> annotations;
+            AmqpMessageProperties properties;
         }
 
         struct AmqpWindowEx
@@ -72,6 +116,11 @@ scope amqp
             // link flow control
             uint32 deliveryCount;
             uint32 linkCredit;
+        }
+
+        struct AmqpAbortEx
+        {
+            string condition;
         }
     }
 }
