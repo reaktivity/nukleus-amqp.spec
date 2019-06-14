@@ -24,7 +24,7 @@ scope amqp
 
     struct AmqpTransferDataMessageAnnotations
     {
-         / TODO: add message annotations
+         // TODO: add message annotations
     }
 
     scope control
