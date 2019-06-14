@@ -37,7 +37,6 @@ scope amqp
         struct AmqpDataEx
         {
             // AmqpTransferDataArguments
-            uint32 handle;
             uint32 deliveryId;
             octets[32] deliveryTag;
             uint32 messageFormat;
@@ -50,11 +49,6 @@ scope amqp
             string messageId;
             string to;
             int64 creationTime;
-        }
-
-        struct AmqpEndEx
-        {
-            uint32 handle;
         }
 
         struct AmqpWindowEx
