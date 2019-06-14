@@ -24,7 +24,7 @@ accepted
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .containerId("c1")
-                             .channelNumber(1)
+                             .channel(1)
                              .targetAddress("queue://queue")
                              .role("receiver")
                              .build()}
@@ -32,7 +32,7 @@ connected
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .containerId("localhost")
-                              .channelNumber(1)
+                              .channel(1)
                               .targetAddress("queue://queue")
                               .role("sender")
                               .build()}
