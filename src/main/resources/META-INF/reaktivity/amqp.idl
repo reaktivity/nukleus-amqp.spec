@@ -29,7 +29,7 @@ scope amqp
         struct AmqpBeginEx
         {
             string containerId;
-            uint16 channelNumber;
+            uint16 channel;
             string targetAddress;
             uint8 role;
         }
