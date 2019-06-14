@@ -15,6 +15,18 @@
  */
 scope amqp
 {
+    struct AmqpTransferDataMessageProperties
+    {
+        string messageId;
+        string to;
+        int64 creationTime;
+    }
+
+    struct AmqpTransferDataMessageAnnotations
+    {
+         / TODO: add message annotations
+    }
+
     scope control
     {
         struct AmqpRouteEx
@@ -43,12 +55,10 @@ scope amqp
             uint8 settled;
 
             // AmqpTransferDataMessageAnnotations
-            // TODO: need to add message annotations
+            list<amqp::AmqpTransferDataMessageAnnotations> annotations;
 
             // AmqpTransferDataMessageProperties
-            string messageId;
-            string to;
-            int64 creationTime;
+            list<amqp::AmqpTransferDataMessageProperties> properties;
         }
 
         struct AmqpWindowEx
