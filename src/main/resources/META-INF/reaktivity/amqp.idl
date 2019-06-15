@@ -25,12 +25,12 @@ scope amqp
 
     struct AmqpMessageProperties
     {
-        AmqpMessageId messageId;
-        AmqpBinary userId;
+        amqp::AmqpMessageId messageId;
+        amqp::AmqpBinary userId;
         string to;
         string subject;
         string replyTo;
-        AmqpMessageId correlationId;
+        amqp::AmqpMessageId correlationId;
         string contentType;
         string contentEncoding;
         int64 absoluteExpiryTime;
@@ -48,8 +48,8 @@ scope amqp
 
     struct AmqpAnnotation
     {
-        AmqpAnnotationKey key;
-        AmqpBinary value;
+        amqp::AmqpAnnotationKey key;
+        amqp::AmqpBinary value;
     }
 
     struct AmqpBinary
@@ -89,7 +89,7 @@ scope amqp
             string containerId;
             uint16 channel;
             string targetAddress;
-            AmqpRole role;
+            amqp::AmqpRole role;
             uint32 nextOutgoingId;
             uint32 incomingWindow;
             uint32 outgoingWindow;
@@ -98,11 +98,11 @@ scope amqp
         struct AmqpDataEx
         {
             uint32 deliveryId;
-            AmqpBinary deliveryTag;
+            amqp::AmqpBinary deliveryTag;
             uint32 messageFormat;
             uint8 flags;   // set of AmqpTransferFlag
             list<amqp::AmqpAnnotation> annotations;
-            AmqpMessageProperties properties;
+            amqp::AmqpMessageProperties properties;
         }
 
         struct AmqpWindowEx

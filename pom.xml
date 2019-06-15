@@ -94,11 +94,13 @@
         <version>${nukleus.plugin.version}</version>
         <configuration>
           <scopeNames>amqp</scopeNames>
+          <packageName>org.reaktivity.specification.amqp.internal.types</packageName>
         </configuration>
         <executions>
           <execution>
             <goals>
               <goal>validate</goal>
+              <goal>generate</goal>
             </goals>
           </execution>
         </executions>
