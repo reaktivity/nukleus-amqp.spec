@@ -90,9 +90,6 @@ scope amqp
             uint16 channel;
             string targetAddress;
             amqp::AmqpRole role;
-            uint32 nextOutgoingId;
-            uint32 incomingWindow;
-            uint32 outgoingWindow;
         }
 
         struct AmqpDataEx
