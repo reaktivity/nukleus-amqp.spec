@@ -73,6 +73,19 @@ scope amqp
         SETTLED
     }
 
+    enum AmqpSenderSettleMode
+    {
+        UNSETTLED,
+        SETTLED,
+        MIXED
+    }
+
+    enum AmqpReceiverSettleMode
+    {
+        FIRST,
+        SECOND
+    }
+
     scope control
     {
         struct AmqpRouteEx
@@ -88,8 +101,10 @@ scope amqp
         {
             string containerId;
             uint16 channel;
-            string targetAddress;
+            string address;
             amqp::AmqpRole role;
+            amqp::AmqpSenderSettleMode senderSettleMode;
+            amqp::AmqpReceiverSettleMode receiverSettleMode;
         }
 
         struct AmqpDataEx
