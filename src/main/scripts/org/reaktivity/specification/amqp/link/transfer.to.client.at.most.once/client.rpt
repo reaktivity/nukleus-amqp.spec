@@ -130,5 +130,4 @@ read [0x00 0x00 0x00 0x15]                                       # length = 21
      [0xa0 0x01 0x00]                                            # delivery-tag = 00
      [0x43]                                                      # message-format = 0
      [0x41]                                                      # settled = true
-
-read "Text!"
+     [0x00 0x53 0x77 0xa1 0x05] "Text!"                          # payload = "Text!"

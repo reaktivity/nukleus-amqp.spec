@@ -25,26 +25,21 @@ accepted
 read nukleus:begin.ext ${amqp:beginEx()
                              .containerId("c1")
                              .channel(1)
-                             .targetAddress("queue://queue")
-                             .role("receiver")
+                             .address("queue://queue")
+                             .role(1)
+                             .senderSettleMode(1)
+                             .receiverSettleMode(0)
                              .build()}
 connected
 
 write nukleus:begin.ext ${amqp:beginEx()
-                              .containerId("localhost")
-                              .channel(1)
-                              .targetAddress("queue://queue")
-                              .role("sender")
-                              .build()}
-
-#read nukleus:window.ext ${amqp:windowEx()
-#                              .nextIncomingId(1)
-#                              .incomingWindow(2047)
-#                              .nextOutgoingId(1)
-#                              .outgoingWindow(2047483647)
-#                              .deliveryCount(0)
-#                              .linkCredit(1000)
-#                              .build()}
+                             .containerId("localhost")
+                             .channel(1)
+                             .address("queue://queue")
+                             .role(0)
+                             .senderSettleMode(1)
+                             .receiverSettleMode(0)
+                             .build()}
 
 write nukleus:data.ext ${amqp:dataEx()
                              .deliveryId(0)
@@ -57,4 +52,5 @@ write nukleus:data.ext ${amqp:dataEx()
                              .to("queue://queue")
                              .creationTime(1560802760460)
                              .build()}
-write "Text!"
+
+write [0x00 0x53 0x77 0xa1 0x05] "Text!"
