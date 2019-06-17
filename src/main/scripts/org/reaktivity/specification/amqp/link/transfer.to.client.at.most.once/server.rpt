@@ -72,27 +72,39 @@ write [0x00 0x00 0x00 0x1d]                                       # length = 29
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
 
 # attach frame exchange
-read [0x00 0x00 0x00 0x17]                                        # length = 23
+read [0x00 0x00 0x00 0x30]                                        # length = 48
      [0x02]                                                       # dof = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
      [0x00 0x53 0x12]                                             # performative = attach (18)
-     [0xc0 0x0a]                                                  # list type (list8), physical length = 10
-     [0x03]                                                       # number of fields in list = 3
+     [0xc0 0x23]                                                  # list type (list8), physical length = 35
+     [0x06]                                                       # number of fields in list = 6
      [0xa1 0x05] "link1"                                          # name = "link1"
      [0x43]                                                       # handle = 0
      [0x41]                                                       # role = receiver
+     [0x50 0x01]                                                  # snd-settle-mode = settled
+     [0x50 0x00]                                                  # rcv-settle-mode = first
+     [0x00 0x53 0x28]                                             # source
+     [0xc0 0x10]                                                  # list type (list8), physical length = 16
+     [0x01]                                                       # number of fields in list = 1
+     [0xa1 0x0d] "queue://queue"                                  # address = "queue://queue"
 
-write [0x00 0x00 0x00 0x17]                                       # length = 23
+write [0x00 0x00 0x00 0x30]                                       # length = 48
       [0x02]                                                      # dof = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x01]                                                 # channel = 1
       [0x00 0x53 0x12]                                            # performative = attach (18)
-      [0xc0 0x0a]                                                 # list type (list8), physical length = 10
-      [0x03]                                                      # number of fields in list = 3
+      [0xc0 0x23]                                                 # list type (list8), physical length = 35
+      [0x06]                                                      # number of fields in list = 6
       [0xa1 0x05] "link1"                                         # name = "link1"
       [0x43]                                                      # handle = 0
       [0x42]                                                      # role = sender
+      [0x50 0x01]                                                 # snd-settle-mode = settled
+      [0x50 0x00]                                                 # rcv-settle-mode = first
+      [0x00 0x53 0x28]                                            # source
+      [0xc0 0x10]                                                 # list type (list8), physical length = 16
+      [0x01]                                                      # number of fields in list = 1
+      [0xa1 0x0d] "queue://queue"                                 # address = "queue://queue"
 
 # flow frame
 read [0x00 0x00 0x00 0x1c]                                        # length = 28
@@ -120,3 +132,5 @@ write [0x00 0x00 0x00 0x15]                                       # length = 21
       [0xa0 0x01 0x00]                                            # delivery-tag = 00
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
+
+write "Text!"
