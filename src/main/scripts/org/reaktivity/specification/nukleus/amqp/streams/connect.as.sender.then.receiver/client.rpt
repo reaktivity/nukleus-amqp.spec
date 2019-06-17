@@ -23,11 +23,29 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .containerId("c1")
                               .channel(1)
                               .address("queue://queue")
-                              .role(1)
+                              .role(0)
                               .senderSettleMode(1)
                               .receiverSettleMode(0)
                               .build()}
 connected
+
+read nukleus:begin.ext ${amqp:beginEx()
+                             .containerId("localhost")
+                             .channel(1)
+                             .address("queue://queue")
+                             .role(1)
+                             .senderSettleMode(1)
+                             .receiverSettleMode(0)
+                             .build()}
+
+write nukleus:begin.ext ${amqp:beginEx()
+                              .containerId("c1")
+                              .channel(1)
+                              .address("queue://queue")
+                              .role(1)
+                              .senderSettleMode(1)
+                              .receiverSettleMode(0)
+                              .build()}
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .containerId("localhost")

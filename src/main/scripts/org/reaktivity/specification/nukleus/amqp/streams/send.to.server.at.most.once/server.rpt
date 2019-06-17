@@ -26,17 +26,31 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .containerId("c1")
                              .channel(1)
                              .address("queue://queue")
-                             .role(1)
+                             .role(0)
                              .senderSettleMode(1)
                              .receiverSettleMode(0)
                              .build()}
 connected
 
 write nukleus:begin.ext ${amqp:beginEx()
-                              .containerId("localhost")
-                              .channel(1)
-                              .address("queue://queue")
-                              .role(0)
-                              .senderSettleMode(1)
-                              .receiverSettleMode(0)
-                              .build()}
+                             .containerId("localhost")
+                             .channel(1)
+                             .address("queue://queue")
+                             .role(1)
+                             .senderSettleMode(1)
+                             .receiverSettleMode(0)
+                             .build()}
+
+read nukleus:data.ext ${amqp:dataEx()
+                             .deliveryId(0)
+                             .deliveryTag("00")
+                             .messageFormat(0)
+                             .flags(1)
+                             .annotation("x-opt-jms-dest", 0)
+                             .annotation("x-opt-jms-msg-type", 5)
+                             .messageId("message1")
+                             .to("queue://queue")
+                             .creationTime(1560802760460)
+                             .build()}
+
+read [0x00 0x53 0x77 0xa1 0x05] "Text!"
