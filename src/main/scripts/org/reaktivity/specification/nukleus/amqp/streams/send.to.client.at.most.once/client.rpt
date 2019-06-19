@@ -43,11 +43,6 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryTag("00")
                             .messageFormat(0)
                             .flags(1)
-                            .annotations("x-opt-jms-dest", "0")
-                            .annotations("x-opt-jms-msg-type", "5")
-                            .messageId("message1")
-                            .to("queue://queue")
-                            .creationTime(1560802760460)
                             .build()}
 
 read [0x00 0x53 0x77 0xa1 0x05] "Text!"
