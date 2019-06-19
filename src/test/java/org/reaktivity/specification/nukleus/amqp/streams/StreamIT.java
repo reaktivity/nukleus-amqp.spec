@@ -43,7 +43,7 @@ public class StreamIT
         "${streams}/send.to.client.at.most.once/client",
         "${streams}/send.to.client.at.most.once/server"
     })
-    public void httpGetExchange() throws Exception
+    public void shouldSendToClientAtMostOnce() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
