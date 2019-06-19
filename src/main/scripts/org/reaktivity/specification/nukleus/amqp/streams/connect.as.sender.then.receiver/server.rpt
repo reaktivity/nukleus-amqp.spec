@@ -26,9 +26,9 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .containerId("c1")
                              .channel(1)
                              .address("queue://queue")
-                             .role(0)
-                             .senderSettleMode(1)
-                             .receiverSettleMode(0)
+                             .role("SENDER")
+                             .senderSettleMode("SETTLED")
+                             .receiverSettleMode("FIRST")
                              .build()}
 connected
 
@@ -36,27 +36,25 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .containerId("localhost")
                               .channel(1)
                               .address("queue://queue")
-                              .role(1)
-                              .senderSettleMode(1)
-                              .receiverSettleMode(0)
+                              .role("RECEIVER")
+                              .senderSettleMode("SETTLED")
+                              .receiverSettleMode("FIRST")
                               .build()}
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .containerId("c1")
                              .channel(1)
                              .address("queue://queue")
-                             .role(1)
-                             .senderSettleMode(1)
-                             .receiverSettleMode(0)
+                             .role("RECEIVER")
+                             .senderSettleMode("SETTLED")
+                             .receiverSettleMode("FIRST")
                              .build()}
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .containerId("localhost")
                               .channel(1)
                               .address("queue://queue")
-                              .role(0)
-                              .senderSettleMode(1)
-                              .receiverSettleMode(0)
+                              .role("SENDER")
+                              .senderSettleMode("SETTLED")
+                              .receiverSettleMode("FIRST")
                               .build()}
-
-

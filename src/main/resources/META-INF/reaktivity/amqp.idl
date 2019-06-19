@@ -91,7 +91,7 @@ scope amqp
         struct AmqpRouteEx
         {
             string targetAddress;
-            uint8 role;
+            amqp::AmqpRole role;
         }
     }
 
