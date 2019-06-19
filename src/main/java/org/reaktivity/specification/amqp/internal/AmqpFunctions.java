@@ -32,156 +32,145 @@ public final class AmqpFunctions
 {
     private static final int MAX_BUFFER_SIZE = 1024 * 8;
 
-    public static class AmqpRouteExHelper
+    public static class AmqpRouteExBuilder
     {
-        private final AmqpRouteExFW.Builder amqpRouteExRW;
+        private final AmqpRouteExFW.Builder routeExRW;
 
-        public AmqpRouteExHelper()
+        public AmqpRouteExBuilder()
         {
             MutableDirectBuffer writeBuffer = new UnsafeBuffer(new byte[MAX_BUFFER_SIZE]);
-            this.amqpRouteExRW = new AmqpRouteExFW.Builder()
+            this.routeExRW = new AmqpRouteExFW.Builder()
                 .wrap(writeBuffer, 0, writeBuffer.capacity());
         }
 
-        public AmqpRouteExHelper targetAddress(
+        public AmqpRouteExBuilder targetAddress(
             String targetAddress)
         {
-            amqpRouteExRW.targetAddress(targetAddress);
+            routeExRW.targetAddress(targetAddress);
             return this;
         }
 
-        public AmqpRouteExHelper role(
+        public AmqpRouteExBuilder role(
             String role)
         {
-            amqpRouteExRW.role(
-                roleRW -> roleRW.set(AmqpRole.valueOf(role))
-            );
+            routeExRW.role(r -> r.set(AmqpRole.valueOf(role)));
             return this;
         }
 
         public byte[] build()
         {
-            final AmqpRouteExFW amqpRouteEx = amqpRouteExRW.build();
+            final AmqpRouteExFW amqpRouteEx = routeExRW.build();
             final byte[] result = new byte[amqpRouteEx.sizeof()];
             amqpRouteEx.buffer().getBytes(0, result);
             return result;
         }
     }
 
-    public static class AmqpBeginExHelper
+    public static class AmqpBeginExBuilder
     {
-        private final AmqpBeginExFW.Builder amqpBeginExRW;
+        private final AmqpBeginExFW.Builder beginExRW;
 
-        public AmqpBeginExHelper()
+        public AmqpBeginExBuilder()
         {
             MutableDirectBuffer writeBuffer = new UnsafeBuffer(new byte[MAX_BUFFER_SIZE]);
-            this.amqpBeginExRW = new AmqpBeginExFW.Builder()
+            this.beginExRW = new AmqpBeginExFW.Builder()
                 .wrap(writeBuffer, 0, writeBuffer.capacity());
         }
 
-        public AmqpBeginExHelper containerId(
+        public AmqpBeginExBuilder containerId(
             String containerId)
         {
-            amqpBeginExRW.containerId(containerId);
+            beginExRW.containerId(containerId);
             return this;
         }
 
-        public AmqpBeginExHelper channel(
+        public AmqpBeginExBuilder channel(
             int channel)
         {
-            amqpBeginExRW.channel(channel);
+            beginExRW.channel(channel);
             return this;
         }
 
-        public AmqpBeginExHelper address(
+        public AmqpBeginExBuilder address(
             String address)
         {
-            amqpBeginExRW.address(address);
+            beginExRW.address(address);
             return this;
         }
 
-        public AmqpBeginExHelper role(
+        public AmqpBeginExBuilder role(
             String role)
         {
-            amqpBeginExRW.role(
-                roleRW -> roleRW.set(AmqpRole.valueOf(role))
-            );
+            beginExRW.role(r -> r.set(AmqpRole.valueOf(role)));
             return this;
         }
 
-        public AmqpBeginExHelper senderSettleMode(
+        public AmqpBeginExBuilder senderSettleMode(
             String senderSettleMode)
         {
-            amqpBeginExRW.senderSettleMode(
-                senderSettleModeRW -> senderSettleModeRW.set(AmqpSenderSettleMode.valueOf(senderSettleMode))
-            );
+            beginExRW.senderSettleMode(s -> s.set(AmqpSenderSettleMode.valueOf(senderSettleMode)));
             return this;
         }
 
-        public AmqpBeginExHelper receiverSettleMode(
+        public AmqpBeginExBuilder receiverSettleMode(
             String receiverSettleMode)
         {
-            amqpBeginExRW.receiverSettleMode(
-                receiverSettleModeRW -> receiverSettleModeRW.set(AmqpReceiverSettleMode.valueOf(receiverSettleMode))
-            );
+            beginExRW.receiverSettleMode(r -> r.set(AmqpReceiverSettleMode.valueOf(receiverSettleMode)));
             return this;
         }
 
         public byte[] build()
         {
-            final AmqpBeginExFW amqpBeginEx = amqpBeginExRW.build();
+            final AmqpBeginExFW amqpBeginEx = beginExRW.build();
             final byte[] result = new byte[amqpBeginEx.sizeof()];
             amqpBeginEx.buffer().getBytes(0, result);
             return result;
         }
     }
 
-    public static class AmqpDataExHelper
+    public static class AmqpDataExBuilder
     {
-        private final AmqpDataExFW.Builder amqpDataExRW;
+        private final AmqpDataExFW.Builder dataExRW;
 
-        public AmqpDataExHelper()
+        public AmqpDataExBuilder()
         {
             MutableDirectBuffer writeBuffer = new UnsafeBuffer(new byte[MAX_BUFFER_SIZE]);
-            this.amqpDataExRW = new AmqpDataExFW.Builder()
+            this.dataExRW = new AmqpDataExFW.Builder()
                 .wrap(writeBuffer, 0, writeBuffer.capacity());
         }
 
-        public AmqpDataExHelper deliveryId(
+        public AmqpDataExBuilder deliveryId(
             long deliveryId)
         {
-            amqpDataExRW.deliveryId(deliveryId);
+            dataExRW.deliveryId(deliveryId);
             return this;
         }
 
-        public AmqpDataExHelper deliveryTag(
+        public AmqpDataExBuilder deliveryTag(
             String deliveryTag)
         {
-            amqpDataExRW.deliveryTag(
-                deliveryTagRW -> deliveryTagRW.bytes(
-                    bytesRW -> bytesRW.set(deliveryTag.getBytes(StandardCharsets.UTF_8))
-                )
-            );
+            dataExRW.deliveryTag(d -> d.bytes(b -> b.set(deliveryTag.getBytes(StandardCharsets.UTF_8))));
             return this;
         }
 
-        public AmqpDataExHelper messageFormat(
+        public AmqpDataExBuilder messageFormat(
             long messageFormat)
         {
-            amqpDataExRW.messageFormat(messageFormat);
+            dataExRW.messageFormat(messageFormat);
             return this;
         }
 
-        public AmqpDataExHelper flags(
+        public AmqpDataExBuilder flags(
             int flags)
         {
-            amqpDataExRW.flags(flags);
+            dataExRW.flags(flags);
             return this;
         }
 
-        public AmqpDataExHelper annotations(
+        public AmqpDataExBuilder annotations(
             long key, String value)
         {
+            // TODO
             Consumer<ListFW.Builder<AmqpAnnotationFW.Builder, AmqpAnnotationFW>> annotation =
                 annotationsRW -> annotationsRW.item(itemRW ->
                 {
@@ -190,11 +179,11 @@ public final class AmqpFunctions
                         bytesRW -> bytesRW.set(value.getBytes(StandardCharsets.UTF_8))
                     ));
                 });
-            amqpDataExRW.annotations(annotation);
+            dataExRW.annotations(annotation);
             return this;
         }
 
-        public AmqpDataExHelper annotations(
+        public AmqpDataExBuilder annotations(
             String key, String value)
         {
             Consumer<ListFW.Builder<AmqpAnnotationFW.Builder, AmqpAnnotationFW>> annotation =
@@ -205,141 +194,135 @@ public final class AmqpFunctions
                         bytesRW -> bytesRW.set(value.getBytes(StandardCharsets.UTF_8))
                     ));
                 });
-            amqpDataExRW.annotations(annotation);
+            dataExRW.annotations(annotation);
             return this;
         }
 
         // properties below
-        public AmqpDataExHelper messageId(
+        public AmqpDataExBuilder messageId(
             String messageId)
         {
             // TODO - need to fix
-            amqpDataExRW.properties(propertiesRW -> propertiesRW.messageId(
+            dataExRW.properties(propertiesRW -> propertiesRW.messageId(
                 messageIdRW -> messageIdRW.stringtype(messageId)
             ));
             return this;
         }
 
-        public AmqpDataExHelper userId(
+        public AmqpDataExBuilder userId(
             String userId)
         {
-            amqpDataExRW.properties(
-                propertiesRW -> propertiesRW.userId(
-                    userIdRW -> userIdRW.bytes(
-                        bytesRW -> bytesRW.set(userId.getBytes(StandardCharsets.UTF_8))
-                    )
-                )
-            );
+            dataExRW.properties(p -> p.userId(u -> u.bytes(b -> b.set(userId.getBytes(StandardCharsets.UTF_8)))));
             return this;
         }
 
-        public AmqpDataExHelper to(
+        public AmqpDataExBuilder to(
             String to)
         {
-            amqpDataExRW.properties(propertiesRW -> propertiesRW.to(to));
+            dataExRW.properties(p -> p.to(to));
             return this;
         }
 
-        public AmqpDataExHelper subject(
+        public AmqpDataExBuilder subject(
             String subject)
         {
-            amqpDataExRW.properties(propertiesRW -> propertiesRW.subject(subject));
+            dataExRW.properties(p -> p.subject(subject));
             return this;
         }
 
-        public AmqpDataExHelper replyTo(
+        public AmqpDataExBuilder replyTo(
             String replyTo)
         {
-            amqpDataExRW.properties(propertiesRW -> propertiesRW.replyTo(replyTo));
+            dataExRW.properties(p -> p.replyTo(replyTo));
             return this;
         }
 
-        public AmqpDataExHelper correlationId(
+        public AmqpDataExBuilder correlationId(
             )
         {
             // TODO
             return this;
         }
 
-        public AmqpDataExHelper contentType(
+        public AmqpDataExBuilder contentType(
             String contentType)
         {
-            amqpDataExRW.properties(propertiesRW -> propertiesRW.contentType(contentType));
+            dataExRW.properties(p -> p.contentType(contentType));
             return this;
         }
 
-        public AmqpDataExHelper contentEncoding(
+        public AmqpDataExBuilder contentEncoding(
             String contentEncoding)
         {
-            amqpDataExRW.properties(propertiesRW -> propertiesRW.contentEncoding(contentEncoding));
+            dataExRW.properties(p -> p.contentEncoding(contentEncoding));
             return this;
         }
 
-        public AmqpDataExHelper absoluteExpiryTime(
+        public AmqpDataExBuilder absoluteExpiryTime(
             long absoluteExpiryTime)
         {
-            amqpDataExRW.properties(propertiesRW -> propertiesRW.absoluteExpiryTime(absoluteExpiryTime));
+            dataExRW.properties(p -> p.absoluteExpiryTime(absoluteExpiryTime));
             return this;
         }
 
-        public AmqpDataExHelper creationTime(
+        public AmqpDataExBuilder creationTime(
             long creationTime)
         {
-            amqpDataExRW.properties(propertiesRW -> propertiesRW.creationTime(creationTime));
+            dataExRW.properties(p -> p.creationTime(creationTime));
             return this;
         }
 
-        public AmqpDataExHelper groupId(
+        public AmqpDataExBuilder groupId(
             String groupId)
         {
-            amqpDataExRW.properties(propertiesRW -> propertiesRW.groupId(groupId));
+            dataExRW.properties(p -> p.groupId(groupId));
             return this;
         }
 
-        public AmqpDataExHelper groupSequence(
+        public AmqpDataExBuilder groupSequence(
             int groupSequence)
         {
-            amqpDataExRW.properties(propertiesRW -> propertiesRW.groupSequence(groupSequence));
+            dataExRW.properties(p -> p.groupSequence(groupSequence));
             return this;
         }
 
-        public AmqpDataExHelper replyToGroupId(
+        public AmqpDataExBuilder replyToGroupId(
             String replyToGroupId)
         {
-            amqpDataExRW.properties(propertiesRW -> propertiesRW.replyToGroupId(replyToGroupId));
+            dataExRW.properties(p -> p.replyToGroupId(replyToGroupId));
             return this;
         }
 
         public byte[] build()
         {
-            final AmqpDataExFW amqpDataEx = amqpDataExRW.build();
+            final AmqpDataExFW amqpDataEx = dataExRW.build();
             final byte[] result = new byte[amqpDataEx.sizeof()];
             amqpDataEx.buffer().getBytes(0, result);
             return result;
         }
     }
 
-    public static class AmqpAbortExHelper
+    public static class AmqpAbortExBuilder
     {
-        private final AmqpAbortExFW.Builder amqpAbortExRW;
+        private final AmqpAbortExFW.Builder abortExRW;
 
-        public AmqpAbortExHelper()
+        public AmqpAbortExBuilder()
         {
             MutableDirectBuffer writeBuffer = new UnsafeBuffer(new byte[MAX_BUFFER_SIZE]);
-            this.amqpAbortExRW = new AmqpAbortExFW.Builder()
+            this.abortExRW = new AmqpAbortExFW.Builder()
                 .wrap(writeBuffer, 0, writeBuffer.capacity());
         }
 
-        public AmqpAbortExHelper condition(
+        public AmqpAbortExBuilder condition(
             String condition)
         {
-            amqpAbortExRW.condition(condition);
+            abortExRW.condition(condition);
             return this;
         }
 
         public byte[] build()
         {
-            final AmqpAbortExFW amqpAbortEx = amqpAbortExRW.build();
+            final AmqpAbortExFW amqpAbortEx = abortExRW.build();
             final byte[] result = new byte[amqpAbortEx.sizeof()];
             amqpAbortEx.buffer().getBytes(0, result);
             return result;
@@ -347,27 +330,27 @@ public final class AmqpFunctions
     }
 
     @Function
-    public static AmqpRouteExHelper routeEx()
+    public static AmqpRouteExBuilder routeEx()
     {
-        return new AmqpRouteExHelper();
+        return new AmqpRouteExBuilder();
     }
 
     @Function
-    public static AmqpBeginExHelper beginEx()
+    public static AmqpBeginExBuilder beginEx()
     {
-        return new AmqpBeginExHelper();
+        return new AmqpBeginExBuilder();
     }
 
     @Function
-    public static AmqpDataExHelper dataEx()
+    public static AmqpDataExBuilder dataEx()
     {
-        return new AmqpDataExHelper();
+        return new AmqpDataExBuilder();
     }
 
     @Function
-    public static AmqpAbortExHelper abortEx()
+    public static AmqpAbortExBuilder abortEx()
     {
-        return new AmqpAbortExHelper();
+        return new AmqpAbortExBuilder();
     }
 
     public static class Mapper extends FunctionMapperSpi.Reflective
