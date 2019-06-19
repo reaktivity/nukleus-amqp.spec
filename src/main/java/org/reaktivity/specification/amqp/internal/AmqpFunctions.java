@@ -26,7 +26,6 @@ import org.reaktivity.specification.amqp.internal.types.stream.AmqpBeginExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpDataExFW;
 
 import java.nio.charset.StandardCharsets;
-import java.util.function.Consumer;
 
 public final class AmqpFunctions
 {
@@ -168,44 +167,67 @@ public final class AmqpFunctions
         }
 
         public AmqpDataExBuilder annotations(
+            Object key, String value)
+        {
+            return key instanceof Long ? annotations((long) key, value) : annotations((String) key, value);
+        }
+
+        private AmqpDataExBuilder annotations(
             long key, String value)
         {
-            // TODO
-            Consumer<ListFW.Builder<AmqpAnnotationFW.Builder, AmqpAnnotationFW>> annotation =
-                annotationsRW -> annotationsRW.item(itemRW ->
-                {
-                    itemRW.key(keyRW -> keyRW.id(key));
-                    itemRW.value(valueRW -> valueRW.bytes(
-                        bytesRW -> bytesRW.set(value.getBytes(StandardCharsets.UTF_8))
-                    ));
-                });
-            dataExRW.annotations(annotation);
+            dataExRW.annotationsItem(a ->
+            {
+                a.key(k -> k.id(key));
+                a.value(v -> v.bytes(b -> b.set(value.getBytes(StandardCharsets.UTF_8))));
+            });
             return this;
         }
 
-        public AmqpDataExBuilder annotations(
+        private AmqpDataExBuilder annotations(
             String key, String value)
         {
-            Consumer<ListFW.Builder<AmqpAnnotationFW.Builder, AmqpAnnotationFW>> annotation =
-                annotationsRW -> annotationsRW.item(itemRW ->
-                {
-                    itemRW.key(keyRW -> keyRW.name(key));
-                    itemRW.value(valueRW -> valueRW.bytes(
-                        bytesRW -> bytesRW.set(value.getBytes(StandardCharsets.UTF_8))
-                    ));
-                });
-            dataExRW.annotations(annotation);
+            dataExRW.annotationsItem(a ->
+            {
+                a.key(k -> k.name(key));
+                a.value(v -> v.bytes(b -> b.set(value.getBytes(StandardCharsets.UTF_8))));
+            });
             return this;
         }
 
-        // properties below
         public AmqpDataExBuilder messageId(
+            Object messageId)
+        {
+            if (messageId instanceof Long)
+            {
+                return messageId((long) messageId);
+            }
+            else if (messageId instanceof byte[])
+            {
+                return messageId((byte[]) messageId);
+            }
+            return messageId((String) messageId);
+        }
+
+        private AmqpDataExBuilder messageId(
+            long messageId)
+        {
+            dataExRW.properties(p -> p.messageId(m -> m.ulong(messageId)));
+            return this;
+        }
+
+        private AmqpDataExBuilder messageId(
+            byte[] messageId)
+        {
+            dataExRW.properties(p -> p.messageId(m -> m.binary(b -> b.set(messageId))));
+            return this;
+        }
+
+        // TODO messageId -- uuid case
+
+        private AmqpDataExBuilder messageId(
             String messageId)
         {
-            // TODO - need to fix
-            dataExRW.properties(propertiesRW -> propertiesRW.messageId(
-                messageIdRW -> messageIdRW.stringtype(messageId)
-            ));
+            dataExRW.properties(p -> p.messageId(m -> m.stringtype(messageId)));
             return this;
         }
 
@@ -238,9 +260,39 @@ public final class AmqpFunctions
         }
 
         public AmqpDataExBuilder correlationId(
-            )
+            Object correlationId)
         {
-            // TODO
+            if (correlationId instanceof Long)
+            {
+                return correlationId((long) correlationId);
+            }
+            else if (correlationId instanceof byte[])
+            {
+                return correlationId((byte[]) correlationId);
+            }
+            return correlationId((String) correlationId);
+        }
+
+        public AmqpDataExBuilder correlationId(
+            long correlationId)
+        {
+            dataExRW.properties(p -> p.correlationId(m -> m.ulong(correlationId)));
+            return this;
+        }
+
+        // TODO correlationId -- uuid case
+
+        public AmqpDataExBuilder correlationId(
+            byte[] correlationId)
+        {
+            dataExRW.properties(p -> p.correlationId(m -> m.binary(b -> b.set(correlationId))));
+            return this;
+        }
+
+        public AmqpDataExBuilder correlationId(
+            String correlationId)
+        {
+            dataExRW.properties(p -> p.correlationId(m -> m.stringtype(correlationId)));
             return this;
         }
 
