@@ -29,6 +29,8 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .build()}
 connected
 
+write flush
+
 read nukleus:begin.ext ${amqp:beginEx()
                              .containerId("localhost")
                              .channel(1)
@@ -39,5 +41,4 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .build()}
 
 write abort
-
 read abort

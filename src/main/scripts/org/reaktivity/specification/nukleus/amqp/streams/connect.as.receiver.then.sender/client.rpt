@@ -29,6 +29,8 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .build()}
 connected
 
+write close
+
 read nukleus:begin.ext ${amqp:beginEx()
                              .containerId("localhost")
                              .channel(1)
@@ -38,6 +40,14 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .receiverSettleMode("FIRST")
                              .build()}
 
+read closed
+read notify CONNECT_RECEIVER_COMPLETED
+
+connect await CONNECT_RECEIVER_COMPLETED
+        "nukleus://streams/amqp#0"
+        option nukleus:window 8192
+        option nukleus:transmission "half-duplex"
+
 write nukleus:begin.ext ${amqp:beginEx()
                               .containerId("c1")
                               .channel(1)
@@ -46,6 +56,9 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}
+connected
+
+write close
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .containerId("localhost")
@@ -55,3 +68,5 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
+
+read closed

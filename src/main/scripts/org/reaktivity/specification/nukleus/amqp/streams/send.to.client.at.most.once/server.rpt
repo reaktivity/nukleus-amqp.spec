@@ -32,6 +32,8 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .build()}
 connected
 
+read closed
+
 write nukleus:begin.ext ${amqp:beginEx()
                               .containerId("localhost")
                               .channel(1)
@@ -49,3 +51,5 @@ write nukleus:data.ext ${amqp:dataEx()
                              .build()}
 
 write [0x00 0x53 0x77 0xa1 0x05] "Text!"
+
+write close

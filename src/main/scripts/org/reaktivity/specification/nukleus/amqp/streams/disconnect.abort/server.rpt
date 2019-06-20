@@ -41,6 +41,7 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .receiverSettleMode("FIRST")
                               .build()}
 
-read abort
+write flush
 
-write abort
+read aborted
+write aborted

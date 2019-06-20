@@ -32,6 +32,8 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .build()}
 connected
 
+read closed
+
 write nukleus:begin.ext ${amqp:beginEx()
                               .containerId("localhost")
                               .channel(1)
@@ -40,3 +42,5 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}
+
+write close
