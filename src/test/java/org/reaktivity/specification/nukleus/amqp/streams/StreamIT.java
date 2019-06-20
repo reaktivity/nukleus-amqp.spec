@@ -40,10 +40,114 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
+        "${streams}/connect.as.receiver.only/client",
+        "${streams}/connect.as.receiver.only/server"
+    })
+    public void shouldConnectAsReceiverOnly() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/connect.as.receiver.then.sender/client",
+        "${streams}/connect.as.receiver.then.sender/server"
+    })
+    public void shouldConnectAsReceiverThenSender() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/connect.as.sender.only/client",
+        "${streams}/connect.as.sender.only/server"
+    })
+    public void shouldConnectAsSenderOnly() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/connect.as.sender.then.receiver/client",
+        "${streams}/connect.as.sender.then.receiver/server"
+    })
+    public void shouldConnectAsSenderThenReceiver() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/disconnect.abort/client",
+        "${streams}/disconnect.abort/server"
+    })
+    public void shouldAbortConnection() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.client.at.least.once/client",
+        "${streams}/send.to.client.at.least.once/server"
+    })
+    public void shouldSendToClientAtLeastOnce() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
         "${streams}/send.to.client.at.most.once/client",
         "${streams}/send.to.client.at.most.once/server"
     })
     public void shouldSendToClientAtMostOnce() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.server.at.least.once/client",
+        "${streams}/send.to.server.at.least.once/server"
+    })
+    public void shouldSendToServerAtLeastOnce() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.server.at.most.once/client",
+        "${streams}/send.to.server.at.most.once/server"
+    })
+    public void shouldSendToServerAtMostOnce() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
