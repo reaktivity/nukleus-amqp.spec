@@ -199,63 +199,44 @@ public final class AmqpFunctions
         {
             if (messageId instanceof Long)
             {
-                return messageId((long) messageId);
+                dataExRW.propertiesItem(p -> p.messageId(m -> m.ulong((long) messageId)));
+                return this;
             }
             else if (messageId instanceof byte[])
             {
-                return messageId((byte[]) messageId);
+                dataExRW.propertiesItem(p -> p.messageId(m -> m.binary(b -> b.set((byte[]) messageId))));
+                return this;
             }
-            return messageId((String) messageId);
-        }
-
-        private AmqpDataExBuilder messageId(
-            long messageId)
-        {
-            dataExRW.properties(p -> p.messageId(m -> m.ulong(messageId)));
-            return this;
-        }
-
-        private AmqpDataExBuilder messageId(
-            byte[] messageId)
-        {
-            dataExRW.properties(p -> p.messageId(m -> m.binary(b -> b.set(messageId))));
-            return this;
-        }
-
-        // TODO messageId -- uuid case
-
-        private AmqpDataExBuilder messageId(
-            String messageId)
-        {
-            dataExRW.properties(p -> p.messageId(m -> m.stringtype(messageId)));
+            dataExRW.propertiesItem(p -> p.messageId(m -> m.stringtype((String) messageId)));
             return this;
         }
 
         public AmqpDataExBuilder userId(
             String userId)
         {
-            dataExRW.properties(p -> p.userId(u -> u.bytes(b -> b.set(userId.getBytes(StandardCharsets.UTF_8)))));
+            dataExRW.propertiesItem(p ->
+                p.userId(u -> u.bytes(b -> b.set(userId.getBytes(StandardCharsets.UTF_8)))));
             return this;
         }
 
         public AmqpDataExBuilder to(
             String to)
         {
-            dataExRW.properties(p -> p.to(to));
+            dataExRW.propertiesItem(p -> p.to(to));
             return this;
         }
 
         public AmqpDataExBuilder subject(
             String subject)
         {
-            dataExRW.properties(p -> p.subject(subject));
+            dataExRW.propertiesItem(p -> p.subject(subject));
             return this;
         }
 
         public AmqpDataExBuilder replyTo(
             String replyTo)
         {
-            dataExRW.properties(p -> p.replyTo(replyTo));
+            dataExRW.propertiesItem(p -> p.replyTo(replyTo));
             return this;
         }
 
@@ -264,84 +245,64 @@ public final class AmqpFunctions
         {
             if (correlationId instanceof Long)
             {
-                return correlationId((long) correlationId);
+                dataExRW.propertiesItem(p -> p.correlationId(m -> m.ulong((long) correlationId)));
+                return this;
             }
             else if (correlationId instanceof byte[])
             {
-                return correlationId((byte[]) correlationId);
+                dataExRW.propertiesItem(p -> p.correlationId(m -> m.binary(b -> b.set((byte[]) correlationId))));
+                return this;
             }
-            return correlationId((String) correlationId);
-        }
-
-        public AmqpDataExBuilder correlationId(
-            long correlationId)
-        {
-            dataExRW.properties(p -> p.correlationId(m -> m.ulong(correlationId)));
-            return this;
-        }
-
-        // TODO correlationId -- uuid case
-
-        public AmqpDataExBuilder correlationId(
-            byte[] correlationId)
-        {
-            dataExRW.properties(p -> p.correlationId(m -> m.binary(b -> b.set(correlationId))));
-            return this;
-        }
-
-        public AmqpDataExBuilder correlationId(
-            String correlationId)
-        {
-            dataExRW.properties(p -> p.correlationId(m -> m.stringtype(correlationId)));
+            dataExRW.propertiesItem(p -> p.correlationId(m -> m.stringtype((String) correlationId)));
             return this;
         }
 
         public AmqpDataExBuilder contentType(
             String contentType)
         {
-            dataExRW.properties(p -> p.contentType(contentType));
+            dataExRW.propertiesItem(p -> p.contentType(contentType));
             return this;
         }
 
         public AmqpDataExBuilder contentEncoding(
             String contentEncoding)
         {
-            dataExRW.properties(p -> p.contentEncoding(contentEncoding));
+            dataExRW.propertiesItem(p -> p.contentEncoding(contentEncoding));
             return this;
         }
 
         public AmqpDataExBuilder absoluteExpiryTime(
             long absoluteExpiryTime)
         {
-            dataExRW.properties(p -> p.absoluteExpiryTime(absoluteExpiryTime));
+            dataExRW.propertiesItem(p -> p.absoluteExpiryTime(absoluteExpiryTime));
             return this;
         }
 
         public AmqpDataExBuilder creationTime(
             long creationTime)
         {
-            dataExRW.properties(p -> p.creationTime(creationTime));
+            dataExRW.propertiesItem(p -> p.creationTime(creationTime));
             return this;
         }
 
         public AmqpDataExBuilder groupId(
             String groupId)
         {
-            dataExRW.properties(p -> p.groupId(groupId));
+            dataExRW.propertiesItem(p -> p.groupId(groupId));
             return this;
         }
 
         public AmqpDataExBuilder groupSequence(
             int groupSequence)
         {
-            dataExRW.properties(p -> p.groupSequence(groupSequence));
+            dataExRW.propertiesItem(p -> p.groupSequence(groupSequence));
             return this;
         }
 
         public AmqpDataExBuilder replyToGroupId(
             String replyToGroupId)
         {
-            dataExRW.properties(p -> p.replyToGroupId(replyToGroupId));
+            dataExRW.propertiesItem(p -> p.replyToGroupId(replyToGroupId));
             return this;
         }
 
