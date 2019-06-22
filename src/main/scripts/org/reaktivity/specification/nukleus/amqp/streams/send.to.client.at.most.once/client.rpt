@@ -40,6 +40,17 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .receiverSettleMode("FIRST")
                              .build()}
 
+read closed
+
+read notify BEGIN_COMPLETED
+
+connect await BEGIN_COMPLETED
+        "nukleus://streams/amqp#0"
+        option nukleus:window 8192
+        option nukleus:transmission "half-duplex"
+
+connected
+
 read nukleus:data.ext ${amqp:dataEx()
                             .deliveryId(0)
                             .deliveryTag("00")
@@ -48,5 +59,3 @@ read nukleus:data.ext ${amqp:dataEx()
                             .build()}
 
 read [0x00 0x53 0x77 0xa1 0x05] "Text!"
-
-read closed

@@ -43,6 +43,12 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .receiverSettleMode("FIRST")
                               .build()}
 
+write close
+
+accepted
+
+connected
+
 write nukleus:data.ext ${amqp:dataEx()
                              .deliveryId(0)
                              .deliveryTag("00")
@@ -52,4 +58,4 @@ write nukleus:data.ext ${amqp:dataEx()
 
 write [0x00 0x53 0x77 0xa1 0x05] "Text!"
 
-write close
+write flush
