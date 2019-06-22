@@ -23,21 +23,21 @@ scope amqp
         case 4: string stringtype;
     }
 
-    struct AmqpMessageProperties
+    union AmqpMessageProperty switch (uint8)
     {
-        amqp::AmqpMessageId messageId;
-        amqp::AmqpBinary userId;
-        string to;
-        string subject;
-        string replyTo;
-        amqp::AmqpMessageId correlationId;
-        string contentType;
-        string contentEncoding;
-        int64 absoluteExpiryTime;
-        int64 creationTime;
-        string groupId;
-        int32 groupSequence;
-        string replyToGroupId;
+        case 0: amqp::AmqpMessageId messageId;
+        case 1: amqp::AmqpBinary userId;
+        case 2: string to;
+        case 3: string subject;
+        case 4: string replyTo;
+        case 5: amqp::AmqpMessageId correlationId;
+        case 6: string contentType;
+        case 7: string contentEncoding;
+        case 8: int64 absoluteExpiryTime;
+        case 9: int64 creationTime;
+        case 10: string groupId;
+        case 11: int32 groupSequence;
+        case 12: string replyToGroupId;
     }
 
     union AmqpAnnotationKey switch (uint8)
@@ -56,6 +56,23 @@ scope amqp
     {
         uint16 length;
         octets[length] bytes;
+    }
+
+    enum AmqpMessagePropertyKind
+    {
+        MESSAGE_ID,
+        USER_ID,
+        TO,
+        SUBJECT,
+        REPLY_TO,
+        CORRELATION_ID,
+        CONTENT_TYPE,
+        CONTENT_ENCODING,
+        ABSOLUTE_EXPIRY_TIME,
+        CREATION_TIME,
+        GROUP_ID,
+        GROUP_SEQUENCE,
+        REPLY_TO_GROUP_ID
     }
 
     enum AmqpRole
@@ -114,7 +131,7 @@ scope amqp
             uint32 messageFormat;
             uint8 flags;   // set of AmqpTransferFlag
             list<amqp::AmqpAnnotation> annotations;
-            amqp::AmqpMessageProperties properties;
+            list<amqp::AmqpMessageProperty> properties;
         }
 
         struct AmqpWindowEx
