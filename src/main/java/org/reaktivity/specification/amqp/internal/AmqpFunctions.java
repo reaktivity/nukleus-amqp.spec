@@ -175,22 +175,16 @@ public final class AmqpFunctions
         private AmqpDataExBuilder annotations(
             long key, String value)
         {
-            dataExRW.annotationsItem(a ->
-            {
-                a.key(k -> k.id(key));
-                a.value(v -> v.bytes(b -> b.set(value.getBytes(StandardCharsets.UTF_8))));
-            });
+            dataExRW.annotationsItem(a -> a.key(k -> k.id(key))
+                                           .value(v -> v.bytes(b -> b.set(value.getBytes(StandardCharsets.UTF_8)))));
             return this;
         }
 
         private AmqpDataExBuilder annotations(
             String key, String value)
         {
-            dataExRW.annotationsItem(a ->
-            {
-                a.key(k -> k.name(key));
-                a.value(v -> v.bytes(b -> b.set(value.getBytes(StandardCharsets.UTF_8))));
-            });
+            dataExRW.annotationsItem(a -> a.key(k -> k.name(key))
+                                           .value(v -> v.bytes(b -> b.set(value.getBytes(StandardCharsets.UTF_8)))));
             return this;
         }
 
