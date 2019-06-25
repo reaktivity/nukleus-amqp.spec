@@ -17,7 +17,7 @@
 connect await ROUTED_CLIENT
         "nukleus://streams/amqp#0"
         option nukleus:window 8192
-        option nukleus:transmission "half-duplex"
+        option nukleus:transmission "duplex"
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .containerId("c1")
@@ -27,7 +27,6 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}
-connected
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .containerId("localhost")
@@ -37,6 +36,7 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
+connected
 
 write nukleus:data.ext ${amqp:dataEx()
                              .deliveryId(0)
@@ -46,3 +46,7 @@ write nukleus:data.ext ${amqp:dataEx()
                              .build()}
 
 write [0x00 0x53 0x77 0xa1 0x05] "Text!"
+
+write close
+
+read closed
