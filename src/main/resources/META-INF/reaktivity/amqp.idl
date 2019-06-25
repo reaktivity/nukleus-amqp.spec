@@ -18,8 +18,8 @@ scope amqp
     union AmqpMessageId switch (uint8)
     {
         case 1: uint64 ulong;
-        case 2: octets[16] uuid;
-        case 3: octets[16] binary;
+        case 2: amqp::AmqpBinary uuid;
+        case 3: amqp::AmqpBinary binary;
         case 4: string stringtype;
     }
 
