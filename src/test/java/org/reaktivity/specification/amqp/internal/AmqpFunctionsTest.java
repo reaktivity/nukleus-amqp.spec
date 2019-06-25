@@ -138,8 +138,10 @@ public class AmqpFunctionsTest
             {
                 case AmqpAnnotationKeyFW.KIND_ID:
                     assertEquals(a.value().toString(), "AMQP_BINARY [length=1, bytes=octets[1]]");
+                    break;
                 case AmqpAnnotationKeyFW.KIND_NAME:
                     assertEquals(a.value().toString(), "AMQP_BINARY [length=1, bytes=octets[1]]");
+                    break;
             }
         });
         amqpDataEx.properties().forEach(p ->
