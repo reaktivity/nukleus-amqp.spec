@@ -166,7 +166,7 @@ public final class AmqpFunctions
             return this;
         }
 
-        public AmqpDataExBuilder annotations(
+        public AmqpDataExBuilder annotation(
             Object key, String value)
         {
             return key instanceof Long ? annotations((long) key, value) : annotations((String) key, value);
@@ -198,7 +198,7 @@ public final class AmqpFunctions
             }
             else if (messageId instanceof byte[])
             {
-                dataExRW.propertiesItem(p -> p.messageId(m -> m.binary(b -> b.set((byte[]) messageId))));
+                dataExRW.propertiesItem(p -> p.messageId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) messageId)))));
                 return this;
             }
             dataExRW.propertiesItem(p -> p.messageId(m -> m.stringtype((String) messageId)));
@@ -244,7 +244,7 @@ public final class AmqpFunctions
             }
             else if (correlationId instanceof byte[])
             {
-                dataExRW.propertiesItem(p -> p.correlationId(m -> m.binary(b -> b.set((byte[]) correlationId))));
+                dataExRW.propertiesItem(p -> p.correlationId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) correlationId)))));
                 return this;
             }
             dataExRW.propertiesItem(p -> p.correlationId(m -> m.stringtype((String) correlationId)));
