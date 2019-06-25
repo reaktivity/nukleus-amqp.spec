@@ -114,7 +114,7 @@ scope amqp
 
     scope stream
     {
-        struct AmqpBeginEx
+        struct AmqpBeginEx extends core::stream::Extension
         {
             string containerId;
             uint16 channel;
@@ -124,7 +124,7 @@ scope amqp
             amqp::AmqpReceiverSettleMode receiverSettleMode;
         }
 
-        struct AmqpDataEx
+        struct AmqpDataEx extends core::stream::Extension
         {
             uint32 deliveryId;
             amqp::AmqpBinary deliveryTag;
@@ -134,7 +134,7 @@ scope amqp
             list<amqp::AmqpMessageProperty> properties;
         }
 
-        struct AmqpWindowEx
+        struct AmqpWindowEx extends core::stream::Extension
         {
             // session flow control
             uint32 nextIncomingId;
@@ -147,7 +147,7 @@ scope amqp
             uint32 linkCredit;
         }
 
-        struct AmqpAbortEx
+        struct AmqpAbortEx extends core::stream::Extension
         {
             string condition;
         }

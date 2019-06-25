@@ -82,6 +82,7 @@ public class AmqpFunctionsTest
     public void shouldEncodeAmqpBeginExt()
     {
         final byte[] array = beginEx()
+            .typeId(0)
             .containerId("c1")
             .channel(1)
             .address("queue://queue")
@@ -105,6 +106,7 @@ public class AmqpFunctionsTest
     public void shouldEncodeAmqpDataExtWithRequiredFields()
     {
         final byte[] array = dataEx()
+            .typeId(0)
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
@@ -123,6 +125,7 @@ public class AmqpFunctionsTest
     public void shouldEncodeAmqpDataExtWithAnnotations()
     {
         final byte[] array = dataEx()
+            .typeId(0)
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
@@ -151,6 +154,7 @@ public class AmqpFunctionsTest
     public void shouldEncodeAmqpDataExtWithProperties()
     {
         final byte[] array = dataEx()
+            .typeId(0)
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
@@ -223,6 +227,7 @@ public class AmqpFunctionsTest
     public void shouldEncodeAmqpDataExtWithLongProperties()
     {
         final byte[] array = dataEx()
+            .typeId(0)
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
@@ -255,6 +260,7 @@ public class AmqpFunctionsTest
     public void shouldEncodeAmqpDataExtWithByteArrayProperties()
     {
         final byte[] array = dataEx()
+            .typeId(0)
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
@@ -287,6 +293,7 @@ public class AmqpFunctionsTest
     public void shouldEncodeAmqpAbortExt()
     {
         final byte[] array = abortEx()
+            .typeId(0)
             .condition("amqp:link:transfer-limit-exceeded")
             .build();
 

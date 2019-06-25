@@ -76,6 +76,13 @@ public final class AmqpFunctions
                 .wrap(writeBuffer, 0, writeBuffer.capacity());
         }
 
+        public AmqpBeginExBuilder typeId(
+            int typeId)
+        {
+            beginExRW.typeId(typeId);
+            return this;
+        }
+
         public AmqpBeginExBuilder containerId(
             String containerId)
         {
@@ -136,6 +143,13 @@ public final class AmqpFunctions
             MutableDirectBuffer writeBuffer = new UnsafeBuffer(new byte[MAX_BUFFER_SIZE]);
             this.dataExRW = new AmqpDataExFW.Builder()
                 .wrap(writeBuffer, 0, writeBuffer.capacity());
+        }
+
+        public AmqpDataExBuilder typeId(
+            int typeId)
+        {
+            dataExRW.typeId(typeId);
+            return this;
         }
 
         public AmqpDataExBuilder deliveryId(
@@ -318,6 +332,13 @@ public final class AmqpFunctions
             MutableDirectBuffer writeBuffer = new UnsafeBuffer(new byte[MAX_BUFFER_SIZE]);
             this.abortExRW = new AmqpAbortExFW.Builder()
                 .wrap(writeBuffer, 0, writeBuffer.capacity());
+        }
+
+        public AmqpAbortExBuilder typeId(
+            int typeId)
+        {
+            abortExRW.typeId(typeId);
+            return this;
         }
 
         public AmqpAbortExBuilder condition(
