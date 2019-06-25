@@ -23,6 +23,7 @@ accept ${serverTransport}
 accepted
 
 read nukleus:begin.ext ${amqp:beginEx()
+                             .typeId(nukleus:id("amqp"))
                              .containerId("c1")
                              .channel(1)
                              .address("queue://queue")
@@ -32,6 +33,7 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .build()}
 
 write nukleus:begin.ext ${amqp:beginEx()
+                              .typeId(nukleus:id("amqp"))
                               .containerId("localhost")
                               .channel(1)
                               .address("queue://queue")
@@ -42,6 +44,7 @@ write nukleus:begin.ext ${amqp:beginEx()
 connected
 
 read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
                             .deliveryId(0)
                             .deliveryTag("00")
                             .messageFormat(0)

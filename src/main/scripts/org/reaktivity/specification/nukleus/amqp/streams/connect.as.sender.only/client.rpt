@@ -20,6 +20,7 @@ connect await ROUTED_CLIENT
         option nukleus:transmission "duplex"
 
 write nukleus:begin.ext ${amqp:beginEx()
+                              .typeId(nukleus:id("amqp"))
                               .containerId("c1")
                               .channel(1)
                               .address("queue://queue")
@@ -29,6 +30,7 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .build()}
 
 read nukleus:begin.ext ${amqp:beginEx()
+                             .typeId(nukleus:id("amqp"))
                              .containerId("localhost")
                              .channel(1)
                              .address("queue://queue")
