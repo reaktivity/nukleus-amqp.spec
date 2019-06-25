@@ -33,13 +33,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kaazing.k3po.lang.internal.el.ExpressionContext;
 import org.reaktivity.specification.amqp.internal.types.AmqpAnnotationKeyFW;
-import org.reaktivity.specification.amqp.internal.types.AmqpMessageIdFW;
 import org.reaktivity.specification.amqp.internal.types.AmqpMessagePropertyFW;
 import org.reaktivity.specification.amqp.internal.types.control.AmqpRouteExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpBeginExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpDataExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpAbortExFW;
 import org.reaktivity.specification.amqp.internal.AmqpFunctions.AmqpBeginExBuilder;
+
+import java.nio.charset.StandardCharsets;
 
 public class AmqpFunctionsTest
 {
@@ -101,21 +102,65 @@ public class AmqpFunctionsTest
     }
 
     @Test
-    public void shouldEncodeAmqpDataExt()
+    public void shouldEncodeAmqpDataExtWithRequiredFields()
     {
         final byte[] array = dataEx()
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags(1)
-            .annotations("x-opt-jms-dest", "0")
-            .annotations(1L, "0")
+            .build();
+
+        DirectBuffer buffer = new UnsafeBuffer(array);
+        AmqpDataExFW amqpDataEx = new AmqpDataExFW().wrap(buffer, 0, buffer.capacity());
+        assertEquals(amqpDataEx.deliveryId(), 0);
+        assertEquals(amqpDataEx.deliveryTag().toString(), "AMQP_BINARY [length=2, bytes=octets[2]]");
+        assertEquals(amqpDataEx.messageFormat(), 0);
+        assertEquals(amqpDataEx.flags(), 1);
+    }
+
+    @Test
+    public void shouldEncodeAmqpDataExtWithAnnotations()
+    {
+        final byte[] array = dataEx()
+            .deliveryId(0)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags(1)
+            .annotation("x-opt-jms-dest", "0")
+            .annotation(1L, "00")
+            .build();
+
+        DirectBuffer buffer = new UnsafeBuffer(array);
+        AmqpDataExFW amqpDataEx = new AmqpDataExFW().wrap(buffer, 0, buffer.capacity());
+        amqpDataEx.annotations().forEach(a ->
+        {
+            switch (a.key().kind())
+            {
+                case AmqpAnnotationKeyFW.KIND_ID:
+                    assertEquals(a.value().toString(), "AMQP_BINARY [length=2, bytes=octets[2]]");
+                    break;
+                case AmqpAnnotationKeyFW.KIND_NAME:
+                    assertEquals(a.value().toString(), "AMQP_BINARY [length=1, bytes=octets[1]]");
+                    break;
+            }
+        });
+    }
+
+    @Test
+    public void shouldEncodeAmqpDataExtWithProperties()
+    {
+        final byte[] array = dataEx()
+            .deliveryId(0)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags(1)
             .messageId("message1")
             .userId("user1")
             .to("queue://queue")
             .subject("subject1")
             .replyTo("localhost")
-            .correlationId(12345L)
+            .correlationId("correlationId1")
             .contentType("content_type")
             .contentEncoding("content_encoding")
             .absoluteExpiryTime(12345L)
@@ -127,23 +172,6 @@ public class AmqpFunctionsTest
 
         DirectBuffer buffer = new UnsafeBuffer(array);
         AmqpDataExFW amqpDataEx = new AmqpDataExFW().wrap(buffer, 0, buffer.capacity());
-
-        assertEquals(amqpDataEx.deliveryId(), 0);
-        assertEquals(amqpDataEx.deliveryTag().toString(), "AMQP_BINARY [length=2, bytes=octets[2]]");
-        assertEquals(amqpDataEx.messageFormat(), 0);
-        assertEquals(amqpDataEx.flags(), 1);
-        amqpDataEx.annotations().forEach(a ->
-        {
-            switch (a.key().kind())
-            {
-                case AmqpAnnotationKeyFW.KIND_ID:
-                    assertEquals(a.value().toString(), "AMQP_BINARY [length=1, bytes=octets[1]]");
-                    break;
-                case AmqpAnnotationKeyFW.KIND_NAME:
-                    assertEquals(a.value().toString(), "AMQP_BINARY [length=1, bytes=octets[1]]");
-                    break;
-            }
-        });
         amqpDataEx.properties().forEach(p ->
         {
             switch (p.kind())
@@ -152,7 +180,7 @@ public class AmqpFunctionsTest
                     assertEquals(p.messageId().stringtype().asString(), "message1");
                     break;
                 case AmqpMessagePropertyFW.KIND_USER_ID:
-                    assertEquals(p.userId().toString(), "AMQP_BINARY [length=5, bytes=octets[5]]");
+                    assertEquals(p.userId().bytes().toString(), "octets[5]");
                     break;
                 case AmqpMessagePropertyFW.KIND_TO:
                     assertEquals(p.to().asString(), "queue://queue");
@@ -164,13 +192,7 @@ public class AmqpFunctionsTest
                     assertEquals(p.replyTo().asString(), "localhost");
                     break;
                 case AmqpMessagePropertyFW.KIND_CORRELATION_ID:
-
-                    switch (p.correlationId().kind())
-                    {
-                        case AmqpMessageIdFW.KIND_ULONG:
-                            assertEquals(p.correlationId().ulong(), 12345L);
-                            break;
-                    }
+                    assertEquals(p.correlationId().stringtype().asString(), "correlationId1");
                     break;
                 case AmqpMessagePropertyFW.KIND_CONTENT_TYPE:
                     assertEquals(p.contentType().asString(), "content_type");
@@ -192,6 +214,70 @@ public class AmqpFunctionsTest
                     break;
                 case AmqpMessagePropertyFW.KIND_REPLY_TO_GROUP_ID:
                     assertEquals(p.replyToGroupId().asString(), "reply_group_id");
+                    break;
+            }
+        });
+    }
+
+    @Test
+    public void shouldEncodeAmqpDataExtWithLongProperties()
+    {
+        final byte[] array = dataEx()
+            .deliveryId(0)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags(1)
+            .messageId(12345L)
+            .userId("user1")
+            .to("queue://queue")
+            .subject("subject1")
+            .replyTo("localhost")
+            .correlationId(12345L)
+            .build();
+
+        DirectBuffer buffer = new UnsafeBuffer(array);
+        AmqpDataExFW amqpDataEx = new AmqpDataExFW().wrap(buffer, 0, buffer.capacity());
+        amqpDataEx.properties().forEach(p ->
+        {
+            switch (p.kind())
+            {
+                case AmqpMessagePropertyFW.KIND_MESSAGE_ID:
+                    assertEquals(p.messageId().ulong(), 12345L);
+                    break;
+                case AmqpMessagePropertyFW.KIND_CORRELATION_ID:
+                    assertEquals(p.correlationId().ulong(), 12345L);
+                    break;
+            }
+        });
+    }
+
+    @Test
+    public void shouldEncodeAmqpDataExtWithByteArrayProperties()
+    {
+        final byte[] array = dataEx()
+            .deliveryId(0)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags(1)
+            .messageId("message1".getBytes(StandardCharsets.UTF_8))
+            .userId("user1")
+            .to("queue://queue")
+            .subject("subject1")
+            .replyTo("localhost")
+            .correlationId("correlation1".getBytes(StandardCharsets.UTF_8))
+            .build();
+
+        DirectBuffer buffer = new UnsafeBuffer(array);
+        AmqpDataExFW amqpDataEx = new AmqpDataExFW().wrap(buffer, 0, buffer.capacity());
+        amqpDataEx.properties().forEach(p ->
+        {
+            switch (p.kind())
+            {
+                case AmqpMessagePropertyFW.KIND_MESSAGE_ID:
+                    assertEquals(p.messageId().binary().bytes().toString(), "octets[8]");
+                    break;
+                case AmqpMessagePropertyFW.KIND_CORRELATION_ID:
+                    assertEquals(p.correlationId().binary().bytes().toString(), "octets[12]");
                     break;
             }
         });
