@@ -47,10 +47,50 @@ public class ControlIT
 
     @Test
     @Specification({
+        "route.ext.receiver/server/nukleus",
+        "route.ext.receiver/server/controller"
+    })
+    public void shouldRouteServerWithExtensionAsReceiver() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "route.ext.sender/server/nukleus",
+        "route.ext.sender/server/controller"
+    })
+    public void shouldRouteServerWithExtensionAsSender() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "route/client/nukleus",
         "route/client/controller"
     })
     public void shouldRouteClient() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "route.ext.receiver/client/nukleus",
+        "route.ext.receiver/client/controller"
+    })
+    public void shouldRouteClientWithExtensionAsReceiver() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "route.ext.sender/client/nukleus",
+        "route.ext.sender/client/controller"
+    })
+    public void shouldRouteClientWithExtensionAsSender() throws Exception
     {
         k3po.finish();
     }
