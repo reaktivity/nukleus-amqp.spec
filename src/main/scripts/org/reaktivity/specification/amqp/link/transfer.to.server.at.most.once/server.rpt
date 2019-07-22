@@ -105,7 +105,7 @@ write [0x00 0x00 0x00 0x1c]                                       # length = 28
       [0x52 0x01]                                                 # next-incoming-id = 1
       [0x70 0x00 0x00 0x3f 0xff]                                  # incoming-window = 16383
       [0x52 0x01]                                                 # next-outgoing-id = 1
-      [0x70 0x7f 0xff 0xff 0xff]                                  # incoming-window = 2147483647
+      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
 
 # transfer frame
 read [0x00 0x00 0x00 0x15]                                       # length = 21
