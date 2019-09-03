@@ -8,6 +8,7 @@
   <artifactId>nukleus-amqp.spec</artifactId>
   <version>develop-SNAPSHOT</version>
   <name>AMQP Nukleus Specification</name>
+  <description>AMQP Nukleus Specification</description>
   <url>https://github.com/reaktivity/nukleus-amqp.spec</url>
 
   <licenses>
