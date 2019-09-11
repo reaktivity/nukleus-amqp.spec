@@ -18,10 +18,12 @@ package org.reaktivity.specification.amqp.internal;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.kaazing.k3po.lang.internal.el.ExpressionFactoryUtils.newExpressionFactory;
-import static org.reaktivity.specification.amqp.internal.AmqpFunctions.beginEx;
-import static org.reaktivity.specification.amqp.internal.AmqpFunctions.routeEx;
-import static org.reaktivity.specification.amqp.internal.AmqpFunctions.dataEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.abortEx;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.beginEx;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.dataEx;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.routeEx;
+
+import java.nio.charset.StandardCharsets;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -32,15 +34,13 @@ import org.agrona.concurrent.UnsafeBuffer;
 import org.junit.Before;
 import org.junit.Test;
 import org.kaazing.k3po.lang.internal.el.ExpressionContext;
+import org.reaktivity.specification.amqp.internal.AmqpFunctions.AmqpBeginExBuilder;
 import org.reaktivity.specification.amqp.internal.types.AmqpAnnotationKeyFW;
 import org.reaktivity.specification.amqp.internal.types.AmqpMessagePropertyFW;
 import org.reaktivity.specification.amqp.internal.types.control.AmqpRouteExFW;
+import org.reaktivity.specification.amqp.internal.types.stream.AmqpAbortExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpBeginExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpDataExFW;
-import org.reaktivity.specification.amqp.internal.types.stream.AmqpAbortExFW;
-import org.reaktivity.specification.amqp.internal.AmqpFunctions.AmqpBeginExBuilder;
-
-import java.nio.charset.StandardCharsets;
 
 public class AmqpFunctionsTest
 {
@@ -140,12 +140,12 @@ public class AmqpFunctionsTest
         {
             switch (a.key().kind())
             {
-                case AmqpAnnotationKeyFW.KIND_ID:
-                    assertEquals(a.value().toString(), "AMQP_BINARY [length=2, bytes=octets[2]]");
-                    break;
-                case AmqpAnnotationKeyFW.KIND_NAME:
-                    assertEquals(a.value().toString(), "AMQP_BINARY [length=1, bytes=octets[1]]");
-                    break;
+            case AmqpAnnotationKeyFW.KIND_ID:
+                assertEquals(a.value().toString(), "AMQP_BINARY [length=2, bytes=octets[2]]");
+                break;
+            case AmqpAnnotationKeyFW.KIND_NAME:
+                assertEquals(a.value().toString(), "AMQP_BINARY [length=1, bytes=octets[1]]");
+                break;
             }
         });
     }
@@ -180,45 +180,45 @@ public class AmqpFunctionsTest
         {
             switch (p.kind())
             {
-                case AmqpMessagePropertyFW.KIND_MESSAGE_ID:
-                    assertEquals(p.messageId().stringtype().asString(), "message1");
-                    break;
-                case AmqpMessagePropertyFW.KIND_USER_ID:
-                    assertEquals(p.userId().bytes().toString(), "octets[5]");
-                    break;
-                case AmqpMessagePropertyFW.KIND_TO:
-                    assertEquals(p.to().asString(), "queue://queue");
-                    break;
-                case AmqpMessagePropertyFW.KIND_SUBJECT:
-                    assertEquals(p.subject().asString(), "subject1");
-                    break;
-                case AmqpMessagePropertyFW.KIND_REPLY_TO:
-                    assertEquals(p.replyTo().asString(), "localhost");
-                    break;
-                case AmqpMessagePropertyFW.KIND_CORRELATION_ID:
-                    assertEquals(p.correlationId().stringtype().asString(), "correlationId1");
-                    break;
-                case AmqpMessagePropertyFW.KIND_CONTENT_TYPE:
-                    assertEquals(p.contentType().asString(), "content_type");
-                    break;
-                case AmqpMessagePropertyFW.KIND_CONTENT_ENCODING:
-                    assertEquals(p.contentEncoding().asString(), "content_encoding");
-                    break;
-                case AmqpMessagePropertyFW.KIND_ABSOLUTE_EXPIRY_TIME:
-                    assertEquals(p.absoluteExpiryTime(), 12345L);
-                    break;
-                case AmqpMessagePropertyFW.KIND_CREATION_TIME:
-                    assertEquals(p.absoluteExpiryTime(), 12345L);
-                    break;
-                case AmqpMessagePropertyFW.KIND_GROUP_ID:
-                    assertEquals(p.groupId().asString(), "group_id1");
-                    break;
-                case AmqpMessagePropertyFW.KIND_GROUP_SEQUENCE:
-                    assertEquals(p.groupSequence(), 1);
-                    break;
-                case AmqpMessagePropertyFW.KIND_REPLY_TO_GROUP_ID:
-                    assertEquals(p.replyToGroupId().asString(), "reply_group_id");
-                    break;
+            case AmqpMessagePropertyFW.KIND_MESSAGE_ID:
+                assertEquals(p.messageId().stringtype().asString(), "message1");
+                break;
+            case AmqpMessagePropertyFW.KIND_USER_ID:
+                assertEquals(p.userId().bytes().toString(), "octets[5]");
+                break;
+            case AmqpMessagePropertyFW.KIND_TO:
+                assertEquals(p.to().asString(), "queue://queue");
+                break;
+            case AmqpMessagePropertyFW.KIND_SUBJECT:
+                assertEquals(p.subject().asString(), "subject1");
+                break;
+            case AmqpMessagePropertyFW.KIND_REPLY_TO:
+                assertEquals(p.replyTo().asString(), "localhost");
+                break;
+            case AmqpMessagePropertyFW.KIND_CORRELATION_ID:
+                assertEquals(p.correlationId().stringtype().asString(), "correlationId1");
+                break;
+            case AmqpMessagePropertyFW.KIND_CONTENT_TYPE:
+                assertEquals(p.contentType().asString(), "content_type");
+                break;
+            case AmqpMessagePropertyFW.KIND_CONTENT_ENCODING:
+                assertEquals(p.contentEncoding().asString(), "content_encoding");
+                break;
+            case AmqpMessagePropertyFW.KIND_ABSOLUTE_EXPIRY_TIME:
+                assertEquals(p.absoluteExpiryTime(), 12345L);
+                break;
+            case AmqpMessagePropertyFW.KIND_CREATION_TIME:
+                assertEquals(p.absoluteExpiryTime(), 12345L);
+                break;
+            case AmqpMessagePropertyFW.KIND_GROUP_ID:
+                assertEquals(p.groupId().asString(), "group_id1");
+                break;
+            case AmqpMessagePropertyFW.KIND_GROUP_SEQUENCE:
+                assertEquals(p.groupSequence(), 1);
+                break;
+            case AmqpMessagePropertyFW.KIND_REPLY_TO_GROUP_ID:
+                assertEquals(p.replyToGroupId().asString(), "reply_group_id");
+                break;
             }
         });
     }
@@ -246,12 +246,12 @@ public class AmqpFunctionsTest
         {
             switch (p.kind())
             {
-                case AmqpMessagePropertyFW.KIND_MESSAGE_ID:
-                    assertEquals(p.messageId().ulong(), 12345L);
-                    break;
-                case AmqpMessagePropertyFW.KIND_CORRELATION_ID:
-                    assertEquals(p.correlationId().ulong(), 12345L);
-                    break;
+            case AmqpMessagePropertyFW.KIND_MESSAGE_ID:
+                assertEquals(p.messageId().ulong(), 12345L);
+                break;
+            case AmqpMessagePropertyFW.KIND_CORRELATION_ID:
+                assertEquals(p.correlationId().ulong(), 12345L);
+                break;
             }
         });
     }
@@ -279,12 +279,12 @@ public class AmqpFunctionsTest
         {
             switch (p.kind())
             {
-                case AmqpMessagePropertyFW.KIND_MESSAGE_ID:
-                    assertEquals(p.messageId().binary().bytes().toString(), "octets[8]");
-                    break;
-                case AmqpMessagePropertyFW.KIND_CORRELATION_ID:
-                    assertEquals(p.correlationId().binary().bytes().toString(), "octets[12]");
-                    break;
+            case AmqpMessagePropertyFW.KIND_MESSAGE_ID:
+                assertEquals(p.messageId().binary().bytes().toString(), "octets[8]");
+                break;
+            case AmqpMessagePropertyFW.KIND_CORRELATION_ID:
+                assertEquals(p.correlationId().binary().bytes().toString(), "octets[12]");
+                break;
             }
         });
     }
