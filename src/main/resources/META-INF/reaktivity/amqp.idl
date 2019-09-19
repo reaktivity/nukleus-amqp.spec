@@ -130,8 +130,8 @@ scope amqp
             amqp::AmqpBinary deliveryTag;
             uint32 messageFormat;
             uint8 flags;   // set of AmqpTransferFlag
-            list<amqp::AmqpAnnotation> annotations;
-            list<amqp::AmqpMessageProperty> properties;
+            AmqpAnnotation[] annotations;
+            AmqpMessageProperty[] properties;
         }
 
         struct AmqpWindowEx extends core::stream::Extension
