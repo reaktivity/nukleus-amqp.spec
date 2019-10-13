@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.reaktivity</groupId>
   <artifactId>nukleus-amqp.spec</artifactId>
-  <version>develop-SNAPSHOT</version>
+  <version>0.5</version>
   <name>AMQP Nukleus Specification</name>
   <description>AMQP Nukleus Specification</description>
   <url>https://github.com/reaktivity/nukleus-amqp.spec</url>
