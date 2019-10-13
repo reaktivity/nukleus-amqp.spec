@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.reaktivity</groupId>
   <artifactId>nukleus-amqp.spec</artifactId>
-  <version>0.4</version>
+  <version>0.5</version>
   <name>AMQP Nukleus Specification</name>
   <description>AMQP Nukleus Specification</description>
   <url>https://github.com/reaktivity/nukleus-amqp.spec</url>
@@ -47,10 +47,10 @@
     <junit.version>4.12</junit.version>
 
     <k3po.version>3.0.0-alpha-103</k3po.version>
-    <reaktor.version>0.102</reaktor.version>
+    <reaktor.version>0.104</reaktor.version>
 
     <nukleus.plugin.version>0.42</nukleus.plugin.version>
-    <nukleus.spec.version>0.41</nukleus.spec.version>
+    <nukleus.spec.version>0.42</nukleus.spec.version>
   </properties>
 
   <dependencies>
