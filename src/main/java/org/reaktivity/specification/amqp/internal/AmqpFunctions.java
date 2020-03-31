@@ -21,9 +21,9 @@ import org.agrona.MutableDirectBuffer;
 import org.agrona.concurrent.UnsafeBuffer;
 import org.kaazing.k3po.lang.el.Function;
 import org.kaazing.k3po.lang.el.spi.FunctionMapperSpi;
-import org.reaktivity.specification.amqp.internal.types.AmqpReceiverSettleMode;
-import org.reaktivity.specification.amqp.internal.types.AmqpRole;
-import org.reaktivity.specification.amqp.internal.types.AmqpSenderSettleMode;
+import org.reaktivity.specification.amqp.internal.types.ReceiverSettleMode;
+import org.reaktivity.specification.amqp.internal.types.Role;
+import org.reaktivity.specification.amqp.internal.types.SenderSettleMode;
 import org.reaktivity.specification.amqp.internal.types.control.AmqpRouteExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpAbortExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpBeginExFW;
@@ -54,7 +54,7 @@ public final class AmqpFunctions
         public AmqpRouteExBuilder role(
             String role)
         {
-            routeExRW.role(r -> r.set(AmqpRole.valueOf(role)));
+            routeExRW.role(r -> r.set(Role.valueOf(role)));
             return this;
         }
 
@@ -109,21 +109,21 @@ public final class AmqpFunctions
         public AmqpBeginExBuilder role(
             String role)
         {
-            beginExRW.role(r -> r.set(AmqpRole.valueOf(role)));
+            beginExRW.role(r -> r.set(Role.valueOf(role)));
             return this;
         }
 
         public AmqpBeginExBuilder senderSettleMode(
             String senderSettleMode)
         {
-            beginExRW.senderSettleMode(s -> s.set(AmqpSenderSettleMode.valueOf(senderSettleMode)));
+            beginExRW.senderSettleMode(s -> s.set(SenderSettleMode.valueOf(senderSettleMode)));
             return this;
         }
 
         public AmqpBeginExBuilder receiverSettleMode(
             String receiverSettleMode)
         {
-            beginExRW.receiverSettleMode(r -> r.set(AmqpReceiverSettleMode.valueOf(receiverSettleMode)));
+            beginExRW.receiverSettleMode(r -> r.set(ReceiverSettleMode.valueOf(receiverSettleMode)));
             return this;
         }
 
