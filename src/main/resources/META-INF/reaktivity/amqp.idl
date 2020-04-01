@@ -77,7 +77,7 @@ scope amqp
         REPLY_TO_GROUP_ID
     }
 
-    enum Role
+    enum AmqpRole
     {
         SENDER,
         RECEIVER,
@@ -92,14 +92,14 @@ scope amqp
         SETTLED
     }
 
-    enum SenderSettleMode
+    enum AmqpSenderSettleMode
     {
         UNSETTLED,
         SETTLED,
         MIXED
     }
 
-    enum ReceiverSettleMode
+    enum AmqpReceiverSettleMode
     {
         FIRST,
         SECOND
@@ -110,7 +110,7 @@ scope amqp
         struct AmqpRouteEx
         {
             string8 targetAddress;
-            Role role;
+            AmqpRole role;
         }
     }
 
@@ -121,9 +121,9 @@ scope amqp
             string8 containerId;
             uint16 channel;
             string8 address;
-            Role role;
-            SenderSettleMode senderSettleMode;
-            ReceiverSettleMode receiverSettleMode;
+            AmqpRole role;
+            AmqpSenderSettleMode senderSettleMode;
+            AmqpReceiverSettleMode receiverSettleMode;
         }
 
         struct AmqpDataEx extends core::stream::Extension
