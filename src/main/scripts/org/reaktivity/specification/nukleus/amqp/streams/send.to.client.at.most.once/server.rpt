@@ -1,5 +1,5 @@
 #
-# Copyright 2016-2019 The Reaktivity Project
+# Copyright 2016-2020 The Reaktivity Project
 #
 # The Reaktivity Project licenses this file to you under the Apache License,
 # version 2.0 (the "License"); you may not use this file except in compliance
@@ -24,7 +24,7 @@ accepted
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
-                             .containerId("c1")
+                             .containerId("client")
                              .channel(1)
                              .address("queue://queue")
                              .role("RECEIVER")
@@ -34,7 +34,7 @@ read nukleus:begin.ext ${amqp:beginEx()
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
-                              .containerId("localhost")
+                              .containerId("server")
                               .channel(1)
                               .address("queue://queue")
                               .role("SENDER")

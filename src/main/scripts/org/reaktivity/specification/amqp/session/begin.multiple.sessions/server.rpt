@@ -1,5 +1,5 @@
 #
-# Copyright 2016-2019 The Reaktivity Project
+# Copyright 2016-2020 The Reaktivity Project
 #
 # The Reaktivity Project licenses this file to you under the Apache License,
 # version 2.0 (the "License"); you may not use this file except in compliance
@@ -28,44 +28,44 @@ read "AMQP" [0x00 0x01 0x00 0x00]
 write "AMQP" [0x00 0x01 0x00 0x00]
 
 # open frame exchange
-read [0x00 0x00 0x00 0x18]                                        # length = 24
-     [0x02]                                                       # dof = 2
+read [0x00 0x00 0x00 0x16]                                        # length = 22
+     [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x10]                                             # performative = open (16)
-     [0xd0 0x00 0x00 0x00 0x08]                                   # list type (list32), physical length = 8
-     [0x00 0x00 0x00 0x01]                                        # number of fields in list = 1
-     [0xa1 0x02] "c1"                                             # container-id = "c1"
+     [0xc0 0x09]                                                  # list type (LIST1), length = 9
+     [0x01]                                                       # field count = 1
+     [0xa1 0x06] "client"                                         # container-id = "client"
 
-write [0x00 0x00 0x00 0x19]                                       # length = 25
-      [0x02]                                                      # dof = 2
+write [0x00 0x00 0x00 0x16]                                       # length = 22
+      [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x10]                                            # performative = open (16)
-      [0xc0 0x0c]                                                 # list type (list8), physical length = 12
-      [0x01]                                                      # number of fields in list = 1
-      [0xa1 0x09] "localhost"                                     # container-id = "localhost"
+      [0xc0 0x09]                                                 # list type (LIST1), length = 9
+      [0x01]                                                      # field count = 1
+      [0xa1 0x06] "server"                                        # container-id = "server"
 
 # begin frame exchange
 read [0x00 0x00 0x00 0x1b]                                        # length = 27
-     [0x02]                                                       # dof = 2
+     [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
      [0x00 0x53 0x11]                                             # performative = begin (17)
-     [0xc0 0x0e]                                                  # list type (list8), physical length = 14
-     [0x04]                                                       # number of fields in list = 4
+     [0xc0 0x0e]                                                  # list type (list8), length = 14
+     [0x04]                                                       # field count = 4
      [0x40]                                                       # remote-channel = null
      [0x52 0x01]                                                  # next-outgoing-id = 1
      [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
      [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
 
 write [0x00 0x00 0x00 0x1d]                                       # length = 29
-      [0x02]                                                      # dof = 2
+      [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x01]                                                 # channel = 1
       [0x00 0x53 0x11]                                            # performative = begin (17)
-      [0xc0 0x10]                                                 # list type (list8), physical length = 16
-      [0x04]                                                      # number of fields in list = 4
+      [0xc0 0x10]                                                 # list type (list8), length = 16
+      [0x04]                                                      # field count = 4
       [0x60 0x00 0x01]                                            # remote-channel = 1
       [0x52 0x01]                                                 # next-outgoing-id = 1
       [0x70 0x00 0x00 0x3f 0xff]                                  # incoming-window = 16383
@@ -73,24 +73,24 @@ write [0x00 0x00 0x00 0x1d]                                       # length = 29
 
 # begin frame exchange
 read [0x00 0x00 0x00 0x1b]                                        # length = 27
-     [0x02]                                                       # dof = 2
+     [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x02]                                                  # channel = 2
      [0x00 0x53 0x11]                                             # performative = begin (17)
-     [0xc0 0x0e]                                                  # list type (list8), physical length = 14
-     [0x04]                                                       # number of fields in list = 4
+     [0xc0 0x0e]                                                  # list type (list8), length = 14
+     [0x04]                                                       # field count = 4
      [0x40]                                                       # remote-channel = null
      [0x52 0x01]                                                  # next-outgoing-id = 1
      [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
      [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
 
 write [0x00 0x00 0x00 0x1d]                                       # length = 29
-      [0x02]                                                      # dof = 2
+      [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x02]                                                 # channel = 2
       [0x00 0x53 0x11]                                            # performative = begin (17)
-      [0xc0 0x10]                                                 # list type (list8), physical length = 16
-      [0x04]                                                      # number of fields in list = 4
+      [0xc0 0x10]                                                 # list type (list8), length = 16
+      [0x04]                                                      # field count = 4
       [0x60 0x00 0x01]                                            # remote-channel = 1
       [0x52 0x01]                                                 # next-outgoing-id = 1
       [0x70 0x00 0x00 0x3f 0xff]                                  # incoming-window = 16383
