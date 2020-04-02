@@ -15,6 +15,8 @@
  */
 scope amqp
 {
+    option byteorder network;
+
     struct AmqpBinary
     {
         uint16 length;
@@ -26,30 +28,30 @@ scope amqp
         case 1: uint64 ulong;
         case 2: AmqpBinary uuid;
         case 3: AmqpBinary binary;
-        case 4: string stringtype;
+        case 4: string8 stringtype;
     }
 
     union AmqpMessageProperty switch (uint8)
     {
         case 0: AmqpMessageId messageId;
         case 1: AmqpBinary userId;
-        case 2: string to;
-        case 3: string subject;
-        case 4: string replyTo;
+        case 2: string8 to;
+        case 3: string8 subject;
+        case 4: string8 replyTo;
         case 5: AmqpMessageId correlationId;
-        case 6: string contentType;
-        case 7: string contentEncoding;
+        case 6: string8 contentType;
+        case 7: string8 contentEncoding;
         case 8: int64 absoluteExpiryTime;
         case 9: int64 creationTime;
-        case 10: string groupId;
+        case 10: string8 groupId;
         case 11: int32 groupSequence;
-        case 12: string replyToGroupId;
+        case 12: string8 replyToGroupId;
     }
 
     union AmqpAnnotationKey switch (uint8)
     {
         case 1: uint64 id;
-        case 2: string name;
+        case 2: string8 name;
     }
 
     struct AmqpAnnotation
@@ -107,7 +109,7 @@ scope amqp
     {
         struct AmqpRouteEx
         {
-            string targetAddress;
+            string8 targetAddress;
             AmqpRole role;
         }
     }
@@ -116,9 +118,9 @@ scope amqp
     {
         struct AmqpBeginEx extends core::stream::Extension
         {
-            string containerId;
+            string8 containerId;
             uint16 channel;
-            string address;
+            string8 address;
             AmqpRole role;
             AmqpSenderSettleMode senderSettleMode;
             AmqpReceiverSettleMode receiverSettleMode;
@@ -149,7 +151,7 @@ scope amqp
 
         struct AmqpAbortEx extends core::stream::Extension
         {
-            string condition;
+            string8 condition;
         }
     }
 }

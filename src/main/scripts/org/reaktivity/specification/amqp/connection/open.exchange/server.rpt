@@ -28,20 +28,20 @@ read "AMQP" [0x00 0x01 0x00 0x00]
 write "AMQP" [0x00 0x01 0x00 0x00]
 
 # open frame exchange
-read [0x00 0x00 0x00 0x18]                                        # length = 24
-     [0x02]                                                       # dof = 2
+read [0x00 0x00 0x00 0x16]                                        # length = 22
+     [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x10]                                             # performative = open (16)
-     [0xd0 0x00 0x00 0x00 0x08]                                   # list type (list32), physical length = 8
-     [0x00 0x00 0x00 0x01]                                        # number of fields in list = 1
-     [0xa1 0x02] "c1"                                             # container-id = "c1"
+     [0xc0 0x09]                                                  # list type (LIST1), length = 9
+     [0x01]                                                       # field count = 1
+     [0xa1 0x06] "client"                                         # container-id = "client"
 
-write [0x00 0x00 0x00 0x19]                                       # length = 25
-      [0x02]                                                      # dof = 2
+write [0x00 0x00 0x00 0x16]                                       # length = 22
+      [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x10]                                            # performative = open (16)
-      [0xc0 0x0c]                                                 # list type (list8), physical length = 12
-      [0x01]                                                      # number of fields in list = 1
-      [0xa1 0x09] "localhost"                                     # container-id = "localhost"
+      [0xc0 0x09]                                                 # list type (LIST1), length = 9
+      [0x01]                                                      # field count = 1
+      [0xa1 0x06] "server"                                        # container-id = "server"

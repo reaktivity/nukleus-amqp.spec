@@ -21,7 +21,7 @@ connect await ROUTED_CLIENT
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
-                              .containerId("c1")
+                              .containerId("client")
                               .channel(1)
                               .address("queue://queue")
                               .role("RECEIVER")
@@ -31,7 +31,7 @@ write nukleus:begin.ext ${amqp:beginEx()
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
-                             .containerId("localhost")
+                             .containerId("server")
                              .channel(1)
                              .address("queue://queue")
                              .role("SENDER")
@@ -39,7 +39,3 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .receiverSettleMode("FIRST")
                              .build()}
 connected
-
-write close
-
-read closed
