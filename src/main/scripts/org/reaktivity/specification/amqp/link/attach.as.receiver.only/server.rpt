@@ -28,27 +28,27 @@ read "AMQP" [0x00 0x01 0x00 0x00]
 write "AMQP" [0x00 0x01 0x00 0x00]
 
 # open frame exchange
-read [0x00 0x00 0x00 0x12]                                        # length = 18
-     [0x02]                                                       # dof = 2
+read [0x00 0x00 0x00 0x16]                                        # length = 22
+     [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x10]                                             # performative = open (16)
-     [0xc0 0x05]                                                  # list type (LIST1), length = 5
+     [0xc0 0x09]                                                  # list type (LIST1), length = 9
      [0x01]                                                       # field count = 1
-     [0xa1 0x02] "c1"                                             # container-id = "c1"
+     [0xa1 0x06] "client"                                         # container-id = "client"
 
-write [0x00 0x00 0x00 0x1a]                                       # length = 26
-      [0x02]                                                      # dof = 2
+write [0x00 0x00 0x00 0x16]                                       # length = 22
+      [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x10]                                            # performative = open (16)
-      [0xc0 0x0d]                                                 # list type (LIST1), length = 13
+      [0xc0 0x09]                                                 # list type (LIST1), length = 9
       [0x01]                                                      # field count = 1
-      [0xa1 0x0a] "reaktivity"                                    # container-id = "reaktivity"
+      [0xa1 0x06] "server"                                        # container-id = "server"
 
 # begin frame exchange
 read [0x00 0x00 0x00 0x1b]                                        # length = 27
-     [0x02]                                                       # dof = 2
+     [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
      [0x00 0x53 0x11]                                             # performative = begin (17)
@@ -60,7 +60,7 @@ read [0x00 0x00 0x00 0x1b]                                        # length = 27
      [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
 
 write [0x00 0x00 0x00 0x1d]                                       # length = 29
-      [0x02]                                                      # dof = 2
+      [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x01]                                                 # channel = 1
       [0x00 0x53 0x11]                                            # performative = begin (17)
@@ -73,7 +73,7 @@ write [0x00 0x00 0x00 0x1d]                                       # length = 29
 
 # attach frame exchange
 read [0x00 0x00 0x00 0x30]                                        # length = 48
-     [0x02]                                                       # dof = 2
+     [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
      [0x00 0x53 0x12]                                             # performative = attach (18)
@@ -90,7 +90,7 @@ read [0x00 0x00 0x00 0x30]                                        # length = 48
      [0xa1 0x0d] "queue://queue"                                  # address = "queue://queue"
 
 write [0x00 0x00 0x00 0x30]                                       # length = 48
-      [0x02]                                                      # dof = 2
+      [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x01]                                                 # channel = 1
       [0x00 0x53 0x12]                                            # performative = attach (18)
@@ -108,7 +108,7 @@ write [0x00 0x00 0x00 0x30]                                       # length = 48
 
 # flow frame
 read [0x00 0x00 0x00 0x1c]                                        # length = 28
-     [0x02]                                                       # dof = 2
+     [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
      [0x00 0x53 0x13]                                             # performative = flow (19)

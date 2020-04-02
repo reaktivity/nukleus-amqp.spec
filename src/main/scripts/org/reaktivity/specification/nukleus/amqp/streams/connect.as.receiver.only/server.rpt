@@ -24,7 +24,7 @@ accepted
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
-                             .containerId("reaktivity")
+                             .containerId("client")
                              .channel(1)
                              .address("queue://queue")
                              .role("RECEIVER")
@@ -34,7 +34,7 @@ read nukleus:begin.ext ${amqp:beginEx()
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
-                              .containerId("reaktivity")
+                              .containerId("server")
                               .channel(1)
                               .address("queue://queue")
                               .role("SENDER")
