@@ -118,7 +118,6 @@ scope amqp
     {
         struct AmqpBeginEx extends core::stream::Extension
         {
-            string8 containerId;
             uint16 channel;
             string8 address;
             AmqpRole role;

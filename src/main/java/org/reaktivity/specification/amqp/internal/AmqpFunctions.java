@@ -85,13 +85,6 @@ public final class AmqpFunctions
             return this;
         }
 
-        public AmqpBeginExBuilder containerId(
-            String containerId)
-        {
-            beginExRW.containerId(containerId);
-            return this;
-        }
-
         public AmqpBeginExBuilder channel(
             int channel)
         {

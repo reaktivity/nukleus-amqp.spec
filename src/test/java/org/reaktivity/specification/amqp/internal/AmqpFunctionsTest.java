@@ -83,7 +83,6 @@ public class AmqpFunctionsTest
     {
         final byte[] array = beginEx()
             .typeId(0)
-            .containerId("c1")
             .channel(1)
             .address("queue://queue")
             .role("RECEIVER")
@@ -94,7 +93,6 @@ public class AmqpFunctionsTest
         DirectBuffer buffer = new UnsafeBuffer(array);
         AmqpBeginExFW amqpBeginEx = new AmqpBeginExFW().wrap(buffer, 0, buffer.capacity());
 
-        assertEquals(amqpBeginEx.containerId().asString(), "c1");
         assertEquals(amqpBeginEx.channel(), 1);
         assertEquals(amqpBeginEx.address().asString(), "queue://queue");
         assertEquals(amqpBeginEx.role().toString(), "RECEIVER");
