@@ -21,8 +21,8 @@ import org.agrona.MutableDirectBuffer;
 import org.agrona.concurrent.UnsafeBuffer;
 import org.kaazing.k3po.lang.el.Function;
 import org.kaazing.k3po.lang.el.spi.FunctionMapperSpi;
+import org.reaktivity.specification.amqp.internal.types.AmqpCapabilities;
 import org.reaktivity.specification.amqp.internal.types.AmqpReceiverSettleMode;
-import org.reaktivity.specification.amqp.internal.types.AmqpRole;
 import org.reaktivity.specification.amqp.internal.types.AmqpSenderSettleMode;
 import org.reaktivity.specification.amqp.internal.types.control.AmqpRouteExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpAbortExFW;
@@ -51,10 +51,10 @@ public final class AmqpFunctions
             return this;
         }
 
-        public AmqpRouteExBuilder role(
-            String role)
+        public AmqpRouteExBuilder capabilities(
+            String capabilities)
         {
-            routeExRW.role(r -> r.set(AmqpRole.valueOf(role)));
+            routeExRW.capabilities(r -> r.set(AmqpCapabilities.valueOf(capabilities)));
             return this;
         }
 
@@ -99,10 +99,10 @@ public final class AmqpFunctions
             return this;
         }
 
-        public AmqpBeginExBuilder role(
-            String role)
+        public AmqpBeginExBuilder capabilities(
+            String capabilities)
         {
-            beginExRW.role(r -> r.set(AmqpRole.valueOf(role)));
+            beginExRW.capabilities(r -> r.set(AmqpCapabilities.valueOf(capabilities)));
             return this;
         }
 

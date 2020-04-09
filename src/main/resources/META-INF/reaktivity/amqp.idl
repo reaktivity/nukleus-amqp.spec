@@ -77,11 +77,11 @@ scope amqp
         REPLY_TO_GROUP_ID
     }
 
-    enum AmqpRole
+    enum AmqpCapabilities
     {
-        SENDER,
-        RECEIVER,
-        BOTH
+        SEND,
+        RECEIVE,
+        SEND_AND_RECEIVE
     }
 
     enum AmqpTransferFlag
@@ -110,7 +110,7 @@ scope amqp
         struct AmqpRouteEx
         {
             string8 targetAddress;
-            AmqpRole role;
+            AmqpCapabilities capabilities;
         }
     }
 
@@ -120,7 +120,7 @@ scope amqp
         {
             uint16 channel;
             string8 address;
-            AmqpRole role;
+            AmqpCapabilities capabilities;
             AmqpSenderSettleMode senderSettleMode;
             AmqpReceiverSettleMode receiverSettleMode;
         }
@@ -151,6 +151,11 @@ scope amqp
         struct AmqpAbortEx extends core::stream::Extension
         {
             string8 condition;
+        }
+
+        struct AmqpFlushEx extends core::stream::Extension
+        {
+            AmqpCapabilities capabilities;
         }
     }
 }

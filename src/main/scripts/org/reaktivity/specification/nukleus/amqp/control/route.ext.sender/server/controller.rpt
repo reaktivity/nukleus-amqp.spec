@@ -35,7 +35,7 @@ write ${core:string("amqp#0")}
 write ${core:string("target#0")}
 write ${amqp:routeEx()
             .targetAddress("target#0")
-            .role("SENDER")
+            .capabilities("SEND")
             .build()}
 write flush
 

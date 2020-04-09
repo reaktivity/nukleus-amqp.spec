@@ -23,7 +23,7 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
                               .channel(1)
                               .address("queue://queue")
-                              .role("RECEIVER")
+                              .capabilities("RECEIVE")
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}
@@ -32,7 +32,7 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
                              .channel(1)
                              .address("queue://queue")
-                             .role("SENDER")
+                             .capabilities("SEND")
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
@@ -47,7 +47,5 @@ read nukleus:data.ext ${amqp:dataEx()
                             .build()}
 
 read [0x00 0x53 0x77 0xa1 0x05] "Text!"
-
-write close
 
 read closed
