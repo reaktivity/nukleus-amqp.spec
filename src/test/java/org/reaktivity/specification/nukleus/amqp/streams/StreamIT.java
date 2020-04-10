@@ -153,4 +153,30 @@ public class StreamIT
         k3po.notifyBarrier("ROUTED_CLIENT");
         k3po.finish();
     }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/incoming.window.exceeded/client",
+        "${streams}/incoming.window.exceeded/server"
+    })
+    public void shouldEndSessionWhenIncomingWindowExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.client.fragmented/client",
+        "${streams}/send.to.client.fragmented/server"
+    })
+    public void shouldSendToClientFragmented() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
 }
