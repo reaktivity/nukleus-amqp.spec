@@ -68,14 +68,14 @@ public class AmqpFunctionsTest
     {
         final byte[] array = routeEx()
             .targetAddress("queue://queue")
-            .capabilities("RECEIVE")
+            .capabilities("RECEIVE_ONLY")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
         AmqpRouteExFW amqpRouteEx = new AmqpRouteExFW().wrap(buffer, 0, buffer.capacity());
 
         assertEquals(amqpRouteEx.targetAddress().asString(), "queue://queue");
-        assertEquals(amqpRouteEx.capabilities().toString(), "RECEIVE");
+        assertEquals(amqpRouteEx.capabilities().toString(), "RECEIVE_ONLY");
     }
 
     @Test
@@ -85,7 +85,7 @@ public class AmqpFunctionsTest
             .typeId(0)
             .channel(1)
             .address("queue://queue")
-            .capabilities("RECEIVE")
+            .capabilities("RECEIVE_ONLY")
             .senderSettleMode("SETTLED")
             .receiverSettleMode("FIRST")
             .build();
@@ -95,7 +95,7 @@ public class AmqpFunctionsTest
 
         assertEquals(amqpBeginEx.channel(), 1);
         assertEquals(amqpBeginEx.address().asString(), "queue://queue");
-        assertEquals(amqpBeginEx.capabilities().toString(), "RECEIVE");
+        assertEquals(amqpBeginEx.capabilities().toString(), "RECEIVE_ONLY");
         assertEquals(amqpBeginEx.senderSettleMode().toString(), "SETTLED");
         assertEquals(amqpBeginEx.receiverSettleMode().toString(), "FIRST");
     }
