@@ -41,6 +41,20 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .receiverSettleMode("FIRST")
                               .build()}
 
+connected
+
+write nukleus:data.ext ${amqp:dataEx()
+                             .typeId(nukleus:id("amqp"))
+                             .deliveryId(0)
+                             .deliveryTag("00")
+                             .messageFormat(0)
+                             .flags(1)
+                             .build()}
+
+write [0x00 0x53 0x77 0xa1 0x05] "Text!"
+
+accepted
+
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
                              .channel(1)
@@ -60,16 +74,6 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .build()}
 
 connected
-
-write nukleus:data.ext ${amqp:dataEx()
-                             .typeId(nukleus:id("amqp"))
-                             .deliveryId(0)
-                             .deliveryTag("00")
-                             .messageFormat(0)
-                             .flags(1)
-                             .build()}
-
-write [0x00 0x53 0x77 0xa1 0x05] "Text!"
 
 write nukleus:data.ext ${amqp:dataEx()
                              .typeId(nukleus:id("amqp"))

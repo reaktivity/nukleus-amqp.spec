@@ -18,7 +18,6 @@ package org.reaktivity.specification.nukleus.amqp.streams;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.rules.RuleChain.outerRule;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.DisableOnDebug;
@@ -181,7 +180,6 @@ public class StreamIT
         k3po.finish();
     }
 
-    @Ignore
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
