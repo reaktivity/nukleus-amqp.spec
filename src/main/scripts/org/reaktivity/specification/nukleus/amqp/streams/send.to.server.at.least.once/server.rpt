@@ -24,7 +24,6 @@ accepted
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
-                             .channel(1)
                              .address("queue://queue")
                              .capabilities("SEND_ONLY")
                              .senderSettleMode("UNSETTLED")
@@ -33,9 +32,8 @@ read nukleus:begin.ext ${amqp:beginEx()
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
-                              .channel(1)
                               .address("queue://queue")
-                              .capabilities("RECEIVE_ONLY")
+                              .capabilities("SEND_ONLY")
                               .senderSettleMode("UNSETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}

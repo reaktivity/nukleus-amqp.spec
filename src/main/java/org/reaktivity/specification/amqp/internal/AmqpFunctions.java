@@ -16,6 +16,8 @@
 package org.reaktivity.specification.amqp.internal;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.agrona.MutableDirectBuffer;
 import org.agrona.concurrent.UnsafeBuffer;
@@ -82,13 +84,6 @@ public final class AmqpFunctions
             int typeId)
         {
             beginExRW.typeId(typeId);
-            return this;
-        }
-
-        public AmqpBeginExBuilder channel(
-            int channel)
-        {
-            beginExRW.channel(channel);
             return this;
         }
 
@@ -374,6 +369,19 @@ public final class AmqpFunctions
     public static AmqpAbortExBuilder abortEx()
     {
         return new AmqpAbortExBuilder();
+    }
+
+    @Function
+    public static byte[] randomBytes(
+        int length)
+    {
+        Random random = ThreadLocalRandom.current();
+        byte[] bytes = new byte[length];
+        for (int i = 0; i < length; i++)
+        {
+            bytes[i] = (byte) random.nextInt(0x100);
+        }
+        return bytes;
     }
 
     public static class Mapper extends FunctionMapperSpi.Reflective

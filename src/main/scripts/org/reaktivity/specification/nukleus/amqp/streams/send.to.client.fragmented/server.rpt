@@ -15,6 +15,8 @@
 #
 
 property serverTransport "nukleus://streams/target#0"
+property message520 ${amqp:randomBytes(520)}
+property message80 ${amqp:randomBytes(80)}
 
 accept ${serverTransport}
   option nukleus:window 8192
@@ -24,7 +26,6 @@ accepted
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
-                             .channel(1)
                              .address("queue://queue")
                              .capabilities("RECEIVE_ONLY")
                              .senderSettleMode("SETTLED")
@@ -33,9 +34,8 @@ read nukleus:begin.ext ${amqp:beginEx()
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
-                              .channel(1)
                               .address("queue://queue")
-                              .capabilities("SEND_ONLY")
+                              .capabilities("RECEIVE_ONLY")
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}
@@ -50,16 +50,6 @@ write nukleus:data.ext ${amqp:dataEx()
                              .flags(1)
                              .build()}
 
-write [0x00 0x53 0x77 0xa1 0x14] "abcdefghijklmnopqrst"
-
-write nukleus:data.ext ${amqp:dataEx()
-                             .typeId(nukleus:id("amqp"))
-                             .deliveryId(1)
-                             .deliveryTag("01")
-                             .messageFormat(0)
-                             .flags(1)
-                             .build()}
-
-write [0x00 0x53 0x77 0xa1 0x06] "uvwxyz"
+write [0x00 0x53 0x77 0xb0 0x00 0x00 0x02 0x58] ${message520} ${message80}
 
 write close

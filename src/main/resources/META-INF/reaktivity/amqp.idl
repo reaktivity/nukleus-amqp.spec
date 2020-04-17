@@ -118,7 +118,6 @@ scope amqp
     {
         struct AmqpBeginEx extends core::stream::Extension
         {
-            uint16 channel;
             string8 address;
             AmqpCapabilities capabilities = SEND_AND_RECEIVE;
             AmqpSenderSettleMode senderSettleMode;

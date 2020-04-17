@@ -21,6 +21,7 @@ import static org.kaazing.k3po.lang.internal.el.ExpressionFactoryUtils.newExpres
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.abortEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.beginEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.dataEx;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomBytes;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.routeEx;
 
 import java.nio.charset.StandardCharsets;
@@ -83,7 +84,6 @@ public class AmqpFunctionsTest
     {
         final byte[] array = beginEx()
             .typeId(0)
-            .channel(1)
             .address("queue://queue")
             .capabilities("RECEIVE_ONLY")
             .senderSettleMode("SETTLED")
@@ -93,7 +93,6 @@ public class AmqpFunctionsTest
         DirectBuffer buffer = new UnsafeBuffer(array);
         AmqpBeginExFW amqpBeginEx = new AmqpBeginExFW().wrap(buffer, 0, buffer.capacity());
 
-        assertEquals(amqpBeginEx.channel(), 1);
         assertEquals(amqpBeginEx.address().asString(), "queue://queue");
         assertEquals(amqpBeginEx.capabilities().toString(), "RECEIVE_ONLY");
         assertEquals(amqpBeginEx.senderSettleMode().toString(), "SETTLED");
@@ -299,5 +298,14 @@ public class AmqpFunctionsTest
         AmqpAbortExFW amqpAbortEx = new AmqpAbortExFW().wrap(buffer, 0, buffer.capacity());
 
         assertEquals(amqpAbortEx.condition().asString(), "amqp:link:transfer-limit-exceeded");
+    }
+
+    @Test
+    public void shouldRandomizeBytes() throws Exception
+    {
+        final byte[] bytes = randomBytes(600);
+
+        assertNotNull(bytes);
+        assertEquals(600, bytes.length);
     }
 }
