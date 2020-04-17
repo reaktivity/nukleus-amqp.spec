@@ -132,7 +132,7 @@ write [0x00 0x00 0x00 0x23]                                      # length = 35
       [0x70 0x00 0x00 0x03 0xe8]                                 # link-credit = 1000
 
 # transfer frame
-read [0x00 0x00 0x00 0x16]                                       # length = 22
+read [0x00 0x00 0x02 0x26]                                     # length = 550
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x01]                                                 # channel = 1
@@ -150,7 +150,7 @@ read [0x00 0x53 0x77 0xb0 0x00 0x00 0x02 0x58] ${message520}     # payload = 520
 
 
 # transfer frame
-read [0x00 0x00 0x00 0x15]                                       # length = 21
+read [0x00 0x00 0x00 0x65]                                     # length = 101
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x01]                                                 # channel = 1
