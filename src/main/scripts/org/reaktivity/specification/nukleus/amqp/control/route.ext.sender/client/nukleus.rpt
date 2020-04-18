@@ -33,7 +33,7 @@ read ${core:string("amqp#0")}
 read ${core:string("target#0")}
 read ${amqp:routeEx()
            .targetAddress("target#0")
-           .role("SENDER")
+           .capabilities("SEND_ONLY")
            .build()}
 
 write 0x40000001

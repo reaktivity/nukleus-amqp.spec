@@ -16,14 +16,17 @@
 package org.reaktivity.specification.amqp.internal;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.agrona.MutableDirectBuffer;
 import org.agrona.concurrent.UnsafeBuffer;
 import org.kaazing.k3po.lang.el.Function;
 import org.kaazing.k3po.lang.el.spi.FunctionMapperSpi;
+import org.reaktivity.specification.amqp.internal.types.AmqpCapabilities;
 import org.reaktivity.specification.amqp.internal.types.AmqpReceiverSettleMode;
-import org.reaktivity.specification.amqp.internal.types.AmqpRole;
 import org.reaktivity.specification.amqp.internal.types.AmqpSenderSettleMode;
+import org.reaktivity.specification.amqp.internal.types.AmqpTransferFlag;
 import org.reaktivity.specification.amqp.internal.types.control.AmqpRouteExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpAbortExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpBeginExFW;
@@ -51,10 +54,10 @@ public final class AmqpFunctions
             return this;
         }
 
-        public AmqpRouteExBuilder role(
-            String role)
+        public AmqpRouteExBuilder capabilities(
+            String capabilities)
         {
-            routeExRW.role(r -> r.set(AmqpRole.valueOf(role)));
+            routeExRW.capabilities(r -> r.set(AmqpCapabilities.valueOf(capabilities)));
             return this;
         }
 
@@ -85,20 +88,6 @@ public final class AmqpFunctions
             return this;
         }
 
-        public AmqpBeginExBuilder containerId(
-            String containerId)
-        {
-            beginExRW.containerId(containerId);
-            return this;
-        }
-
-        public AmqpBeginExBuilder channel(
-            int channel)
-        {
-            beginExRW.channel(channel);
-            return this;
-        }
-
         public AmqpBeginExBuilder address(
             String address)
         {
@@ -106,10 +95,10 @@ public final class AmqpFunctions
             return this;
         }
 
-        public AmqpBeginExBuilder role(
-            String role)
+        public AmqpBeginExBuilder capabilities(
+            String capabilities)
         {
-            beginExRW.role(r -> r.set(AmqpRole.valueOf(role)));
+            beginExRW.capabilities(r -> r.set(AmqpCapabilities.valueOf(capabilities)));
             return this;
         }
 
@@ -176,9 +165,29 @@ public final class AmqpFunctions
         }
 
         public AmqpDataExBuilder flags(
-            int flags)
+            String... flags)
         {
-            dataExRW.flags(flags);
+            int value = 0;
+            for (String flag : flags)
+            {
+                AmqpTransferFlag transferFlag = AmqpTransferFlag.valueOf(flag);
+                switch (transferFlag)
+                {
+                case SETTLED:
+                    value |= 1;
+                    break;
+                case RESUME:
+                    value |= 2;
+                    break;
+                case ABORTED:
+                    value |= 4;
+                    break;
+                case BATCHABLE:
+                    value |= 8;
+                    break;
+                }
+            }
+            dataExRW.flags(value);
             return this;
         }
 
@@ -381,6 +390,19 @@ public final class AmqpFunctions
     public static AmqpAbortExBuilder abortEx()
     {
         return new AmqpAbortExBuilder();
+    }
+
+    @Function
+    public static byte[] randomBytes(
+        int length)
+    {
+        Random random = ThreadLocalRandom.current();
+        byte[] bytes = new byte[length];
+        for (int i = 0; i < length; i++)
+        {
+            bytes[i] = (byte) random.nextInt(0x100);
+        }
+        return bytes;
     }
 
     public static class Mapper extends FunctionMapperSpi.Reflective
