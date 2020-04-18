@@ -50,6 +50,31 @@ write [0x00 0x00 0x00 0x16]                                       # length = 22
 read [0x00 0x00 0x00 0x1b]                                        # length = 27
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
+     [0x00 0x00]                                                  # channel = 0
+     [0x00 0x53 0x11]                                             # performative = begin (17)
+     [0xc0 0x0e]                                                  # list type (list8), length = 14
+     [0x04]                                                       # field count = 4
+     [0x40]                                                       # remote-channel = null
+     [0x52 0x01]                                                  # next-outgoing-id = 1
+     [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
+     [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
+
+write [0x00 0x00 0x00 0x1d]                                       # length = 29
+      [0x02]                                                      # doff = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x00]                                                 # channel = 0
+      [0x00 0x53 0x11]                                            # performative = begin (17)
+      [0xc0 0x10]                                                 # list type (list8), length = 16
+      [0x04]                                                      # field count = 4
+      [0x60 0x00 0x00]                                            # remote-channel = 0
+      [0x52 0x01]                                                 # next-outgoing-id = 1
+      [0x70 0x00 0x02 0x00 0x00]                                  # incoming-window = 131072
+      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
+
+# begin frame exchange
+read [0x00 0x00 0x00 0x1b]                                        # length = 27
+     [0x02]                                                       # doff = 2
+     [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
      [0x00 0x53 0x11]                                             # performative = begin (17)
      [0xc0 0x0e]                                                  # list type (list8), length = 14
@@ -68,30 +93,5 @@ write [0x00 0x00 0x00 0x1d]                                       # length = 29
       [0x04]                                                      # field count = 4
       [0x60 0x00 0x01]                                            # remote-channel = 1
       [0x52 0x01]                                                 # next-outgoing-id = 1
-      [0x70 0x00 0x00 0x3f 0xff]                                  # incoming-window = 16383
-      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
-
-# begin frame exchange
-read [0x00 0x00 0x00 0x1b]                                        # length = 27
-     [0x02]                                                       # doff = 2
-     [0x00]                                                       # type = AMQP (0)
-     [0x00 0x02]                                                  # channel = 2
-     [0x00 0x53 0x11]                                             # performative = begin (17)
-     [0xc0 0x0e]                                                  # list type (list8), length = 14
-     [0x04]                                                       # field count = 4
-     [0x40]                                                       # remote-channel = null
-     [0x52 0x01]                                                  # next-outgoing-id = 1
-     [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
-     [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
-
-write [0x00 0x00 0x00 0x1d]                                       # length = 29
-      [0x02]                                                      # doff = 2
-      [0x00]                                                      # type = AMQP (0)
-      [0x00 0x02]                                                 # channel = 2
-      [0x00 0x53 0x11]                                            # performative = begin (17)
-      [0xc0 0x10]                                                 # list type (list8), length = 16
-      [0x04]                                                      # field count = 4
-      [0x60 0x00 0x01]                                            # remote-channel = 1
-      [0x52 0x01]                                                 # next-outgoing-id = 1
-      [0x70 0x00 0x00 0x3f 0xff]                                  # incoming-window = 16383
+      [0x70 0x00 0x02 0x00 0x00]                                  # incoming-window = 131072
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647

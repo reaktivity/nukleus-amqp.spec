@@ -18,6 +18,7 @@ package org.reaktivity.specification.amqp.streams;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.rules.RuleChain.outerRule;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.DisableOnDebug;
@@ -91,6 +92,31 @@ public class SessionIT
         "${scripts}/begin.multiple.sessions/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldExchangeMultipleBegin() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Ignore
+    @Test
+    @Specification({
+        "${scripts}/incoming.window.exceeded/client",
+        "${scripts}/incoming.window.exceeded/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldEndSessionWhenIncomingWindowExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/send.to.client.multiple.sessions/client",
+        "${scripts}/send.to.client.multiple.sessions/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldSendToClientMultipleSessions() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");

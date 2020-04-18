@@ -24,20 +24,16 @@ accepted
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
-                             .containerId("client")
-                             .channel(1)
                              .address("queue://queue")
-                             .role("SENDER")
+                             .capabilities("SEND_ONLY")
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
-                              .containerId("server")
-                              .channel(1)
                               .address("queue://queue")
-                              .role("RECEIVER")
+                              .capabilities("SEND_ONLY")
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}
@@ -51,20 +47,16 @@ accepted
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
-                             .containerId("client")
-                             .channel(1)
                              .address("queue://queue")
-                             .role("RECEIVER")
+                             .capabilities("RECEIVE_ONLY")
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
-                              .containerId("server")
-                              .channel(1)
                               .address("queue://queue")
-                              .role("SENDER")
+                              .capabilities("RECEIVE_ONLY")
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}

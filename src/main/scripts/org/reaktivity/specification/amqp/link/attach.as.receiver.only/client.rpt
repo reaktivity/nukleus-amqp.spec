@@ -87,13 +87,13 @@ write [0x00 0x00 0x00 0x30]                                      # length = 48
       [0x01]                                                     # field count = 1
       [0xa1 0x0d] "queue://queue"                                # address = "queue://queue"
 
-read [0x00 0x00 0x00 0x30]                                       # length = 48
+read [0x00 0x00 0x00 0x37]                                       # length = 55
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x01]                                                 # channel = 1
      [0x00 0x53 0x12]                                            # performative = attach (18)
-     [0xc0 0x23]                                                 # list type (list8), length = 35
-     [0x06]                                                      # field count = 6
+     [0xc0 0x2a]                                                 # list type (list8), length = 42
+     [0x0a]                                                      # field count = 10
      [0xa1 0x05] "link1"                                         # name = "link1"
      [0x43]                                                      # handle = 0
      [0x42]                                                      # role = sender
@@ -103,6 +103,10 @@ read [0x00 0x00 0x00 0x30]                                       # length = 48
      [0xc0 0x10]                                                 # list type (list8), length = 16
      [0x01]                                                      # field count = 1
      [0xa1 0x0d] "queue://queue"                                 # address = "queue://queue"
+     [0x00 0x53 0x29 0x45]                                       # target = empty list
+     [0x40]                                                      # unsettled = null
+     [0x40]                                                      # incomplete-unsettled = null (default = false)
+     [0x43]                                                      # initial-delivery-count = 0
 
 # flow frame
 write [0x00 0x00 0x00 0x1c]                                      # length = 28

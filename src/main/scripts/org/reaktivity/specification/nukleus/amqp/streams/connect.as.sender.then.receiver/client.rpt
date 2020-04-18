@@ -21,20 +21,16 @@ connect await ROUTED_CLIENT
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
-                              .containerId("client")
-                              .channel(1)
                               .address("queue://queue")
-                              .role("SENDER")
+                              .capabilities("SEND_ONLY")
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
-                             .containerId("server")
-                             .channel(1)
                              .address("queue://queue")
-                             .role("RECEIVER")
+                             .capabilities("SEND_ONLY")
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
@@ -52,20 +48,16 @@ connect await CONNECT_SENDER_COMPLETED
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
-                              .containerId("client")
-                              .channel(1)
                               .address("queue://queue")
-                              .role("RECEIVER")
+                              .capabilities("RECEIVE_ONLY")
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
-                             .containerId("server")
-                             .channel(1)
                              .address("queue://queue")
-                             .role("SENDER")
+                             .capabilities("RECEIVE_ONLY")
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}

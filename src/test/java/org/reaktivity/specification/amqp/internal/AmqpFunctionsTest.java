@@ -21,6 +21,7 @@ import static org.kaazing.k3po.lang.internal.el.ExpressionFactoryUtils.newExpres
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.abortEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.beginEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.dataEx;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomBytes;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.routeEx;
 
 import java.nio.charset.StandardCharsets;
@@ -68,14 +69,14 @@ public class AmqpFunctionsTest
     {
         final byte[] array = routeEx()
             .targetAddress("queue://queue")
-            .role("RECEIVER")
+            .capabilities("RECEIVE_ONLY")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
         AmqpRouteExFW amqpRouteEx = new AmqpRouteExFW().wrap(buffer, 0, buffer.capacity());
 
         assertEquals(amqpRouteEx.targetAddress().asString(), "queue://queue");
-        assertEquals(amqpRouteEx.role().toString(), "RECEIVER");
+        assertEquals(amqpRouteEx.capabilities().toString(), "RECEIVE_ONLY");
     }
 
     @Test
@@ -83,10 +84,8 @@ public class AmqpFunctionsTest
     {
         final byte[] array = beginEx()
             .typeId(0)
-            .containerId("c1")
-            .channel(1)
             .address("queue://queue")
-            .role("RECEIVER")
+            .capabilities("RECEIVE_ONLY")
             .senderSettleMode("SETTLED")
             .receiverSettleMode("FIRST")
             .build();
@@ -94,10 +93,8 @@ public class AmqpFunctionsTest
         DirectBuffer buffer = new UnsafeBuffer(array);
         AmqpBeginExFW amqpBeginEx = new AmqpBeginExFW().wrap(buffer, 0, buffer.capacity());
 
-        assertEquals(amqpBeginEx.containerId().asString(), "c1");
-        assertEquals(amqpBeginEx.channel(), 1);
         assertEquals(amqpBeginEx.address().asString(), "queue://queue");
-        assertEquals(amqpBeginEx.role().toString(), "RECEIVER");
+        assertEquals(amqpBeginEx.capabilities().toString(), "RECEIVE_ONLY");
         assertEquals(amqpBeginEx.senderSettleMode().toString(), "SETTLED");
         assertEquals(amqpBeginEx.receiverSettleMode().toString(), "FIRST");
     }
@@ -110,7 +107,7 @@ public class AmqpFunctionsTest
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
-            .flags(1)
+            .flags("SETTLED")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -129,7 +126,7 @@ public class AmqpFunctionsTest
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
-            .flags(1)
+            .flags("SETTLED")
             .annotation("x-opt-jms-dest", "0")
             .annotation(1L, "00")
             .build();
@@ -158,7 +155,7 @@ public class AmqpFunctionsTest
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
-            .flags(1)
+            .flags("SETTLED")
             .messageId("message1")
             .userId("user1")
             .to("queue://queue")
@@ -231,7 +228,7 @@ public class AmqpFunctionsTest
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
-            .flags(1)
+            .flags("SETTLED")
             .messageId(12345L)
             .userId("user1")
             .to("queue://queue")
@@ -264,7 +261,7 @@ public class AmqpFunctionsTest
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
-            .flags(1)
+            .flags("SETTLED")
             .messageId("message1".getBytes(StandardCharsets.UTF_8))
             .userId("user1")
             .to("queue://queue")
@@ -290,6 +287,22 @@ public class AmqpFunctionsTest
     }
 
     @Test
+    public void shouldEncodeAmqpDataExtWithAllAmqpTransferFlagSet()
+    {
+        final byte[] array = dataEx()
+                .typeId(0)
+                .deliveryId(0)
+                .deliveryTag("00")
+                .messageFormat(0)
+                .flags("BATCHABLE", "ABORTED", "RESUME", "SETTLED")
+                .build();
+
+        DirectBuffer buffer = new UnsafeBuffer(array);
+        AmqpDataExFW amqpDataEx = new AmqpDataExFW().wrap(buffer, 0, buffer.capacity());
+        assertEquals(0x0F, amqpDataEx.flags());
+    }
+
+    @Test
     public void shouldEncodeAmqpAbortExt()
     {
         final byte[] array = abortEx()
@@ -301,5 +314,14 @@ public class AmqpFunctionsTest
         AmqpAbortExFW amqpAbortEx = new AmqpAbortExFW().wrap(buffer, 0, buffer.capacity());
 
         assertEquals(amqpAbortEx.condition().asString(), "amqp:link:transfer-limit-exceeded");
+    }
+
+    @Test
+    public void shouldRandomizeBytes() throws Exception
+    {
+        final byte[] bytes = randomBytes(600);
+
+        assertNotNull(bytes);
+        assertEquals(600, bytes.length);
     }
 }
