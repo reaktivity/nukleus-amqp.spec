@@ -41,10 +41,10 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryId(0)
                             .deliveryTag("00")
                             .messageFormat(0)
-                            .flags(1)
+                            .flags("SETTLED")
                             .build()}
 
-read [0x00 0x53 0x77 0xa1 0x05] "Text!"
+read "Text!"
 
 connect await ROUTED_CLIENT
         "nukleus://streams/amqp#0"
@@ -73,9 +73,9 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryId(0)
                             .deliveryTag("00")
                             .messageFormat(0)
-                            .flags(1)
+                            .flags("SETTLED")
                             .build()}
 
-read [0x00 0x53 0x77 0xa1 0x05] "Text!"
+read "Text!"
 
 read closed

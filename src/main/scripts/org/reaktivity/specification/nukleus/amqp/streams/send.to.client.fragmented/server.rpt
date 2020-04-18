@@ -46,7 +46,7 @@ write nukleus:data.ext ${amqp:dataEx()
                              .deliveryId(0)
                              .deliveryTag("00")
                              .messageFormat(0)
-                             .flags(1)
+                             .flags("SETTLED")
                              .build()}
 
 write ${message600}

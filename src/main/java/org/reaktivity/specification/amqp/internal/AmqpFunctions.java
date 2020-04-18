@@ -26,6 +26,7 @@ import org.kaazing.k3po.lang.el.spi.FunctionMapperSpi;
 import org.reaktivity.specification.amqp.internal.types.AmqpCapabilities;
 import org.reaktivity.specification.amqp.internal.types.AmqpReceiverSettleMode;
 import org.reaktivity.specification.amqp.internal.types.AmqpSenderSettleMode;
+import org.reaktivity.specification.amqp.internal.types.AmqpTransferFlag;
 import org.reaktivity.specification.amqp.internal.types.control.AmqpRouteExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpAbortExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpBeginExFW;
@@ -164,9 +165,29 @@ public final class AmqpFunctions
         }
 
         public AmqpDataExBuilder flags(
-            int flags)
+            String... flags)
         {
-            dataExRW.flags(flags);
+            int value = 0;
+            for (String flag : flags)
+            {
+                AmqpTransferFlag transferFlag = AmqpTransferFlag.valueOf(flag);
+                switch (transferFlag)
+                {
+                case SETTLED:
+                    value |= 1;
+                    break;
+                case RESUME:
+                    value |= 2;
+                    break;
+                case ABORTED:
+                    value |= 4;
+                    break;
+                case BATCHABLE:
+                    value |= 8;
+                    break;
+                }
+            }
+            dataExRW.flags(value);
             return this;
         }
 

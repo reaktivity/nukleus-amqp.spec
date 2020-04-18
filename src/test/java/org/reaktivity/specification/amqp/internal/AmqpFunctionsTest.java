@@ -107,7 +107,7 @@ public class AmqpFunctionsTest
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
-            .flags(1)
+            .flags("SETTLED")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -126,7 +126,7 @@ public class AmqpFunctionsTest
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
-            .flags(1)
+            .flags("SETTLED")
             .annotation("x-opt-jms-dest", "0")
             .annotation(1L, "00")
             .build();
@@ -155,7 +155,7 @@ public class AmqpFunctionsTest
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
-            .flags(1)
+            .flags("SETTLED")
             .messageId("message1")
             .userId("user1")
             .to("queue://queue")
@@ -228,7 +228,7 @@ public class AmqpFunctionsTest
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
-            .flags(1)
+            .flags("SETTLED")
             .messageId(12345L)
             .userId("user1")
             .to("queue://queue")
@@ -261,7 +261,7 @@ public class AmqpFunctionsTest
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
-            .flags(1)
+            .flags("SETTLED")
             .messageId("message1".getBytes(StandardCharsets.UTF_8))
             .userId("user1")
             .to("queue://queue")
@@ -284,6 +284,22 @@ public class AmqpFunctionsTest
                 break;
             }
         });
+    }
+
+    @Test
+    public void shouldEncodeAmqpDataExtWithAllAmqpTransferFlagSet()
+    {
+        final byte[] array = dataEx()
+                .typeId(0)
+                .deliveryId(0)
+                .deliveryTag("00")
+                .messageFormat(0)
+                .flags("BATCHABLE", "ABORTED", "RESUME", "SETTLED")
+                .build();
+
+        DirectBuffer buffer = new UnsafeBuffer(array);
+        AmqpDataExFW amqpDataEx = new AmqpDataExFW().wrap(buffer, 0, buffer.capacity());
+        assertEquals(0x0F, amqpDataEx.flags());
     }
 
     @Test
