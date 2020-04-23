@@ -196,10 +196,10 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
-        "${streams}/send.to.client.with.annotations.and.properties/client",
-        "${streams}/send.to.client.with.annotations.and.properties/server"
+        "${streams}/send.to.client.with.annotations/client",
+        "${streams}/send.to.client.with.annotations/server"
     })
-    public void shouldSendToClientWithAnnotationsAdnProperties() throws Exception
+    public void shouldSendToClientWithAnnotations() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
@@ -209,10 +209,36 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
-        "${streams}/send.to.server.with.annotations.and.properties/client",
-        "${streams}/send.to.server.with.annotations.and.properties/server"
+        "${streams}/send.to.server.with.annotations/client",
+        "${streams}/send.to.server.with.annotations/server"
     })
-    public void shouldSendToServerWithAnnotationsAdnProperties() throws Exception
+    public void shouldSendToServerWithAnnotations() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.client.with.properties/client",
+        "${streams}/send.to.client.with.properties/server"
+    })
+    public void shouldSendToClientWithProperties() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.server.with.properties/client",
+        "${streams}/send.to.server.with.properties/server"
+    })
+    public void shouldSendToServerWithProperties() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");

@@ -171,10 +171,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.client.with.annotations.and.properties/client",
-        "${scripts}/transfer.to.client.with.annotations.and.properties/server"})
+        "${scripts}/transfer.to.client.with.annotations/client",
+        "${scripts}/transfer.to.client.with.annotations/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToClientWithAnnotationsAndProperties() throws Exception
+    public void shouldTransferToClientWithAnnotations() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -183,10 +183,34 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.server.with.annotations.and.properties/client",
-        "${scripts}/transfer.to.server.with.annotations.and.properties/server"})
+        "${scripts}/transfer.to.server.with.annotations/client",
+        "${scripts}/transfer.to.server.with.annotations/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToServerWithAnnotationsAndProperties() throws Exception
+    public void shouldTransferToServerWithAnnotations() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.with.properties/client",
+        "${scripts}/transfer.to.client.with.properties/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWithProperties() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.with.properties/client",
+        "${scripts}/transfer.to.server.with.properties/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWithProperties() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");

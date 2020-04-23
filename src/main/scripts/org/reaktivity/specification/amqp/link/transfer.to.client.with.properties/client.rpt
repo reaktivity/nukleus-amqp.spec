@@ -129,7 +129,7 @@ write [0x00 0x00 0x00 0x23]                                      # length = 35
       [0x70 0x00 0x00 0x03 0xe8]                                 # link-credit = 1000
 
 # transfer frame
-read [0x00 0x00 0x00 0x5a]                                       # length = 90
+read [0x00 0x00 0x00 0x42]                                       # length = 66
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x01]                                                 # channel = 1
@@ -141,12 +141,8 @@ read [0x00 0x00 0x00 0x5a]                                       # length = 90
      [0xa0 0x01 0x30]                                            # delivery-tag = "0"
      [0x43]                                                      # message-format = 0
      [0x41]                                                      # settled = true
-     [0x00 0x53 0x72]                                            # message-annotations header
-     [0xc1 0x13 0x02]                                            # map8, length = 19, field count = 2
-     [0xa3 0x0e] "x-opt-jms-dest"                                # map key = x-opt-jms-dest
-     [0x51 0x00]                                                 # map value = 0
      [0x00 0x53 0x73]                                            # properties header
-     [0xc0 0x1b 0x02]                                            # list8, length = 27, field count = 2
+     [0xc0 0x1b 0x03]                                            # list8, length = 27, field count = 3
      [0xa1 0x08] "message1"                                      # message-id = "message1"
      [0x40]                                                      # user-id = null
      [0xa1 0x0d] "queue://queue"                                 # to = "queue://queue"

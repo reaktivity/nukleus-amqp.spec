@@ -25,7 +25,7 @@ accepted
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
                              .address("queue://queue")
-                             .capabilities("SEND_ONLY")
+                             .capabilities("RECEIVE_ONLY")
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
@@ -33,23 +33,23 @@ read nukleus:begin.ext ${amqp:beginEx()
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
                               .address("queue://queue")
-                              .capabilities("SEND_ONLY")
+                              .capabilities("RECEIVE_ONLY")
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}
+
 connected
 
-read nukleus:data.ext ${amqp:dataEx()
-                            .typeId(nukleus:id("amqp"))
-                            .deliveryId(0)
-                            .deliveryTag("0")
-                            .messageFormat(0)
-                            .flags("SETTLED")
-                            .annotation("x-opt-jms-dest", "0")
-                            .messageId("message1")
-                            .to("queue://queue")
-                            .build()}
+write nukleus:data.ext ${amqp:dataEx()
+                             .typeId(nukleus:id("amqp"))
+                             .deliveryId(0)
+                             .deliveryTag("0")
+                             .messageFormat(0)
+                             .flags("SETTLED")
+                             .messageId("message1")
+                             .to("queue://queue")
+                             .build()}
 
-read "Text!"
+write "Text!"
 
 write close
