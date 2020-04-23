@@ -1,0 +1,156 @@
+#
+# Copyright 2016-2020 The Reaktivity Project
+#
+# The Reaktivity Project licenses this file to you under the Apache License,
+# version 2.0 (the "License"); you may not use this file except in compliance
+# with the License. You may obtain a copy of the License at:
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+
+property serverTransport "nukleus://streams/target#0"
+
+accept ${serverTransport}
+  option nukleus:window 8192
+  option nukleus:transmission "duplex"
+
+accepted
+connected
+
+# header exchange
+read "AMQP" [0x00 0x01 0x00 0x00]
+write "AMQP" [0x00 0x01 0x00 0x00]
+
+# open frame exchange
+read [0x00 0x00 0x00 0x23]                                        # length = 35
+     [0x02]                                                       # doff = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x00]                                                  # channel = 0
+     [0x00 0x53 0x10]                                             # performative = open (16)
+     [0xc0 0x16]                                                  # list type (LIST1), length = 22
+     [0x03]                                                       # field count = 3
+     [0xa1 0x06] "client"                                         # container-id = "client"
+     [0xa1 0x06] "server"                                         # hostname = "server"
+     [0x70 0x00 0x10 0x00 0x00]                                   # max frame size = 1048576
+
+write [0x00 0x00 0x00 0x1c]                                       # length = 28
+      [0x02]                                                      # doff = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x00]                                                 # channel = 0
+      [0x00 0x53 0x10]                                            # performative = open (16)
+      [0xc0 0x0f]                                                 # list type (LIST1), length = 15
+      [0x03]                                                      # field count = 3
+      [0xa1 0x06] "server"                                        # container-id = "server"
+      [0x40]                                                      # hostname = null
+      [0x70 0x00 0x02 0x00 0x00]                                  # max frame size = 131072
+
+# begin frame exchange
+read [0x00 0x00 0x00 0x1b]                                        # length = 27
+     [0x02]                                                       # doff = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x01]                                                  # channel = 1
+     [0x00 0x53 0x11]                                             # performative = begin (17)
+     [0xc0 0x0e]                                                  # list type (list8), length = 14
+     [0x04]                                                       # field count = 4
+     [0x40]                                                       # remote-channel = null
+     [0x52 0x01]                                                  # next-outgoing-id = 1
+     [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
+     [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
+
+write [0x00 0x00 0x00 0x1d]                                       # length = 29
+      [0x02]                                                      # doff = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x01]                                                 # channel = 1
+      [0x00 0x53 0x11]                                            # performative = begin (17)
+      [0xc0 0x10]                                                 # list type (list8), length = 16
+      [0x04]                                                      # field count = 4
+      [0x60 0x00 0x01]                                            # remote-channel = 1
+      [0x52 0x01]                                                 # next-outgoing-id = 1
+      [0x70 0x00 0x02 0x00 0x00]                                  # incoming-window = 131072
+      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
+
+# attach frame exchange
+read [0x00 0x00 0x00 0x30]                                        # length = 48
+     [0x02]                                                       # doff = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x01]                                                  # channel = 1
+     [0x00 0x53 0x12]                                             # performative = attach (18)
+     [0xc0 0x23]                                                  # list type (list8), length = 35
+     [0x06]                                                       # field count = 6
+     [0xa1 0x05] "link1"                                          # name = "link1"
+     [0x43]                                                       # handle = 0
+     [0x41]                                                       # role = receiver
+     [0x50 0x01]                                                  # snd-settle-mode = settled
+     [0x50 0x00]                                                  # rcv-settle-mode = first
+     [0x00 0x53 0x28]                                             # source
+     [0xc0 0x10]                                                  # list type (list8), length = 16
+     [0x01]                                                       # field count = 1
+     [0xa1 0x0d] "queue://queue"                                  # address = "queue://queue"
+
+write [0x00 0x00 0x00 0x37]                                       # length = 55
+      [0x02]                                                      # doff = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x01]                                                 # channel = 1
+      [0x00 0x53 0x12]                                            # performative = attach (18)
+      [0xc0 0x2a]                                                 # list type (list8), length = 42
+      [0x0a]                                                      # field count = 10
+      [0xa1 0x05] "link1"                                         # name = "link1"
+      [0x43]                                                      # handle = 0
+      [0x42]                                                      # role = sender
+      [0x50 0x01]                                                 # snd-settle-mode = settled
+      [0x50 0x00]                                                 # rcv-settle-mode = first
+      [0x00 0x53 0x28]                                            # source
+      [0xc0 0x10]                                                 # list type (list8), length = 16
+      [0x01]                                                      # field count = 1
+      [0xa1 0x0d] "queue://queue"                                 # address = "queue://queue"
+      [0x00 0x53 0x29 0x45]                                       # target = empty list
+      [0x40]                                                      # unsettled = null
+      [0x40]                                                      # incomplete-unsettled = null (default = false)
+      [0x43]                                                      # initial-delivery-count = 0
+
+# flow frame
+read [0x00 0x00 0x00 0x23]                                        # length = 35
+     [0x02]                                                       # doff = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x01]                                                  # channel = 1
+     [0x00 0x53 0x13]                                             # performative = flow (19)
+     [0xc0 0x16]                                                  # list type (list8), length = 22
+     [0x07]                                                       # field count = 7
+     [0x52 0x01]                                                  # next-incoming-id = 1
+     [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
+     [0x52 0x01]                                                  # next-outgoing-id = 1
+     [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
+     [0x43]                                                       # handle
+     [0x43]                                                       # delivery-count = 0
+     [0x70 0x00 0x00 0x03 0xe8]                                   # link-credit = 1000
+
+# transfer frame
+write [0x00 0x00 0x00 0x5a]                                       # length = 90
+      [0x02]                                                      # doff = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x01]                                                 # channel = 1
+      [0x00 0x53 0x14]                                            # performative = transfer (20)
+      [0xc0 0x08]                                                 # list type (list8), length = 8
+      [0x05]                                                      # field count = 5
+      [0x43]                                                      # handle = 0
+      [0x43]                                                      # delivery-id = 0
+      [0xa0 0x01 0x30]                                            # delivery-tag = "0"
+      [0x43]                                                      # message-format = 0
+      [0x41]                                                      # settled = true
+      [0x00 0x53 0x72]                                            # message-annotations header
+      [0xc1 0x13 0x02]                                            # map8, length = 19, field count = 2
+      [0xa3 0x0e] "x-opt-jms-dest"                                # map key = x-opt-jms-dest
+      [0x51 0x00]                                                 # map value = 0
+      [0x00 0x53 0x73]                                            # properties header
+      [0xc0 0x1b 0x02]                                            # list8, length = 27, field count = 2
+      [0xa1 0x08] "message1"                                      # message-id = "message1"
+      [0x40]                                                      # user-id = null
+      [0xa1 0x0d] "queue://queue"                                 # to = "queue://queue"
+      [0x00 0x53 0x77]                                            # application data, value header
+      [0xb0 0x00 0x00 0x00 0x05] "Text!"                          # vbin32, length = 5, value = "Text!"

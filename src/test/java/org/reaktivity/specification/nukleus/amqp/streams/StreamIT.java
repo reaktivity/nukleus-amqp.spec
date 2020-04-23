@@ -192,4 +192,30 @@ public class StreamIT
         k3po.notifyBarrier("ROUTED_CLIENT");
         k3po.finish();
     }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.client.with.annotations.and.properties/client",
+        "${streams}/send.to.client.with.annotations.and.properties/server"
+    })
+    public void shouldSendToClientWithAnnotationsAdnProperties() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.server.with.annotations.and.properties/client",
+        "${streams}/send.to.server.with.annotations.and.properties/server"
+    })
+    public void shouldSendToServerWithAnnotationsAdnProperties() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
 }
