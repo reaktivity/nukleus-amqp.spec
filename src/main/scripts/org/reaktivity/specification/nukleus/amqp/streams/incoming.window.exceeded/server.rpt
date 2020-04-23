@@ -43,7 +43,7 @@ connected
 write nukleus:data.ext ${amqp:dataEx()
                              .typeId(nukleus:id("amqp"))
                              .deliveryId(0)
-                             .deliveryTag("00")
+                             .deliveryTag("0")
                              .messageFormat(0)
                              .flags("SETTLED")
                              .build()}
@@ -53,7 +53,7 @@ write "Text1"
 write nukleus:data.ext ${amqp:dataEx()
                              .typeId(nukleus:id("amqp"))
                              .deliveryId(1)
-                             .deliveryTag("01")
+                             .deliveryTag("1")
                              .messageFormat(0)
                              .flags("SETTLED")
                              .build()}
@@ -63,7 +63,7 @@ write "Text2"
 write nukleus:data.ext ${amqp:dataEx()
                              .typeId(nukleus:id("amqp"))
                              .deliveryId(2)
-                             .deliveryTag("02")
+                             .deliveryTag("2")
                              .messageFormat(0)
                              .flags("SETTLED")
                              .build()}

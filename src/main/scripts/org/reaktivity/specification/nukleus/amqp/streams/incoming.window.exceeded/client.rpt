@@ -39,7 +39,7 @@ connected
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
                             .deliveryId(0)
-                            .deliveryTag("00")
+                            .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
                             .build()}
@@ -49,7 +49,7 @@ read "Text1"
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
                             .deliveryId(1)
-                            .deliveryTag("01")
+                            .deliveryTag("1")
                             .messageFormat(0)
                             .flags("SETTLED")
                             .build()}
@@ -59,7 +59,7 @@ read "Text2"
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
                             .deliveryId(2)
-                            .deliveryTag("02")
+                            .deliveryTag("2")
                             .messageFormat(0)
                             .flags("SETTLED")
                             .build()}
