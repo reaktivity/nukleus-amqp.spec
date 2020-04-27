@@ -121,6 +121,6 @@ write [0x00 0x00 0x00 0x3a]                                      # length = 58
       [0x00 0x53 0x72]                                           # message-annotations header
       [0xc1 0x13 0x02]                                           # map8, length = 19, field count = 2
       [0xa3 0x0e] "x-opt-jms-dest"                               # map key = x-opt-jms-dest
-      [0x51 0x00]                                                # map value = 0
+      [0x51 0x30]                                                # map value = 48 (byte)
       [0x00 0x53 0x77]                                           # application data, value header
       [0xb0 0x00 0x00 0x00 0x05] "Text!"                         # vbin32, length = 5, value = "Text!"
