@@ -68,14 +68,14 @@ public class AmqpFunctionsTest
     public void shouldEncodeWsRouteExt()
     {
         final byte[] array = routeEx()
-            .targetAddress("queue://queue")
+            .targetAddress("clients")
             .capabilities("RECEIVE_ONLY")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
         AmqpRouteExFW amqpRouteEx = new AmqpRouteExFW().wrap(buffer, 0, buffer.capacity());
 
-        assertEquals(amqpRouteEx.targetAddress().asString(), "queue://queue");
+        assertEquals(amqpRouteEx.targetAddress().asString(), "clients");
         assertEquals(amqpRouteEx.capabilities().toString(), "RECEIVE_ONLY");
     }
 
@@ -84,7 +84,7 @@ public class AmqpFunctionsTest
     {
         final byte[] array = beginEx()
             .typeId(0)
-            .address("queue://queue")
+            .address("clients")
             .capabilities("RECEIVE_ONLY")
             .senderSettleMode("SETTLED")
             .receiverSettleMode("FIRST")
@@ -93,7 +93,7 @@ public class AmqpFunctionsTest
         DirectBuffer buffer = new UnsafeBuffer(array);
         AmqpBeginExFW amqpBeginEx = new AmqpBeginExFW().wrap(buffer, 0, buffer.capacity());
 
-        assertEquals(amqpBeginEx.address().asString(), "queue://queue");
+        assertEquals(amqpBeginEx.address().asString(), "clients");
         assertEquals(amqpBeginEx.capabilities().toString(), "RECEIVE_ONLY");
         assertEquals(amqpBeginEx.senderSettleMode().toString(), "SETTLED");
         assertEquals(amqpBeginEx.receiverSettleMode().toString(), "FIRST");
@@ -158,7 +158,7 @@ public class AmqpFunctionsTest
             .flags("SETTLED")
             .messageId("message1")
             .userId("user1")
-            .to("queue://queue")
+            .to("clients")
             .subject("subject1")
             .replyTo("localhost")
             .correlationId("correlationId1")
@@ -184,7 +184,7 @@ public class AmqpFunctionsTest
                 assertEquals(p.userId().bytes().toString(), "octets[5]");
                 break;
             case AmqpMessagePropertyFW.KIND_TO:
-                assertEquals(p.to().asString(), "queue://queue");
+                assertEquals(p.to().asString(), "clients");
                 break;
             case AmqpMessagePropertyFW.KIND_SUBJECT:
                 assertEquals(p.subject().asString(), "subject1");
@@ -231,7 +231,7 @@ public class AmqpFunctionsTest
             .flags("SETTLED")
             .messageId(12345L)
             .userId("user1")
-            .to("queue://queue")
+            .to("clients")
             .subject("subject1")
             .replyTo("localhost")
             .correlationId(12345L)
@@ -264,7 +264,7 @@ public class AmqpFunctionsTest
             .flags("SETTLED")
             .messageId("message1".getBytes(StandardCharsets.UTF_8))
             .userId("user1")
-            .to("queue://queue")
+            .to("clients")
             .subject("subject1")
             .replyTo("localhost")
             .correlationId("correlation1".getBytes(StandardCharsets.UTF_8))

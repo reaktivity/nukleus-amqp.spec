@@ -106,7 +106,7 @@ read [0x00 0x00 0x00 0x1c]                                       # length = 28
      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
 
 # transfer frame
-write [0x00 0x00 0x00 0x42]                                      # length = 66
+write [0x00 0x00 0x00 0x3c]                                      # length = 60
       [0x02]                                                     # doff = 2
       [0x00]                                                     # type = AMQP (0)
       [0x00 0x01]                                                # channel = 1
@@ -119,9 +119,9 @@ write [0x00 0x00 0x00 0x42]                                      # length = 66
       [0x43]                                                     # message-format = 0
       [0x41]                                                     # settled = true
       [0x00 0x53 0x73]                                           # properties header
-      [0xc0 0x1b 0x03]                                           # list8, length = 27, field count = 3
+      [0xc0 0x15 0x03]                                           # list8, length = 21, field count = 3
       [0xa1 0x08] "message1"                                     # message-id = "message1"
       [0x40]                                                     # user-id = null
-      [0xa1 0x0d] "queue://queue"                                # to = "queue://queue"
+      [0xa1 0x07] "clients"                                      # to = "clients"
       [0x00 0x53 0x77]                                           # application data, value header
       [0xb0 0x00 0x00 0x00 0x05] "Text!"                         # vbin32, length = 5, value = "Text!"
