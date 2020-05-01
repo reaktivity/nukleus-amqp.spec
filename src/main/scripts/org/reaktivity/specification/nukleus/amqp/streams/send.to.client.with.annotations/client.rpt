@@ -42,7 +42,7 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
-                            .annotation("x-opt-jms-dest", "0")
+                            .annotation("annotation1", "1")
                             .build()}
 
 read "Text!"
