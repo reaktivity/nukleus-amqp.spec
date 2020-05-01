@@ -76,12 +76,12 @@ write [0x00 0x00 0x00 0x1a]                                       # length = 26
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
 
 # attach frame exchange
-read [0x00 0x00 0x00 0x37]                                        # length = 55
+read [0x00 0x00 0x00 0x31]                                        # length = 49
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
      [0x00 0x53 0x12]                                             # performative = attach (18)
-     [0xc0 0x2a]                                                  # list type (list8), length = 42
+     [0xc0 0x24]                                                  # list type (list8), length = 36
      [0x0a]                                                       # field count = 10
      [0xa1 0x05] "link1"                                          # name = "link1"
      [0x43]                                                       # handle = 0
@@ -89,20 +89,20 @@ read [0x00 0x00 0x00 0x37]                                        # length = 55
      [0x50 0x01]                                                  # snd-settle-mode = settled
      [0x50 0x00]                                                  # rcv-settle-mode = first
      [0x00 0x53 0x28]                                             # source
-     [0xc0 0x10]                                                  # list type (list8), length = 16
+     [0xc0 0x0a]                                                  # list type (list8), length = 10
      [0x01]                                                       # field count = 1
-     [0xa1 0x0d] "queue://queue"                                  # address = "queue://queue"
+     [0xa1 0x07] "clients"                                        # address = "clients"
      [0x00 0x53 0x29 0x45]                                        # target = empty list
      [0x40]                                                       # unsettled = null
      [0x40]                                                       # incomplete-unsettled = null (default = false)
      [0x43]                                                       # initial-delivery-count = 0
 
-write [0x00 0x00 0x00 0x30]                                       # length = 48
+write [0x00 0x00 0x00 0x2a]                                       # length = 42
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x01]                                                 # channel = 1
       [0x00 0x53 0x12]                                            # performative = attach (18)
-      [0xc0 0x23]                                                 # list type (list8), length = 35
+      [0xc0 0x1d]                                                 # list type (list8), length = 29
       [0x06]                                                      # field count = 6
       [0xa1 0x05] "link1"                                         # name = "link1"
       [0x43]                                                      # handle = 0
@@ -110,9 +110,9 @@ write [0x00 0x00 0x00 0x30]                                       # length = 48
       [0x50 0x01]                                                 # snd-settle-mode = settled
       [0x50 0x00]                                                 # rcv-settle-mode = first
       [0x00 0x53 0x28]                                            # source
-      [0xc0 0x10]                                                 # list type (list8), length = 16
+      [0xc0 0x0a]                                                 # list type (list8), length = 10
       [0x01]                                                      # field count = 1
-      [0xa1 0x0d] "queue://queue"                                 # address = "queue://queue"
+      [0xa1 0x07] "clients"                                       # address = "clients"
 
 # flow frame
 write [0x00 0x00 0x00 0x20]                                       # length = 32
