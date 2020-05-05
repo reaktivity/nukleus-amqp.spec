@@ -60,6 +60,12 @@ scope amqp
         AmqpBinary value;
     }
 
+    struct AmqpApplicationProperty
+    {
+        string32 key;
+        string32 value; // TODO: should be any type (excludes list, map, array)
+    }
+
     enum AmqpMessagePropertyKind
     {
         MESSAGE_ID,
@@ -132,6 +138,7 @@ scope amqp
             uint8 flags;   // set of AmqpTransferFlag
             AmqpAnnotation[] annotations;
             AmqpMessageProperty[] properties;
+            AmqpApplicationProperty[] applicationProperties;
         }
 
         struct AmqpWindowEx extends core::stream::Extension

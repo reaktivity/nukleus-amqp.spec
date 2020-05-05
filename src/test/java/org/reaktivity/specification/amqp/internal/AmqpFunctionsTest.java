@@ -21,9 +21,11 @@ import static org.kaazing.k3po.lang.internal.el.ExpressionFactoryUtils.newExpres
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.abortEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.beginEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.dataEx;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.matchDataEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomBytes;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.routeEx;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 import javax.el.ELContext;
@@ -34,6 +36,7 @@ import org.agrona.DirectBuffer;
 import org.agrona.concurrent.UnsafeBuffer;
 import org.junit.Before;
 import org.junit.Test;
+import org.kaazing.k3po.lang.el.BytesMatcher;
 import org.kaazing.k3po.lang.internal.el.ExpressionContext;
 import org.reaktivity.specification.amqp.internal.AmqpFunctions.AmqpBeginExBuilder;
 import org.reaktivity.specification.amqp.internal.types.AmqpMessagePropertyFW;
@@ -64,7 +67,7 @@ public class AmqpFunctionsTest
     }
 
     @Test
-    public void shouldEncodeWsRouteExt()
+    public void shouldEncodeWsRouteExtension()
     {
         final byte[] array = routeEx()
             .targetAddress("clients")
@@ -79,7 +82,7 @@ public class AmqpFunctionsTest
     }
 
     @Test
-    public void shouldEncodeAmqpBeginExt()
+    public void shouldEncodeAmqpBeginExtension()
     {
         final byte[] array = beginEx()
             .typeId(0)
@@ -99,7 +102,7 @@ public class AmqpFunctionsTest
     }
 
     @Test
-    public void shouldEncodeAmqpDataExtWithRequiredFields()
+    public void shouldEncodeAmqpDataExtensionWithRequiredFields()
     {
         final byte[] array = dataEx()
             .typeId(0)
@@ -118,7 +121,7 @@ public class AmqpFunctionsTest
     }
 
     @Test
-    public void shouldEncodeAmqpDataExtWithAnnotations()
+    public void shouldEncodeAmqpDataExtensionWithAnnotations()
     {
         final byte[] array = dataEx()
             .typeId(0)
@@ -137,7 +140,7 @@ public class AmqpFunctionsTest
     }
 
     @Test
-    public void shouldEncodeAmqpDataExtWithProperties()
+    public void shouldEncodeAmqpDataExtensionWithProperties()
     {
         final byte[] array = dataEx()
             .typeId(0)
@@ -210,7 +213,7 @@ public class AmqpFunctionsTest
     }
 
     @Test
-    public void shouldEncodeAmqpDataExtWithLongProperties()
+    public void shouldEncodeAmqpDataExtensionWithLongProperties()
     {
         final byte[] array = dataEx()
             .typeId(0)
@@ -243,7 +246,7 @@ public class AmqpFunctionsTest
     }
 
     @Test
-    public void shouldEncodeAmqpDataExtWithByteArrayProperties()
+    public void shouldEncodeAmqpDataExtensionWithByteArrayProperties()
     {
         final byte[] array = dataEx()
             .typeId(0)
@@ -276,7 +279,28 @@ public class AmqpFunctionsTest
     }
 
     @Test
-    public void shouldEncodeAmqpDataExtWithAllAmqpTransferFlagSet()
+    public void shouldEncodeAmqpDataExtensionWithApplicationProperties()
+    {
+        final byte[] array = dataEx()
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags("SETTLED")
+            .applicationProperty("annotation", "property1")
+            .build();
+
+        DirectBuffer buffer = new UnsafeBuffer(array);
+        AmqpDataExFW amqpDataEx = new AmqpDataExFW().wrap(buffer, 0, buffer.capacity());
+        amqpDataEx.applicationProperties().forEach(a ->
+        {
+            assertEquals(a.key().asString(), "annotation");
+            assertEquals(a.value().asString(), "property1");
+        });
+    }
+
+    @Test
+    public void shouldEncodeAmqpDataExtensionWithAllAmqpTransferFlagSet()
     {
         final byte[] array = dataEx()
                 .typeId(0)
@@ -292,7 +316,299 @@ public class AmqpFunctionsTest
     }
 
     @Test
-    public void shouldEncodeAmqpAbortExt()
+    public void shouldMatchAmqpDataExtension() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags("BATCHABLE", "ABORTED", "RESUME", "SETTLED")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(15)
+            .build();
+
+        assertNotNull(matcher.match(byteBuf));
+    }
+
+    @Test(expected = Exception.class)
+    public void shouldNotMatchAmqpDataExtension() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .deliveryId(2)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags("SETTLED")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(15)
+            .build();
+
+        matcher.match(byteBuf);
+    }
+
+    @Test
+    public void shouldMatchAmqpDataExtensionWithOnlyAnnotations() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .annotation("annotation1", "1")
+            .annotation(1L, "0")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .annotations(b -> b.item(i -> i.key(k -> k.name("annotation1"))
+                                           .value(v -> v.bytes(b2 -> b2.set("1".getBytes()))))
+                               .item(i -> i.key(k2 -> k2.id(1L))
+                                           .value(v -> v.bytes(b2 -> b2.set("0".getBytes())))))
+            .build();
+
+        assertNotNull(matcher.match(byteBuf));
+    }
+
+    @Test
+    public void shouldMatchAmqpDataExtensionWithOnlyPropertiesWithStringMessageId() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .deliveryId(0)
+            .messageId("message1")
+            .userId("user1")
+            .to("clients")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .properties(b -> b.item(i -> i.messageId(m -> m.stringtype("message1")))
+                              .item(i2 -> i2.userId(u -> u.bytes(b2 -> b2.set("user1".getBytes()))))
+                              .item(i3 -> i3.to("clients")))
+            .build();
+
+        assertNotNull(matcher.match(byteBuf));
+    }
+
+    @Test
+    public void shouldMatchAmqpDataExtensionWithOnlyPropertiesWithLongMessageId() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .messageId(1L)
+            .userId("user1")
+            .to("clients")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .properties(b -> b.item(i -> i.messageId(m -> m.ulong(1L)))
+                .item(i2 -> i2.userId(u -> u.bytes(b2 -> b2.set("user1".getBytes()))))
+                .item(i3 -> i3.to("clients")))
+            .build();
+
+        assertNotNull(matcher.match(byteBuf));
+    }
+
+    @Test
+    public void shouldMatchAmqpDataExtensionWithOnlyPropertiesWithBinaryMessageId() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .messageId("message1".getBytes())
+            .userId("user1")
+            .to("clients")
+            .subject("subject1")
+            .replyTo("localhost")
+            .correlationId("correlationId1")
+            .contentType("content_type")
+            .contentEncoding("content_encoding")
+            .absoluteExpiryTime(12345L)
+            .creationTime(12345L)
+            .groupId("group_id1")
+            .groupSequence(1)
+            .replyToGroupId("reply_group_id")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .properties(b -> b.item(i -> i.messageId(m -> m.binary(b1 -> b1.bytes(b2 -> b2.set("message1".getBytes())))))
+                              .item(i2 -> i2.userId(u -> u.bytes(b2 -> b2.set("user1".getBytes(StandardCharsets.UTF_8)))))
+                              .item(i3 -> i3.to("clients"))
+                              .item(i4 -> i4.subject("subject1"))
+                              .item(i5 -> i5.replyTo("localhost"))
+                              .item(i6 -> i6.correlationId(c -> c.stringtype("correlationId1")))
+                              .item(i7 -> i7.contentType("content_type"))
+                              .item(i8 -> i8.contentEncoding("content_encoding"))
+                              .item(i9 -> i9.absoluteExpiryTime(12345L))
+                              .item(i10 -> i10.creationTime(12345L))
+                              .item(i11 -> i11.groupId("group_id1"))
+                              .item(i12 -> i12.groupSequence(1))
+                              .item(i13 -> i13.replyToGroupId("reply_group_id")))
+            .build();
+
+        assertNotNull(matcher.match(byteBuf));
+    }
+
+    @Test
+    public void shouldMatchAmqpDataExtensionWithOnlyPropertiesWithLongCorrelationId() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .messageId("message1".getBytes())
+            .userId("user1")
+            .to("clients")
+            .subject("subject1")
+            .replyTo("localhost")
+            .correlationId(12345L)
+            .contentType("content_type")
+            .contentEncoding("content_encoding")
+            .absoluteExpiryTime(12345L)
+            .creationTime(12345L)
+            .groupId("group_id1")
+            .groupSequence(1)
+            .replyToGroupId("reply_group_id")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .properties(b -> b.item(i -> i.messageId(m -> m.binary(b1 -> b1.bytes(b2 -> b2.set("message1".getBytes())))))
+                .item(i2 -> i2.userId(u -> u.bytes(b2 -> b2.set("user1".getBytes(StandardCharsets.UTF_8)))))
+                .item(i3 -> i3.to("clients"))
+                .item(i4 -> i4.subject("subject1"))
+                .item(i5 -> i5.replyTo("localhost"))
+                .item(i6 -> i6.correlationId(c -> c.ulong(12345L)))
+                .item(i7 -> i7.contentType("content_type"))
+                .item(i8 -> i8.contentEncoding("content_encoding"))
+                .item(i9 -> i9.absoluteExpiryTime(12345L))
+                .item(i10 -> i10.creationTime(12345L))
+                .item(i11 -> i11.groupId("group_id1"))
+                .item(i12 -> i12.groupSequence(1))
+                .item(i13 -> i13.replyToGroupId("reply_group_id")))
+            .build();
+
+        assertNotNull(matcher.match(byteBuf));
+    }
+
+    @Test
+    public void shouldMatchAmqpDataExtensionWithOnlyPropertiesWithBinaryCorrelationId() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .messageId("message1".getBytes())
+            .userId("user1")
+            .to("clients")
+            .subject("subject1")
+            .replyTo("localhost")
+            .correlationId("correlationId1".getBytes())
+            .contentType("content_type")
+            .contentEncoding("content_encoding")
+            .absoluteExpiryTime(12345L)
+            .creationTime(12345L)
+            .groupId("group_id1")
+            .groupSequence(1)
+            .replyToGroupId("reply_group_id")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .properties(b -> b.item(i -> i.messageId(m -> m.binary(b1 -> b1.bytes(b2 -> b2.set("message1".getBytes())))))
+                .item(i2 -> i2.userId(u -> u.bytes(b2 -> b2.set("user1".getBytes(StandardCharsets.UTF_8)))))
+                .item(i3 -> i3.to("clients"))
+                .item(i4 -> i4.subject("subject1"))
+                .item(i5 -> i5.replyTo("localhost"))
+                .item(i6 -> i6.correlationId(c -> c.binary(b3 -> b3.bytes(b4 -> b4.set("correlationId1".getBytes())))))
+                .item(i7 -> i7.contentType("content_type"))
+                .item(i8 -> i8.contentEncoding("content_encoding"))
+                .item(i9 -> i9.absoluteExpiryTime(12345L))
+                .item(i10 -> i10.creationTime(12345L))
+                .item(i11 -> i11.groupId("group_id1"))
+                .item(i12 -> i12.groupSequence(1))
+                .item(i13 -> i13.replyToGroupId("reply_group_id")))
+            .build();
+
+        assertNotNull(matcher.match(byteBuf));
+    }
+
+    @Test
+    public void shouldMatchAmqpDataExtensionWithOnlyApplicationProperties() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .applicationProperty("property1", "1")
+            .applicationProperty("property2", "2")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .properties(b -> b.item(i -> i.messageId(m -> m.stringtype("message1")))
+                              .item(i2 -> i2.userId(u -> u.bytes(b2 -> b2.set("user1".getBytes()))))
+                              .item(i3 -> i3.to("clients")))
+            .applicationProperties(b -> b.item(i -> i.key("property1").value("1"))
+                                         .item(i -> i.key("property2").value("2")))
+            .build();
+
+        assertNotNull(matcher.match(byteBuf));
+    }
+
+    @Test
+    public void shouldEncodeAmqpAbortExtension()
     {
         final byte[] array = abortEx()
             .typeId(0)
