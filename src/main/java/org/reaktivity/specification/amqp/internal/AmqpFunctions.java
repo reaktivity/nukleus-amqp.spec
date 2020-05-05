@@ -369,10 +369,6 @@ public final class AmqpFunctions
         private Array32FW.Builder<AmqpMessagePropertyFW.Builder, AmqpMessagePropertyFW> messagePropertiesRW;
         private Array32FW.Builder<AmqpApplicationPropertyFW.Builder, AmqpApplicationPropertyFW> applicationPropertiesRW;
 
-        private AmqpDataExMatcherBuilder()
-        {
-        }
-
         public AmqpDataExMatcherBuilder typeId(
             int typeId)
         {
