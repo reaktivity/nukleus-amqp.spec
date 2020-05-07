@@ -391,7 +391,31 @@ public class AmqpFunctionsTest
     }
 
     @Test(expected = Exception.class)
-    public void shouldNotMatchAmqpDataExtension() throws Exception
+    public void shouldNotMatchAmqpDataExtensionTypeId() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(5)
+            .deliveryId(2)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags("SETTLED")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .build();
+
+        matcher.match(byteBuf);
+    }
+
+    @Test(expected = Exception.class)
+    public void shouldNotMatchAmqpDataExtensionDeliveryId() throws Exception
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
@@ -408,7 +432,159 @@ public class AmqpFunctionsTest
             .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
+            .flags(1)
+            .build();
+
+        matcher.match(byteBuf);
+    }
+
+    @Test(expected = Exception.class)
+    public void shouldNotMatchAmqpDataExtensionDeliveryTag() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag("01")
+            .messageFormat(0)
+            .flags("SETTLED")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .build();
+
+        matcher.match(byteBuf);
+    }
+
+    @Test(expected = Exception.class)
+    public void shouldNotMatchAmqpDataExtensionMessageFormat() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag("00")
+            .messageFormat(1)
+            .flags("SETTLED")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .build();
+
+        matcher.match(byteBuf);
+    }
+
+    @Test(expected = Exception.class)
+    public void shouldNotMatchAmqpDataExtensionFlags() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags("SETTLED")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
             .flags(15)
+            .build();
+
+        matcher.match(byteBuf);
+    }
+
+    @Test(expected = Exception.class)
+    public void shouldNotMatchAmqpDataExtensionAnnotations() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .annotation("annotation2", "2")
+            .annotation(1L, "0")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .annotations(b -> b.item(i -> i.key(k -> k.name("annotation1"))
+                                           .value(v -> v.bytes(b2 -> b2.set("1".getBytes()))))
+                               .item(i -> i.key(k2 -> k2.id(1L))
+                                           .value(v -> v.bytes(b2 -> b2.set("0".getBytes())))))
+            .build();
+
+        matcher.match(byteBuf);
+    }
+
+    @Test(expected = Exception.class)
+    public void shouldNotMatchAmqpDataExtensionProperties() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .deliveryId(0)
+            .messageId("message2")
+            .userId("user1")
+            .to("clients")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .properties(p -> p.messageId(m -> m.stringtype("message1"))
+                              .userId(u -> u.bytes(b2 -> b2.set("user1".getBytes())))
+                              .to("clients"))
+            .build();
+
+        matcher.match(byteBuf);
+    }
+
+    @Test(expected = Exception.class)
+    public void shouldNotMatchAmqpDataExtensionApplicationProperties() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .applicationProperty("property4", "1")
+            .applicationProperty("property3", "2")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .properties(p -> p.messageId(m -> m.stringtype("message1"))
+                              .userId(u -> u.bytes(b2 -> b2.set("user1".getBytes())))
+                              .to("clients"))
+            .applicationProperties(b -> b.item(i -> i.key("property1").value("1"))
+                                         .item(i -> i.key("property2").value("2")))
             .build();
 
         matcher.match(byteBuf);
