@@ -138,7 +138,7 @@ public final class AmqpFunctions
     {
         private final AmqpDataExFW.Builder dataExRW;
         private AmqpPropertiesFW.Builder propertiesRW;
-        private boolean isPropertyBuilt;
+        private boolean isPropertiesSet;
 
         public AmqpDataExBuilder()
         {
@@ -230,124 +230,113 @@ public final class AmqpFunctions
         public AmqpDataExBuilder messageId(
             Object messageId)
         {
-            initializeProperties();
+            AmqpPropertiesFW.Builder properties = properties();
             if (messageId instanceof Long)
             {
-                propertiesRW.messageId(m -> m.ulong((long) messageId));
+                properties.messageId(m -> m.ulong((long) messageId));
                 return this;
             }
             else if (messageId instanceof byte[])
             {
-                propertiesRW.messageId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) messageId))));
+                properties.messageId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) messageId))));
                 return this;
             }
-            propertiesRW.messageId(m -> m.stringtype((String) messageId));
+            properties.messageId(m -> m.stringtype((String) messageId));
             return this;
         }
 
         public AmqpDataExBuilder userId(
             String userId)
         {
-            initializeProperties();
-            propertiesRW.userId(u -> u.bytes(b -> b.set(userId.getBytes(UTF_8))));
+            properties().userId(u -> u.bytes(b -> b.set(userId.getBytes(UTF_8))));
             return this;
         }
 
         public AmqpDataExBuilder to(
             String to)
         {
-            initializeProperties();
-            propertiesRW.to(to);
+            properties().to(to);
             return this;
         }
 
         public AmqpDataExBuilder subject(
             String subject)
         {
-            initializeProperties();
-            propertiesRW.subject(subject);
+            properties().subject(subject);
             return this;
         }
 
         public AmqpDataExBuilder replyTo(
             String replyTo)
         {
-            initializeProperties();
-            propertiesRW.replyTo(replyTo);
+            properties().replyTo(replyTo);
             return this;
         }
 
         public AmqpDataExBuilder correlationId(
             Object correlationId)
         {
-            initializeProperties();
+            AmqpPropertiesFW.Builder properties = properties();
             if (correlationId instanceof Long)
             {
-                propertiesRW.correlationId(m -> m.ulong((long) correlationId));
+                properties.correlationId(m -> m.ulong((long) correlationId));
                 return this;
             }
             else if (correlationId instanceof byte[])
             {
-                propertiesRW.correlationId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) correlationId))));
+                properties.correlationId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) correlationId))));
                 return this;
             }
-            propertiesRW.correlationId(m -> m.stringtype((String) correlationId));
+            properties.correlationId(m -> m.stringtype((String) correlationId));
             return this;
         }
 
         public AmqpDataExBuilder contentType(
             String contentType)
         {
-            initializeProperties();
-            propertiesRW.contentType(contentType);
+            properties().contentType(contentType);
             return this;
         }
 
         public AmqpDataExBuilder contentEncoding(
             String contentEncoding)
         {
-            initializeProperties();
-            propertiesRW.contentEncoding(contentEncoding);
+            properties().contentEncoding(contentEncoding);
             return this;
         }
 
         public AmqpDataExBuilder absoluteExpiryTime(
             long absoluteExpiryTime)
         {
-            initializeProperties();
-            propertiesRW.absoluteExpiryTime(absoluteExpiryTime);
+            properties().absoluteExpiryTime(absoluteExpiryTime);
             return this;
         }
 
         public AmqpDataExBuilder creationTime(
             long creationTime)
         {
-            initializeProperties();
-            propertiesRW.creationTime(creationTime);
+            properties().creationTime(creationTime);
             return this;
         }
 
         public AmqpDataExBuilder groupId(
             String groupId)
         {
-            initializeProperties();
-            propertiesRW.groupId(groupId);
+            properties().groupId(groupId);
             return this;
         }
 
         public AmqpDataExBuilder groupSequence(
             int groupSequence)
         {
-            initializeProperties();
-            propertiesRW.groupSequence(groupSequence);
+            properties().groupSequence(groupSequence);
             return this;
         }
 
         public AmqpDataExBuilder replyToGroupId(
             String replyToGroupId)
         {
-            initializeProperties();
-            propertiesRW.replyToGroupId(replyToGroupId);
+            properties().replyToGroupId(replyToGroupId);
             return this;
         }
 
@@ -355,27 +344,28 @@ public final class AmqpFunctions
             String key,
             String value)
         {
-            if (propertiesRW != null && !isPropertyBuilt)
+            if (propertiesRW != null && !isPropertiesSet)
             {
                 final AmqpPropertiesFW properties = propertiesRW.build();
                 dataExRW.properties(properties);
-                isPropertyBuilt = true;
+                isPropertiesSet = true;
             }
             dataExRW.applicationPropertiesItem(a -> a.key(key).value(value));
             return this;
         }
 
-        private void initializeProperties()
+        private AmqpPropertiesFW.Builder properties()
         {
             if (propertiesRW == null)
             {
-                this.propertiesRW = new AmqpPropertiesFW.Builder().wrap(new UnsafeBuffer(new byte[1024]), 0, 1024);
+                propertiesRW = new AmqpPropertiesFW.Builder().wrap(new UnsafeBuffer(new byte[1024]), 0, 1024);
             }
+            return propertiesRW;
         }
 
         public byte[] build()
         {
-            if (propertiesRW != null && !isPropertyBuilt)
+            if (propertiesRW != null && !isPropertiesSet)
             {
                 final AmqpPropertiesFW properties = propertiesRW.build();
                 dataExRW.properties(properties);
@@ -495,133 +485,123 @@ public final class AmqpFunctions
         public AmqpDataExMatcherBuilder messageId(
             Object messageId)
         {
-            initializeMessageProperties();
+            AmqpPropertiesFW.Builder properties = properties();
             if (messageId instanceof Long)
             {
-                propertiesRW.messageId(m -> m.ulong((long) messageId));
+                properties.messageId(m -> m.ulong((long) messageId));
                 return this;
             }
             else if (messageId instanceof byte[])
             {
-                propertiesRW.messageId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) messageId))));
+                properties.messageId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) messageId))));
                 return this;
             }
-            propertiesRW.messageId(m -> m.stringtype((String) messageId));
+            properties.messageId(m -> m.stringtype((String) messageId));
             return this;
         }
 
         public AmqpDataExMatcherBuilder userId(
             String userId)
         {
-            initializeMessageProperties();
-            propertiesRW.userId(u -> u.bytes(b -> b.set(userId.getBytes(UTF_8))));
+            properties().userId(u -> u.bytes(b -> b.set(userId.getBytes(UTF_8))));
             return this;
         }
 
         public AmqpDataExMatcherBuilder to(
             String to)
         {
-            initializeMessageProperties();
-            propertiesRW.to(to);
+            properties().to(to);
             return this;
         }
 
         public AmqpDataExMatcherBuilder subject(
             String subject)
         {
-            initializeMessageProperties();
-            propertiesRW.subject(subject);
+            properties().subject(subject);
             return this;
         }
 
         public AmqpDataExMatcherBuilder replyTo(
             String replyTo)
         {
-            initializeMessageProperties();
-            propertiesRW.replyTo(replyTo);
+            properties().replyTo(replyTo);
             return this;
         }
 
         public AmqpDataExMatcherBuilder correlationId(
             Object correlationId)
         {
-            initializeMessageProperties();
+            AmqpPropertiesFW.Builder properties = properties();
             if (correlationId instanceof Long)
             {
-                propertiesRW.correlationId(m -> m.ulong((long) correlationId));
+                properties.correlationId(m -> m.ulong((long) correlationId));
                 return this;
             }
             else if (correlationId instanceof byte[])
             {
-                propertiesRW.correlationId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) correlationId))));
+                properties.correlationId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) correlationId))));
                 return this;
             }
-            propertiesRW.correlationId(m -> m.stringtype((String) correlationId));
+            properties.correlationId(m -> m.stringtype((String) correlationId));
             return this;
         }
 
         public AmqpDataExMatcherBuilder contentType(
             String contentType)
         {
-            initializeMessageProperties();
-            propertiesRW.contentType(contentType);
+            properties().contentType(contentType);
             return this;
         }
 
         public AmqpDataExMatcherBuilder contentEncoding(
             String contentEncoding)
         {
-            initializeMessageProperties();
-            propertiesRW.contentEncoding(contentEncoding);
+            properties().contentEncoding(contentEncoding);
             return this;
         }
 
         public AmqpDataExMatcherBuilder absoluteExpiryTime(
             long absoluteExpiryTime)
         {
-            initializeMessageProperties();
-            propertiesRW.absoluteExpiryTime(absoluteExpiryTime);
+            properties().absoluteExpiryTime(absoluteExpiryTime);
             return this;
         }
 
         public AmqpDataExMatcherBuilder creationTime(
             long creationTime)
         {
-            initializeMessageProperties();
-            propertiesRW.creationTime(creationTime);
+            properties().creationTime(creationTime);
             return this;
         }
 
         public AmqpDataExMatcherBuilder groupId(
             String groupId)
         {
-            initializeMessageProperties();
-            propertiesRW.groupId(groupId);
+            properties().groupId(groupId);
             return this;
         }
 
         public AmqpDataExMatcherBuilder groupSequence(
             int groupSequence)
         {
-            initializeMessageProperties();
-            propertiesRW.groupSequence(groupSequence);
+            properties().groupSequence(groupSequence);
             return this;
         }
 
         public AmqpDataExMatcherBuilder replyToGroupId(
             String replyToGroupId)
         {
-            initializeMessageProperties();
-            propertiesRW.replyToGroupId(replyToGroupId);
+            properties().replyToGroupId(replyToGroupId);
             return this;
         }
 
-        private void initializeMessageProperties()
+        private AmqpPropertiesFW.Builder properties()
         {
             if (propertiesRW == null)
             {
-                this.propertiesRW = new AmqpPropertiesFW.Builder().wrap(new UnsafeBuffer(new byte[1024]), 0, 1024);
+                propertiesRW = new AmqpPropertiesFW.Builder().wrap(new UnsafeBuffer(new byte[1024]), 0, 1024);
             }
+            return propertiesRW;
         }
 
         public AmqpDataExMatcherBuilder applicationProperty(
