@@ -31,21 +31,21 @@ scope amqp
         case 4: string8 stringtype;
     }
 
-    union AmqpMessageProperty switch (uint8)
+    list<uint32, uint32> AmqpProperties
     {
-        case 0: AmqpMessageId messageId;
-        case 1: AmqpBinary userId;
-        case 2: string8 to;
-        case 3: string8 subject;
-        case 4: string8 replyTo;
-        case 5: AmqpMessageId correlationId;
-        case 6: string8 contentType;
-        case 7: string8 contentEncoding;
-        case 8: int64 absoluteExpiryTime;
-        case 9: int64 creationTime;
-        case 10: string8 groupId;
-        case 11: int32 groupSequence;
-        case 12: string8 replyToGroupId;
+        AmqpMessageId messageId;
+        AmqpBinary userId;
+        string8 to;
+        string8 subject;
+        string8 replyTo;
+        AmqpMessageId correlationId;
+        string8 contentType;
+        string8 contentEncoding;
+        int64 absoluteExpiryTime;
+        int64 creationTime;
+        string8 groupId;
+        int32 groupSequence;
+        string8 replyToGroupId;
     }
 
     union AmqpAnnotationKey switch (uint8)
@@ -137,7 +137,7 @@ scope amqp
             uint32 messageFormat;
             uint8 flags;   // set of AmqpTransferFlag
             AmqpAnnotation[] annotations;
-            AmqpMessageProperty[] properties;
+            AmqpProperties properties;
             AmqpApplicationProperty[] applicationProperties;
         }
 

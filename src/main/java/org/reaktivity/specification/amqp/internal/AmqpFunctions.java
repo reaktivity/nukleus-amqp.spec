@@ -15,8 +15,9 @@
  */
 package org.reaktivity.specification.amqp.internal;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -30,7 +31,7 @@ import org.reaktivity.specification.amqp.internal.types.AmqpAnnotationFW;
 import org.reaktivity.specification.amqp.internal.types.AmqpApplicationPropertyFW;
 import org.reaktivity.specification.amqp.internal.types.AmqpBinaryFW;
 import org.reaktivity.specification.amqp.internal.types.AmqpCapabilities;
-import org.reaktivity.specification.amqp.internal.types.AmqpMessagePropertyFW;
+import org.reaktivity.specification.amqp.internal.types.AmqpPropertiesFW;
 import org.reaktivity.specification.amqp.internal.types.AmqpReceiverSettleMode;
 import org.reaktivity.specification.amqp.internal.types.AmqpSenderSettleMode;
 import org.reaktivity.specification.amqp.internal.types.AmqpTransferFlag;
@@ -136,6 +137,8 @@ public final class AmqpFunctions
     public static class AmqpDataExBuilder
     {
         private final AmqpDataExFW.Builder dataExRW;
+        private AmqpPropertiesFW.Builder propertiesRW;
+        private boolean isPropertyBuilt;
 
         public AmqpDataExBuilder()
         {
@@ -161,7 +164,7 @@ public final class AmqpFunctions
         public AmqpDataExBuilder deliveryTag(
             String deliveryTag)
         {
-            dataExRW.deliveryTag(d -> d.bytes(b -> b.set(deliveryTag.getBytes(StandardCharsets.UTF_8))));
+            dataExRW.deliveryTag(d -> d.bytes(b -> b.set(deliveryTag.getBytes(UTF_8))));
             return this;
         }
 
@@ -211,7 +214,7 @@ public final class AmqpFunctions
             String value)
         {
             dataExRW.annotationsItem(a -> a.key(k -> k.id(key))
-                                           .value(v -> v.bytes(b -> b.set(value.getBytes(StandardCharsets.UTF_8)))));
+                                           .value(v -> v.bytes(b -> b.set(value.getBytes(UTF_8)))));
             return this;
         }
 
@@ -220,7 +223,131 @@ public final class AmqpFunctions
             String value)
         {
             dataExRW.annotationsItem(a -> a.key(k -> k.name(key))
-                                           .value(v -> v.bytes(b -> b.set(value.getBytes(StandardCharsets.UTF_8)))));
+                                           .value(v -> v.bytes(b -> b.set(value.getBytes(UTF_8)))));
+            return this;
+        }
+
+        public AmqpDataExBuilder messageId(
+            Object messageId)
+        {
+            initializeProperties();
+            if (messageId instanceof Long)
+            {
+                propertiesRW.messageId(m -> m.ulong((long) messageId));
+                return this;
+            }
+            else if (messageId instanceof byte[])
+            {
+                propertiesRW.messageId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) messageId))));
+                return this;
+            }
+            propertiesRW.messageId(m -> m.stringtype((String) messageId));
+            return this;
+        }
+
+        public AmqpDataExBuilder userId(
+            String userId)
+        {
+            initializeProperties();
+            propertiesRW.userId(u -> u.bytes(b -> b.set(userId.getBytes(UTF_8))));
+            return this;
+        }
+
+        public AmqpDataExBuilder to(
+            String to)
+        {
+            initializeProperties();
+            propertiesRW.to(to);
+            return this;
+        }
+
+        public AmqpDataExBuilder subject(
+            String subject)
+        {
+            initializeProperties();
+            propertiesRW.subject(subject);
+            return this;
+        }
+
+        public AmqpDataExBuilder replyTo(
+            String replyTo)
+        {
+            initializeProperties();
+            propertiesRW.replyTo(replyTo);
+            return this;
+        }
+
+        public AmqpDataExBuilder correlationId(
+            Object correlationId)
+        {
+            initializeProperties();
+            if (correlationId instanceof Long)
+            {
+                propertiesRW.correlationId(m -> m.ulong((long) correlationId));
+                return this;
+            }
+            else if (correlationId instanceof byte[])
+            {
+                propertiesRW.correlationId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) correlationId))));
+                return this;
+            }
+            propertiesRW.correlationId(m -> m.stringtype((String) correlationId));
+            return this;
+        }
+
+        public AmqpDataExBuilder contentType(
+            String contentType)
+        {
+            initializeProperties();
+            propertiesRW.contentType(contentType);
+            return this;
+        }
+
+        public AmqpDataExBuilder contentEncoding(
+            String contentEncoding)
+        {
+            initializeProperties();
+            propertiesRW.contentEncoding(contentEncoding);
+            return this;
+        }
+
+        public AmqpDataExBuilder absoluteExpiryTime(
+            long absoluteExpiryTime)
+        {
+            initializeProperties();
+            propertiesRW.absoluteExpiryTime(absoluteExpiryTime);
+            return this;
+        }
+
+        public AmqpDataExBuilder creationTime(
+            long creationTime)
+        {
+            initializeProperties();
+            propertiesRW.creationTime(creationTime);
+            return this;
+        }
+
+        public AmqpDataExBuilder groupId(
+            String groupId)
+        {
+            initializeProperties();
+            propertiesRW.groupId(groupId);
+            return this;
+        }
+
+        public AmqpDataExBuilder groupSequence(
+            int groupSequence)
+        {
+            initializeProperties();
+            propertiesRW.groupSequence(groupSequence);
+            return this;
+        }
+
+        public AmqpDataExBuilder replyToGroupId(
+            String replyToGroupId)
+        {
+            initializeProperties();
+            propertiesRW.replyToGroupId(replyToGroupId);
             return this;
         }
 
@@ -228,125 +355,31 @@ public final class AmqpFunctions
             String key,
             String value)
         {
-            dataExRW.applicationPropertiesItem(a -> a.key(key)
-                                                     .value(value));
-            return this;
-        }
-
-        public AmqpDataExBuilder messageId(
-            Object messageId)
-        {
-            if (messageId instanceof Long)
+            if (propertiesRW != null && !isPropertyBuilt)
             {
-                dataExRW.propertiesItem(p -> p.messageId(m -> m.ulong((long) messageId)));
-                return this;
+                final AmqpPropertiesFW properties = propertiesRW.build();
+                dataExRW.properties(properties);
+                isPropertyBuilt = true;
             }
-            else if (messageId instanceof byte[])
+            dataExRW.applicationPropertiesItem(a -> a.key(key).value(value));
+            return this;
+        }
+
+        private void initializeProperties()
+        {
+            if (propertiesRW == null)
             {
-                dataExRW.propertiesItem(p -> p.messageId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) messageId)))));
-                return this;
+                this.propertiesRW = new AmqpPropertiesFW.Builder().wrap(new UnsafeBuffer(new byte[1024]), 0, 1024);
             }
-            dataExRW.propertiesItem(p -> p.messageId(m -> m.stringtype((String) messageId)));
-            return this;
-        }
-
-        public AmqpDataExBuilder userId(
-            String userId)
-        {
-            dataExRW.propertiesItem(p ->
-                p.userId(u -> u.bytes(b -> b.set(userId.getBytes(StandardCharsets.UTF_8)))));
-            return this;
-        }
-
-        public AmqpDataExBuilder to(
-            String to)
-        {
-            dataExRW.propertiesItem(p -> p.to(to));
-            return this;
-        }
-
-        public AmqpDataExBuilder subject(
-            String subject)
-        {
-            dataExRW.propertiesItem(p -> p.subject(subject));
-            return this;
-        }
-
-        public AmqpDataExBuilder replyTo(
-            String replyTo)
-        {
-            dataExRW.propertiesItem(p -> p.replyTo(replyTo));
-            return this;
-        }
-
-        public AmqpDataExBuilder correlationId(
-            Object correlationId)
-        {
-            if (correlationId instanceof Long)
-            {
-                dataExRW.propertiesItem(p -> p.correlationId(m -> m.ulong((long) correlationId)));
-                return this;
-            }
-            else if (correlationId instanceof byte[])
-            {
-                dataExRW.propertiesItem(p -> p.correlationId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) correlationId)))));
-                return this;
-            }
-            dataExRW.propertiesItem(p -> p.correlationId(m -> m.stringtype((String) correlationId)));
-            return this;
-        }
-
-        public AmqpDataExBuilder contentType(
-            String contentType)
-        {
-            dataExRW.propertiesItem(p -> p.contentType(contentType));
-            return this;
-        }
-
-        public AmqpDataExBuilder contentEncoding(
-            String contentEncoding)
-        {
-            dataExRW.propertiesItem(p -> p.contentEncoding(contentEncoding));
-            return this;
-        }
-
-        public AmqpDataExBuilder absoluteExpiryTime(
-            long absoluteExpiryTime)
-        {
-            dataExRW.propertiesItem(p -> p.absoluteExpiryTime(absoluteExpiryTime));
-            return this;
-        }
-
-        public AmqpDataExBuilder creationTime(
-            long creationTime)
-        {
-            dataExRW.propertiesItem(p -> p.creationTime(creationTime));
-            return this;
-        }
-
-        public AmqpDataExBuilder groupId(
-            String groupId)
-        {
-            dataExRW.propertiesItem(p -> p.groupId(groupId));
-            return this;
-        }
-
-        public AmqpDataExBuilder groupSequence(
-            int groupSequence)
-        {
-            dataExRW.propertiesItem(p -> p.groupSequence(groupSequence));
-            return this;
-        }
-
-        public AmqpDataExBuilder replyToGroupId(
-            String replyToGroupId)
-        {
-            dataExRW.propertiesItem(p -> p.replyToGroupId(replyToGroupId));
-            return this;
         }
 
         public byte[] build()
         {
+            if (propertiesRW != null && !isPropertyBuilt)
+            {
+                final AmqpPropertiesFW properties = propertiesRW.build();
+                dataExRW.properties(properties);
+            }
             final AmqpDataExFW amqpDataEx = dataExRW.build();
             final byte[] result = new byte[amqpDataEx.sizeof()];
             amqpDataEx.buffer().getBytes(0, result);
@@ -366,7 +399,7 @@ public final class AmqpFunctions
         private Long messageFormat;
         private Integer flags;
         private Array32FW.Builder<AmqpAnnotationFW.Builder, AmqpAnnotationFW> annotationsRW;
-        private Array32FW.Builder<AmqpMessagePropertyFW.Builder, AmqpMessagePropertyFW> messagePropertiesRW;
+        private AmqpPropertiesFW.Builder propertiesRW;
         private Array32FW.Builder<AmqpApplicationPropertyFW.Builder, AmqpApplicationPropertyFW> applicationPropertiesRW;
 
         public AmqpDataExMatcherBuilder typeId(
@@ -389,7 +422,7 @@ public final class AmqpFunctions
         {
             assert deliveryTagRW == null;
             deliveryTagRW = new AmqpBinaryFW.Builder().wrap(new UnsafeBuffer(new byte[1024]), 0, 1024);
-            deliveryTagRW.bytes(b -> b.set(deliveryTag.getBytes(StandardCharsets.UTF_8)));
+            deliveryTagRW.bytes(b -> b.set(deliveryTag.getBytes(UTF_8)));
             return this;
         }
 
@@ -446,7 +479,7 @@ public final class AmqpFunctions
             String value)
         {
             annotationsRW.item(a -> a.key(k -> k.id(key))
-                                     .value(v -> v.bytes(o -> o.set(value.getBytes(StandardCharsets.UTF_8)))));
+                                     .value(v -> v.bytes(o -> o.set(value.getBytes(UTF_8)))));
             return this;
         }
 
@@ -455,7 +488,7 @@ public final class AmqpFunctions
             String value)
         {
             annotationsRW.item(a -> a.key(k -> k.name(key))
-                                     .value(v -> v.bytes(b -> b.set(value.getBytes(StandardCharsets.UTF_8)))));
+                                     .value(v -> v.bytes(b -> b.set(value.getBytes(UTF_8)))));
             return this;
         }
 
@@ -465,15 +498,15 @@ public final class AmqpFunctions
             initializeMessageProperties();
             if (messageId instanceof Long)
             {
-                messagePropertiesRW.item(p -> p.messageId(m -> m.ulong((long) messageId)));
+                propertiesRW.messageId(m -> m.ulong((long) messageId));
                 return this;
             }
             else if (messageId instanceof byte[])
             {
-                messagePropertiesRW.item(p -> p.messageId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) messageId)))));
+                propertiesRW.messageId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) messageId))));
                 return this;
             }
-            messagePropertiesRW.item(p -> p.messageId(m -> m.stringtype((String) messageId)));
+            propertiesRW.messageId(m -> m.stringtype((String) messageId));
             return this;
         }
 
@@ -481,7 +514,7 @@ public final class AmqpFunctions
             String userId)
         {
             initializeMessageProperties();
-            messagePropertiesRW.item(p -> p.userId(u -> u.bytes(b -> b.set(userId.getBytes(StandardCharsets.UTF_8)))));
+            propertiesRW.userId(u -> u.bytes(b -> b.set(userId.getBytes(UTF_8))));
             return this;
         }
 
@@ -489,7 +522,7 @@ public final class AmqpFunctions
             String to)
         {
             initializeMessageProperties();
-            messagePropertiesRW.item(p -> p.to(to));
+            propertiesRW.to(to);
             return this;
         }
 
@@ -497,7 +530,7 @@ public final class AmqpFunctions
             String subject)
         {
             initializeMessageProperties();
-            messagePropertiesRW.item(p -> p.subject(subject));
+            propertiesRW.subject(subject);
             return this;
         }
 
@@ -505,7 +538,7 @@ public final class AmqpFunctions
             String replyTo)
         {
             initializeMessageProperties();
-            messagePropertiesRW.item(p -> p.replyTo(replyTo));
+            propertiesRW.replyTo(replyTo);
             return this;
         }
 
@@ -515,15 +548,15 @@ public final class AmqpFunctions
             initializeMessageProperties();
             if (correlationId instanceof Long)
             {
-                messagePropertiesRW.item(p -> p.correlationId(m -> m.ulong((long) correlationId)));
+                propertiesRW.correlationId(m -> m.ulong((long) correlationId));
                 return this;
             }
             else if (correlationId instanceof byte[])
             {
-                messagePropertiesRW.item(p -> p.correlationId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) correlationId)))));
+                propertiesRW.correlationId(m -> m.binary(b -> b.bytes(x -> x.set((byte[]) correlationId))));
                 return this;
             }
-            messagePropertiesRW.item(p -> p.correlationId(m -> m.stringtype((String) correlationId)));
+            propertiesRW.correlationId(m -> m.stringtype((String) correlationId));
             return this;
         }
 
@@ -531,7 +564,7 @@ public final class AmqpFunctions
             String contentType)
         {
             initializeMessageProperties();
-            messagePropertiesRW.item(p -> p.contentType(contentType));
+            propertiesRW.contentType(contentType);
             return this;
         }
 
@@ -539,7 +572,7 @@ public final class AmqpFunctions
             String contentEncoding)
         {
             initializeMessageProperties();
-            messagePropertiesRW.item(p -> p.contentEncoding(contentEncoding));
+            propertiesRW.contentEncoding(contentEncoding);
             return this;
         }
 
@@ -547,7 +580,7 @@ public final class AmqpFunctions
             long absoluteExpiryTime)
         {
             initializeMessageProperties();
-            messagePropertiesRW.item(p -> p.absoluteExpiryTime(absoluteExpiryTime));
+            propertiesRW.absoluteExpiryTime(absoluteExpiryTime);
             return this;
         }
 
@@ -555,7 +588,7 @@ public final class AmqpFunctions
             long creationTime)
         {
             initializeMessageProperties();
-            messagePropertiesRW.item(p -> p.creationTime(creationTime));
+            propertiesRW.creationTime(creationTime);
             return this;
         }
 
@@ -563,7 +596,7 @@ public final class AmqpFunctions
             String groupId)
         {
             initializeMessageProperties();
-            messagePropertiesRW.item(p -> p.groupId(groupId));
+            propertiesRW.groupId(groupId);
             return this;
         }
 
@@ -571,7 +604,7 @@ public final class AmqpFunctions
             int groupSequence)
         {
             initializeMessageProperties();
-            messagePropertiesRW.item(p -> p.groupSequence(groupSequence));
+            propertiesRW.groupSequence(groupSequence);
             return this;
         }
 
@@ -579,17 +612,15 @@ public final class AmqpFunctions
             String replyToGroupId)
         {
             initializeMessageProperties();
-            messagePropertiesRW.item(p -> p.replyToGroupId(replyToGroupId));
+            propertiesRW.replyToGroupId(replyToGroupId);
             return this;
         }
 
         private void initializeMessageProperties()
         {
-            if (messagePropertiesRW == null)
+            if (propertiesRW == null)
             {
-                this.messagePropertiesRW = new  Array32FW.Builder<>(new AmqpMessagePropertyFW.Builder(),
-                    new AmqpMessagePropertyFW())
-                    .wrap(new UnsafeBuffer(new byte[1024]), 0, 1024);
+                this.propertiesRW = new AmqpPropertiesFW.Builder().wrap(new UnsafeBuffer(new byte[1024]), 0, 1024);
             }
         }
 
@@ -638,7 +669,7 @@ public final class AmqpFunctions
         private boolean matchTypeId(
             final AmqpDataExFW dataEx)
         {
-            return typeId == null || typeId == dataEx.typeId();
+            return typeId == dataEx.typeId();
         }
 
         private boolean matchDeliveryId(
@@ -674,7 +705,7 @@ public final class AmqpFunctions
         private boolean matchProperties(
             final AmqpDataExFW dataEx)
         {
-            return messagePropertiesRW == null || messagePropertiesRW.build().equals(dataEx.properties());
+            return propertiesRW == null || propertiesRW.build().equals(dataEx.properties());
         }
 
         private boolean matchApplicationProperties(
