@@ -273,7 +273,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
-            .applicationProperty("annotation", "property1")
+            .property("annotation", "property1")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -311,8 +311,8 @@ public class AmqpFunctionsTest
             .messageFormat(0)
             .flags("SETTLED")
             .messageId("message1")
-            .applicationProperty("annotation1", "property1")
-            .applicationProperty("annotation2", "property2")
+            .property("annotation1", "property1")
+            .property("annotation2", "property2")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -568,8 +568,8 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .applicationProperty("property4", "1")
-            .applicationProperty("property3", "2")
+            .property("property4", "1")
+            .property("property3", "2")
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -812,8 +812,8 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .applicationProperty("property1", "1")
-            .applicationProperty("property2", "2")
+            .property("property1", "1")
+            .property("property2", "2")
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
