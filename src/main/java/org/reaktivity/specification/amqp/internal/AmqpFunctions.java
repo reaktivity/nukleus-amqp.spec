@@ -340,7 +340,7 @@ public final class AmqpFunctions
             return this;
         }
 
-        public AmqpDataExBuilder applicationProperty(
+        public AmqpDataExBuilder property(
             String key,
             String value)
         {
@@ -604,7 +604,7 @@ public final class AmqpFunctions
             return propertiesRW;
         }
 
-        public AmqpDataExMatcherBuilder applicationProperty(
+        public AmqpDataExMatcherBuilder property(
             String key,
             String value)
         {

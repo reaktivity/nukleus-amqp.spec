@@ -25,7 +25,7 @@ accepted
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
                              .address("clients")
-                             .capabilities("SEND_ONLY")
+                             .capabilities("RECEIVE_ONLY")
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
@@ -33,21 +33,21 @@ read nukleus:begin.ext ${amqp:beginEx()
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
                               .address("clients")
-                              .capabilities("SEND_ONLY")
+                              .capabilities("RECEIVE_ONLY")
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}
 connected
 
-read nukleus:data.ext ${amqp:dataEx()
-                            .typeId(nukleus:id("amqp"))
-                            .deliveryId(0)
-                            .deliveryTag("0")
-                            .messageFormat(0)
-                            .flags("SETTLED")
-                            .applicationProperty("application", "property1")
-                            .build()}
+write nukleus:data.ext ${amqp:dataEx()
+                             .typeId(nukleus:id("amqp"))
+                             .deliveryId(0)
+                             .deliveryTag("0")
+                             .messageFormat(0)
+                             .flags("SETTLED")
+                             .property("application", "property1")
+                             .build()}
 
-read "Text!"
+write "Text!"
 
 write close
