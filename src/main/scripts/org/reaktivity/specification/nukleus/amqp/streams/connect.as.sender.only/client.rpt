@@ -35,7 +35,3 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .receiverSettleMode("FIRST")
                              .build()}
 connected
-
-write close
-
-read closed
