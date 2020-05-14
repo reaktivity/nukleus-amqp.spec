@@ -60,7 +60,3 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .receiverSettleMode("FIRST")
                               .build()}
 connected
-
-read closed
-
-write close
