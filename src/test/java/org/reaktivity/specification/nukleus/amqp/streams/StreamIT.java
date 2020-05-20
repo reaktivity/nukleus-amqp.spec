@@ -270,4 +270,17 @@ public class StreamIT
         k3po.notifyBarrier("ROUTED_CLIENT");
         k3po.finish();
     }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.client.fragmented.with.links.interleaved/client",
+        "${streams}/send.to.client.fragmented.with.links.interleaved/server"
+    })
+    public void shouldSendToClientFragmentedAndLinkedInterleaved() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
 }
