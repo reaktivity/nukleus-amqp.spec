@@ -170,10 +170,10 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
-        "${streams}/send.to.client.fragmented/client",
-        "${streams}/send.to.client.fragmented/server"
+        "${streams}/send.to.client.1session.1link.fragmented.init.fin.set/client",
+        "${streams}/send.to.client.1session.1link.fragmented.init.fin.set/server"
     })
-    public void shouldSendToClientFragmented() throws Exception
+    public void shouldSendToClientWithSingleSessionSingleLinkFragmentedWithInitAndFinSet() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
@@ -278,6 +278,19 @@ public class StreamIT
         "${streams}/send.to.client.fragmented.with.links.interleaved/server"
     })
     public void shouldSendToClientFragmentedAndLinkedInterleaved() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.client.1session.1link.fragmented.only.init.set/client",
+        "${streams}/send.to.client.1session.1link.fragmented.only.init.set/server"
+    })
+    public void shouldSendToClientWithSingleSessionSingleLinkFragmentedOnlyInitSet() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");

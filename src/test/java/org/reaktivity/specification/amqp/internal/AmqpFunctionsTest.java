@@ -123,6 +123,27 @@ public class AmqpFunctionsTest
     }
 
     @Test
+    public void shouldEncodeAmqpDataExtensionWithDeferred()
+    {
+        final byte[] array = dataEx()
+            .typeId(0)
+            .deliveryId(0)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags("SETTLED")
+            .deferred(100)
+            .build();
+
+        DirectBuffer buffer = new UnsafeBuffer(array);
+        AmqpDataExFW amqpDataEx = new AmqpDataExFW().wrap(buffer, 0, buffer.capacity());
+        assertEquals(amqpDataEx.deliveryId(), 0);
+        assertEquals(amqpDataEx.deliveryTag().toString(), "AMQP_BINARY [length=2, bytes=octets[2]]");
+        assertEquals(amqpDataEx.messageFormat(), 0);
+        assertEquals(amqpDataEx.flags(), 1);
+        assertEquals(amqpDataEx.deferred(), 100);
+    }
+
+    @Test
     public void shouldEncodeAmqpDataExtensionWithAnnotations()
     {
         final byte[] array = dataEx()

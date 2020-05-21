@@ -136,6 +136,7 @@ scope amqp
             AmqpBinary deliveryTag;
             uint32 messageFormat;
             uint8 flags;   // set of AmqpTransferFlag
+            int32 deferred = 0;
             AmqpAnnotation[] annotations;
             AmqpProperties properties;
             AmqpApplicationProperty[] applicationProperties;

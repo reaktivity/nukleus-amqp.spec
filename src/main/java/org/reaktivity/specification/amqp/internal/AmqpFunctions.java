@@ -202,6 +202,13 @@ public final class AmqpFunctions
             return this;
         }
 
+        public AmqpDataExBuilder deferred(
+            int deferred)
+        {
+            dataExRW.deferred(deferred);
+            return this;
+        }
+
         public AmqpDataExBuilder annotation(
             Object key,
             String value)

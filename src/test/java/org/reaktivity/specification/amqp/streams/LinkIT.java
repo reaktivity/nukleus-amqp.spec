@@ -159,10 +159,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.with.more.to.client/client",
-        "${scripts}/transfer.with.more.to.client/server"})
+        "${scripts}/transfer.to.client.1session.1link.with.more.with.init.fin.set/client",
+        "${scripts}/transfer.to.client.1session.1link.with.more.with.init.fin.set/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferWithMoreToClient() throws Exception
+    public void shouldTransferToClientWithSingleSessionAndSingleLinkWithMoreAndBothFinAndInitSet() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -244,10 +244,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.client.1session.1link.with.more.fin.not.set/client",
-        "${scripts}/transfer.to.client.1session.1link.with.more.fin.not.set/server"})
+        "${scripts}/transfer.to.client.1session.1link.with.more.with.only.init.set/client",
+        "${scripts}/transfer.to.client.1session.1link.with.more.with.only.init.set/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToClientWithSingleSessionAndSingleLinkWithMoreFinNotSet() throws Exception
+    public void shouldTransferToClientWithSingleSessionAndSingleLinkWithMoreWithOnlyInitSet() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
