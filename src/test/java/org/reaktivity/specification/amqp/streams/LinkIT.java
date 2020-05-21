@@ -241,6 +241,19 @@ public class LinkIT
         k3po.finish();
     }
 
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.1session.1link.with.more.fin.not.set/client",
+        "${scripts}/transfer.to.client.1session.1link.with.more.fin.not.set/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWithSingleSessionAndSingleLinkWithMoreFinNotSet() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
     @Test
     @Specification({
         "${scripts}/transfer.to.client.fragmented.with.links.interleaved/client",
