@@ -166,17 +166,17 @@ read [0x00 0x00 0x00 0x20]                                      # length = 32
      [0x52 0x01]                                                # link-credit = 1
 
 # transfer frame
-write [0x00 0x00 0x00 0xea]                                     # length = 234
+write [0x00 0x00 0x00 0xe8]                                     # length = 232
       [0x02]                                                    # doff = 2
       [0x00]                                                    # type = AMQP (0)
       [0x00 0x01]                                               # channel = 1
       [0x00 0x53 0x14]                                          # performative = transfer (20)
-      [0xc0 0x09 0x06]                                          # list type (list8), length = 9, field count = 6
+      [0xc0 0x07 0x06]                                          # list type (list8), length = 7, field count = 6
       [0x43]                                                    # handle = 0
-      [0x43]                                                    # delivery-id = 0
-      [0xa0 0x01 0x30]                                          # delivery-tag = "0"
-      [0x43]                                                    # message-format = 0
-      [0x41]                                                    # settled = true
+      [0x40]                                                    # delivery-id = null
+      [0x40]                                                    # delivery-tag = null
+      [0x40]                                                    # message-format = null
+      [0x40]                                                    # settled = null
       [0x41]                                                    # more = true
 write ${message212}                                             # payload = 212 random bytes
 
