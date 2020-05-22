@@ -127,11 +127,11 @@ public class AmqpFunctionsTest
     {
         final byte[] array = dataEx()
             .typeId(0)
+            .deferred(100)
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
-            .deferred(100)
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);

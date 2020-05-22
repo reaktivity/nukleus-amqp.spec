@@ -40,11 +40,11 @@ connected
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
+                            .deferred(600 - 212)
                             .deliveryId(0)
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
-                            .deferred(600 - 212)
                             .build()}
 
 read ${message600}

@@ -154,6 +154,13 @@ public final class AmqpFunctions
             return this;
         }
 
+        public AmqpDataExBuilder deferred(
+            int deferred)
+        {
+            dataExRW.deferred(deferred);
+            return this;
+        }
+
         public AmqpDataExBuilder deliveryId(
             long deliveryId)
         {
@@ -199,13 +206,6 @@ public final class AmqpFunctions
                 }
             }
             dataExRW.flags(value);
-            return this;
-        }
-
-        public AmqpDataExBuilder deferred(
-            int deferred)
-        {
-            dataExRW.deferred(deferred);
             return this;
         }
 
