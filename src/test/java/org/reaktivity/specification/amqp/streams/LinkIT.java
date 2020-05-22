@@ -256,6 +256,18 @@ public class LinkIT
 
     @Test
     @Specification({
+        "${scripts}/transfer.to.client.1session.2link.interleaved/client",
+        "${scripts}/transfer.to.client.1session.2link.interleaved/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWithOneSessionAndTwoLinksInterleaved() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/transfer.to.client.fragmented.with.links.interleaved/client",
         "${scripts}/transfer.to.client.fragmented.with.links.interleaved/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")

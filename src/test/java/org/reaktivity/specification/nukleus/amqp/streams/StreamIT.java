@@ -296,4 +296,17 @@ public class StreamIT
         k3po.notifyBarrier("ROUTED_CLIENT");
         k3po.finish();
     }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.client.1session.2link.interleaved/client",
+        "${streams}/send.to.client.1session.2link.interleaved/server"
+    })
+    public void shouldSendToClientWithOneSessionTwoLinkInterleaved() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
 }
