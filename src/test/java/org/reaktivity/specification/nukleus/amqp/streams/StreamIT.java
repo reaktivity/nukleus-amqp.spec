@@ -118,10 +118,10 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
-        "${streams}/send.to.client.at.most.once/client",
-        "${streams}/send.to.client.at.most.once/server"
+        "${streams}/send.to.client/client",
+        "${streams}/send.to.client/server"
     })
-    public void shouldSendToClientAtMostOnce() throws Exception
+    public void shouldSendToClient() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
@@ -144,10 +144,10 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
-        "${streams}/send.to.server.at.most.once/client",
-        "${streams}/send.to.server.at.most.once/server"
+        "${streams}/send.to.server/client",
+        "${streams}/send.to.server/server"
     })
-    public void shouldSendToServerAtMostOnce() throws Exception
+    public void shouldSendToServer() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
@@ -161,19 +161,6 @@ public class StreamIT
         "${streams}/incoming.window.exceeded/server"
     })
     public void shouldEndSessionWhenIncomingWindowExceeded() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_CLIENT");
-        k3po.finish();
-    }
-
-    @Test
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    @Specification({
-        "${streams}/send.to.client.1session.1link.fragmented.init.fin.set/client",
-        "${streams}/send.to.client.1session.1link.fragmented.init.fin.set/server"
-    })
-    public void shouldSendToClientWithSingleSessionSingleLinkFragmentedWithInitAndFinSet() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
@@ -274,36 +261,49 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
+        "${streams}/send.to.client.when.max.frame.size.exceeded/client",
+        "${streams}/send.to.client.when.max.frame.size.exceeded/server"
+    })
+    public void shouldSendToClientWhenMaxFrameSizeExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.client.when.fragmented/client",
+        "${streams}/send.to.client.when.fragmented/server"
+    })
+    public void shouldSendToClientWhenFragmented() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.client.when.links.interleaved/client",
+        "${streams}/send.to.client.when.links.interleaved/server"
+    })
+    public void shouldSendToClientWhenLinksInterleaved() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
         "${streams}/send.to.client.fragmented.with.links.interleaved/client",
         "${streams}/send.to.client.fragmented.with.links.interleaved/server"
     })
     public void shouldSendToClientFragmentedAndLinkedInterleaved() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_CLIENT");
-        k3po.finish();
-    }
-
-    @Test
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    @Specification({
-        "${streams}/send.to.client.1session.1link.fragmented.only.init.set/client",
-        "${streams}/send.to.client.1session.1link.fragmented.only.init.set/server"
-    })
-    public void shouldSendToClientWithSingleSessionSingleLinkFragmentedOnlyInitSet() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_CLIENT");
-        k3po.finish();
-    }
-
-    @Test
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    @Specification({
-        "${streams}/send.to.client.1session.2link.interleaved/client",
-        "${streams}/send.to.client.1session.2link.interleaved/server"
-    })
-    public void shouldSendToClientWithOneSessionTwoLinkInterleaved() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
