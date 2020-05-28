@@ -16,7 +16,7 @@
 
 
 property serverTransport "nukleus://streams/target#0"
-property message600 ${amqp:randomBytes(600)}
+property message250 ${amqp:randomBytes(250)}
 
 accept ${serverTransport}
   option nukleus:window 8192
@@ -48,9 +48,30 @@ write nukleus:data.ext ${amqp:dataEx()
                              .deliveryTag("0")
                              .messageFormat(0)
                              .flags("SETTLED")
+                             .annotation("annotation1", "1")
+                             .annotation("annotation2", "2")
+                             .annotation("annotation3", "3")
+                             .annotation("annotation4", "4")
+                             .annotation("annotation5", "5")
+                             .messageId("message1")
+                             .userId("user1")
+                             .to("clients")
+                             .subject("subject1")
+                             .replyTo("localhost")
+                             .correlationId("correlationId1")
+                             .contentType("content_type")
+                             .contentEncoding("content_encoding")
+                             .absoluteExpiryTime(12345)
+                             .creationTime(12345)
+                             .groupId("group_id1")
+                             .groupSequence(1)
+                             .replyToGroupId("reply_group_id")
+                             .property("application", "property1")
+                             .property("application", "property2")
+                             .property("application", "property3")
                              .build()}
 
-write ${message600}
+write ${message250}
 
 accepted
 
@@ -80,6 +101,6 @@ write nukleus:data.ext ${amqp:dataEx()
                              .flags("SETTLED")
                              .build()}
 
-write ${message600}
+write ${message250}
 
 write close

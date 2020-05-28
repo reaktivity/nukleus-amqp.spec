@@ -300,8 +300,8 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
-        "${streams}/send.to.client.fragmented.with.links.interleaved/client",
-        "${streams}/send.to.client.fragmented.with.links.interleaved/server"
+        "${streams}/send.to.client.when.links.interleaved.and.max.frame.size.exceeded/client",
+        "${streams}/send.to.client.when.links.interleaved.and.max.frame.size.exceeded/server"
     })
     public void shouldSendToClientFragmentedAndLinkedInterleaved() throws Exception
     {

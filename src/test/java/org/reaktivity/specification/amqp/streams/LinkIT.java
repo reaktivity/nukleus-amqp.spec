@@ -267,6 +267,18 @@ public class LinkIT
 
     @Test
     @Specification({
+        "${scripts}/transfer.to.client.when.links.interleaved.and.max.frame.size.exceeded/client",
+        "${scripts}/transfer.to.client.when.links.interleaved.and.max.frame.size.exceeded/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWhenLinksInterleavedAndMaxFrameSizeExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/transfer.to.client.when.sessions.interleaved.and.fragmented/client",
         "${scripts}/transfer.to.client.when.sessions.interleaved.and.fragmented/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
