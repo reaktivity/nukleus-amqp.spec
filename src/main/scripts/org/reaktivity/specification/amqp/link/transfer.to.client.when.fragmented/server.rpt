@@ -15,8 +15,8 @@
 #
 
 property serverTransport "nukleus://streams/target#0"
-property message212 ${amqp:randomBytes(212)}
-property message176 ${amqp:randomBytes(176)}
+property message455 ${amqp:randomBytes(455)}
+property message145 ${amqp:randomBytes(145)}
 
 accept ${serverTransport}
   option nukleus:window 8192
@@ -39,7 +39,7 @@ read [0x00 0x00 0x00 0x23]                                      # length = 35
      [0x03]                                                     # field count = 3
      [0xa1 0x06] "client"                                       # container-id = "client"
      [0xa1 0x06] "server"                                       # hostname = "server"
-     [0x70 0x00 0x00 0x02 0x00]                                 # max frame size = 512
+     [0x70 0x00 0x00 0x01 0xf4]                                 # max frame size = 500
 
 write [0x00 0x00 0x00 0x1c]                                     # length = 28
       [0x02]                                                    # doff = 2
@@ -130,10 +130,10 @@ read [0x00 0x00 0x00 0x20]                                      # length = 32
      [0x70 0x7f 0xff 0xff 0xff]                                 # outgoing-window = 2147483647
      [0x43]                                                     # handle = 0
      [0x43]                                                     # delivery-count = 0
-     [0x52 0x01]                                                # link-credit = 1
+     [0x52 0x02]                                                # link-credit = 2
 
 # transfer frame
-write [0x00 0x00 0x00 0xf2]                                     # length = 242
+write [0x00 0x00 0x01 0xe5]                                     # length = 485
       [0x02]                                                    # doff = 2
       [0x00]                                                    # type = AMQP (0)
       [0x00 0x01]                                               # channel = 1
@@ -147,7 +147,7 @@ write [0x00 0x00 0x00 0xf2]                                     # length = 242
       [0x41]                                                    # settled = true
       [0x41]                                                    # more = true
 write [0x00 0x53 0x77 0xb0 0x00 0x00 0x02 0x58]                 # message format = amqp-value, binary4, size = 600
-write ${message212}                                             # payload = 212 random bytes
+write ${message455}                                             # payload = 455 random bytes
 
 # flow frame
 read [0x00 0x00 0x00 0x20]                                      # length = 32
@@ -163,45 +163,14 @@ read [0x00 0x00 0x00 0x20]                                      # length = 32
      [0x70 0x7f 0xff 0xff 0xff]                                 # outgoing-window = 2147483647
      [0x43]                                                     # handle = 0
      [0x43]                                                     # delivery-count = 0
-     [0x52 0x01]                                                # link-credit = 1
+     [0x52 0x02]                                                # link-credit = 2
 
 # transfer frame
-write [0x00 0x00 0x00 0xe8]                                     # length = 232
-      [0x02]                                                    # doff = 2
-      [0x00]                                                    # type = AMQP (0)
-      [0x00 0x01]                                               # channel = 1
-      [0x00 0x53 0x14]                                          # performative = transfer (20)
-      [0xc0 0x07 0x06]                                          # list type (list8), length = 7, field count = 6
-      [0x43]                                                    # handle = 0
-      [0x40]                                                    # delivery-id = null
-      [0x40]                                                    # delivery-tag = null
-      [0x40]                                                    # message-format = null
-      [0x40]                                                    # settled = null
-      [0x41]                                                    # more = true
-write ${message212}                                             # payload = 212 random bytes
-
-# flow frame
-read [0x00 0x00 0x00 0x20]                                      # length = 32
-     [0x02]                                                     # doff = 2
-     [0x00]                                                     # type = AMQP (0)
-     [0x00 0x01]                                                # channel = 1
-     [0x00 0x53 0x13]                                           # performative = flow (19)
-     [0xc0 0x13]                                                # list type (list8), length = 19
-     [0x07]                                                     # field count = 7
-     [0x52 0x03]                                                # next-incoming-id = 3
-     [0x70 0x00 0x00 0x07 0xfd]                                 # incoming-window = 2045
-     [0x52 0x01]                                                # next-outgoing-id = 1
-     [0x70 0x7f 0xff 0xff 0xff]                                 # outgoing-window = 2147483647
-     [0x43]                                                     # handle = 0
-     [0x43]                                                     # delivery-count = 0
-     [0x52 0x01]                                                # link-credit = 1
-
-# transfer frame
-write [0x00 0x00 0x00 0xbf]                                     # length = 191
+write [0x00 0x00 0x00 0xa0]                                     # length = 160
       [0x02]                                                    # doff = 2
       [0x00]                                                    # type = AMQP (0)
       [0x00 0x01]                                               # channel = 1
       [0x00 0x53 0x14]                                          # performative = transfer (20)
       [0xc0 0x02 0x01]                                          # list type (list8), length = 2, field count = 1
       [0x43]                                                    # handle = 0
-write ${message176}                                             # payload = 176 random bytes
+write ${message145}                                             # payload = 145 random bytes
