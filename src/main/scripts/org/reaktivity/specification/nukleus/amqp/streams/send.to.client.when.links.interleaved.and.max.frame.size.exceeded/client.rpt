@@ -14,7 +14,7 @@
 # under the License.
 #
 
-property message250 ${amqp:randomBytes(250)}
+property message1000 ${amqp:randomBytes(1000)}
 
 connect await ROUTED_CLIENT
         "nukleus://streams/amqp#0"
@@ -44,30 +44,9 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
-                            .annotation("annotation1", "1")
-                            .annotation("annotation2", "2")
-                            .annotation("annotation3", "3")
-                            .annotation("annotation4", "4")
-                            .annotation("annotation5", "5")
-                            .messageId("message1")
-                            .userId("user1")
-                            .to("clients")
-                            .subject("subject1")
-                            .replyTo("localhost")
-                            .correlationId("correlationId1")
-                            .contentType("content_type")
-                            .contentEncoding("content_encoding")
-                            .absoluteExpiryTime(12345)
-                            .creationTime(12345)
-                            .groupId("group_id1")
-                            .groupSequence(1)
-                            .replyToGroupId("reply_group_id")
-                            .property("application", "property1")
-                            .property("application", "property2")
-                            .property("application", "property3")
                             .build()}
 
-read ${message250}
+read ${message1000}
 
 connect await ROUTED_CLIENT
         "nukleus://streams/amqp#0"
@@ -99,6 +78,6 @@ read nukleus:data.ext ${amqp:dataEx()
                             .flags("SETTLED")
                             .build()}
 
-read ${message250}
+read ${message1000}
 
 read closed

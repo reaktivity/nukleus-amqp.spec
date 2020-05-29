@@ -43,7 +43,7 @@ connected
 
 write nukleus:data.ext ${amqp:dataEx()
                              .typeId(nukleus:id("amqp"))
-                             .deferred(600 - 455)
+                             .deferred(600 - 155)
                              .deliveryId(0)
                              .deliveryTag("0")
                              .messageFormat(0)
