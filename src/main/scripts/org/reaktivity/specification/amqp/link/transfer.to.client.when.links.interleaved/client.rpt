@@ -126,7 +126,7 @@ write [0x00 0x00 0x00 0x1d]                                      # length = 29
       [0x70 0x7f 0xff 0xff 0xff]                                 # outgoing-window = 2147483647
       [0x43]                                                     # handle = 0
       [0x43]                                                     # delivery-count = 0
-      [0x52 0x01]                                                # link-credit = 1
+      [0x52 0x02]                                                # link-credit = 2
 
 # transfer frame for link1
 read [0x00 0x00 0x00 0x2d]                                       # length = 45
@@ -197,7 +197,7 @@ write [0x00 0x00 0x00 0x1e]                                      # length = 30
       [0x70 0x7f 0xff 0xff 0xff]                                 # outgoing-window = 2147483647
       [0x52 0x01]                                                # handle = 1
       [0x43]                                                     # delivery-count = 0
-      [0x52 0x01]                                                # link-credit = 1
+      [0x52 0x02]                                                # link-credit = 2
 
 # transfer frame for link2
 read [0x00 0x00 0x00 0x2e]                                       # length = 46
@@ -229,7 +229,7 @@ write [0x00 0x00 0x00 0x1e]                                      # length = 30
       [0x70 0x7f 0xff 0xff 0xff]                                 # outgoing-window = 2147483647
       [0x43]                                                     # handle = 0
       [0x52 0x01]                                                # delivery-count = 1
-      [0x52 0x01]                                                # link-credit = 1
+      [0x52 0x02]                                                # link-credit = 2
 
 # transfer frame for link1
 read [0x00 0x00 0x00 0x2e]                                       # length = 46
@@ -261,7 +261,7 @@ write [0x00 0x00 0x00 0x1f]                                      # length = 31
       [0x70 0x7f 0xff 0xff 0xff]                                 # outgoing-window = 2147483647
       [0x52 0x01]                                                # handle = 1
       [0x52 0x01]                                                # delivery-count = 1
-      [0x52 0x01]                                                # link-credit = 1
+      [0x52 0x02]                                                # link-credit = 2
 
 # transfer frame for link2
 read [0x00 0x00 0x00 0x2f]                                       # length = 47

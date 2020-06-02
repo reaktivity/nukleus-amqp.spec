@@ -36,6 +36,7 @@ read nukleus:begin.ext ${amqp:beginEx()
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}
+
 connected
 
 read nukleus:data.ext ${amqp:dataEx()
@@ -68,6 +69,7 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
+
 connected
 
 read nukleus:data.ext ${amqp:dataEx()
