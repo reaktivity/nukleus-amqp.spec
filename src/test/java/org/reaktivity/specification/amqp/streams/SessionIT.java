@@ -122,4 +122,16 @@ public class SessionIT
         k3po.notifyBarrier("ROUTED_SERVER");
         k3po.finish();
     }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.when.sessions.interleaved/client",
+        "${scripts}/transfer.to.client.when.sessions.interleaved/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWhenSessionsInterleaved() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
 }
