@@ -326,6 +326,19 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
+        "${streams}/send.to.client.when.sessions.interleaved.and.max.frame.size.exceeded/client",
+        "${streams}/send.to.client.when.sessions.interleaved.and.max.frame.size.exceeded/server"
+    })
+    public void shouldSendToClientWhenSessionsInterleavedAndMaxFrameSizeExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
         "${streams}/send.to.client.when.links.interleaved.and.max.frame.size.exceeded/client",
         "${streams}/send.to.client.when.links.interleaved.and.max.frame.size.exceeded/server"
     })
