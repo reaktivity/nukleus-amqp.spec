@@ -225,6 +225,22 @@ write [0x00 0x00 0x00 0x22]                                       # length = 34
       [0x41]                                                      # settled = true
       [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x05] "Text!"           # payload = "Text!"
 
+# flow frame for session 2
+read [0x00 0x00 0x00 0x24]                                        # length = 36
+     [0x02]                                                       # doff = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x02]                                                  # channel = 2
+     [0x00 0x53 0x13]                                             # performative = flow (19)
+     [0xc0 0x17]                                                  # list type (list8), length = 23
+     [0x07]                                                       # field count = 7
+     [0x52 0x01]                                                  # next-incoming-id = 1
+     [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
+     [0x52 0x01]                                                  # next-outgoing-id = 1
+     [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
+     [0x52 0x01]                                                  # handle = 1
+     [0x43]                                                       # delivery-count = 0
+     [0x70 0x00 0x00 0x03 0xe8]                                   # link-credit = 1000
+
 # transfer frame for session 2
 write [0x00 0x00 0x00 0x23]                                       # length = 35
       [0x02]                                                      # doff = 2
