@@ -15,8 +15,6 @@
 #
 
 property serverTransport "nukleus://streams/target#0"
-property message520 ${amqp:randomBytes(520)}
-property message80 ${amqp:randomBytes(80)}
 
 accept ${serverTransport}
   option nukleus:window 8192
@@ -147,7 +145,7 @@ write [0x00 0x00 0x02 0x26]                                     # length = 550
       [0x41]                                                    # settled = true
       [0x41]                                                    # more = true
 
-write [0x00 0x53 0x77 0xb0 0x00 0x00 0x02 0x58] ${message520}   # payload = 520 random bytes
+write [0x00 0x53 0x77 0xb0 0x00 0x00 0x02 0x58] ${amqp:randomBytes(520)}   # payload = 520 random bytes
 
 
 # transfer frame
@@ -160,4 +158,4 @@ write [0x00 0x00 0x00 0x5f]                                     # length = 95
       [0x01]                                                    # field count = 1
       [0x43]                                                    # handle = 0
 
-write ${message80}                                              # payload = 80 random bytes
+write ${amqp:randomBytes(80)}                                              # payload = 80 random bytes

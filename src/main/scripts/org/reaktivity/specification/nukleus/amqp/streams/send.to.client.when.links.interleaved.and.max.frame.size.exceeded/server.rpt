@@ -16,7 +16,6 @@
 
 
 property serverTransport "nukleus://streams/target#0"
-property message1000 ${amqp:randomBytes(1000)}
 
 accept ${serverTransport}
   option nukleus:window 8192
@@ -50,7 +49,7 @@ write nukleus:data.ext ${amqp:dataEx()
                              .flags("SETTLED")
                              .build()}
 
-write ${message1000}
+write ${amqp:randomBytes(1000)}
 
 accepted
 
@@ -80,6 +79,6 @@ write nukleus:data.ext ${amqp:dataEx()
                              .flags("SETTLED")
                              .build()}
 
-write ${message1000}
+write ${amqp:randomBytes(1000)}
 
 write close

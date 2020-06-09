@@ -14,8 +14,6 @@
 # under the License.
 #
 
-property message600 ${amqp:randomBytes(600)}
-
 connect await ROUTED_CLIENT
         "nukleus://streams/amqp#0"
         option nukleus:window 8192
@@ -46,6 +44,6 @@ read nukleus:data.ext ${amqp:dataEx()
                             .flags("SETTLED")
                             .build()}
 
-read ${message600}
+read [0..600]
 
 read closed

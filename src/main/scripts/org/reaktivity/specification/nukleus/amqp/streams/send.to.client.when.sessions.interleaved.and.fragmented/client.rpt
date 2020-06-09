@@ -14,7 +14,37 @@
 # under the License.
 #
 
-property message600 ${amqp:randomBytes(600)}
+connect await ROUTED_CLIENT
+        "nukleus://streams/amqp#0"
+        option nukleus:window 8192
+        option nukleus:transmission "duplex"
+
+write nukleus:begin.ext ${amqp:beginEx()
+                              .typeId(nukleus:id("amqp"))
+                              .address("clients")
+                              .capabilities("RECEIVE_ONLY")
+                              .senderSettleMode("SETTLED")
+                              .receiverSettleMode("FIRST")
+                              .build()}
+
+read nukleus:begin.ext ${amqp:beginEx()
+                             .typeId(nukleus:id("amqp"))
+                             .address("clients")
+                             .capabilities("RECEIVE_ONLY")
+                             .senderSettleMode("SETTLED")
+                             .receiverSettleMode("FIRST")
+                             .build()}
+connected
+
+read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
+                            .deferred(600 - 475)
+                            .deliveryId(0)
+                            .deliveryTag("0")
+                            .messageFormat(0)
+                            .flags("SETTLED")
+                            .build()}
+read [0..600]
 
 connect await ROUTED_CLIENT
         "nukleus://streams/amqp#0"
@@ -46,38 +76,6 @@ read nukleus:data.ext ${amqp:dataEx()
                             .messageFormat(0)
                             .flags("SETTLED")
                             .build()}
-read ${message600}
-
-connect await ROUTED_CLIENT
-        "nukleus://streams/amqp#0"
-        option nukleus:window 8192
-        option nukleus:transmission "duplex"
-
-write nukleus:begin.ext ${amqp:beginEx()
-                              .typeId(nukleus:id("amqp"))
-                              .address("clients")
-                              .capabilities("RECEIVE_ONLY")
-                              .senderSettleMode("SETTLED")
-                              .receiverSettleMode("FIRST")
-                              .build()}
-
-read nukleus:begin.ext ${amqp:beginEx()
-                             .typeId(nukleus:id("amqp"))
-                             .address("clients")
-                             .capabilities("RECEIVE_ONLY")
-                             .senderSettleMode("SETTLED")
-                             .receiverSettleMode("FIRST")
-                             .build()}
-connected
-
-read nukleus:data.ext ${amqp:dataEx()
-                            .typeId(nukleus:id("amqp"))
-                            .deferred(600 - 475)
-                            .deliveryId(0)
-                            .deliveryTag("0")
-                            .messageFormat(0)
-                            .flags("SETTLED")
-                            .build()}
-read ${message600}
+read [0..600]
 
 read closed

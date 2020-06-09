@@ -15,8 +15,6 @@
 #
 
 property serverTransport "nukleus://streams/target#0"
-property message125 ${amqp:randomBytes(125)}
-property message475 ${amqp:randomBytes(475)}
 
 accept ${serverTransport}
   option nukleus:window 8192
@@ -199,7 +197,7 @@ write [0x00 0x00 0x01 0xf9]                                       # length = 505
       [0x41]                                                      # settled = true
       [0x41]                                                      # more = true
       [0x00 0x53 0x77 0xb0 0x00 0x00 0x02 0x58]                   # application data value header, vbin32, length = 600
-write ${message475}                                               # payload = 475 random bytes
+write ${amqp:randomBytes(475)}                                               # payload = 475 random bytes
 
 # transfer frame for link2
 write [0x00 0x00 0x01 0xfa]                                       # length = 506
@@ -215,7 +213,7 @@ write [0x00 0x00 0x01 0xfa]                                       # length = 506
       [0x41]                                                      # settled = true
       [0x41]                                                      # more = true
       [0x00 0x53 0x77 0xb0 0x00 0x00 0x02 0x58]                   # application data value header, vbin32, length = 600
-write ${message475}                                               # payload = 475 random bytes
+write ${amqp:randomBytes(475)}                                               # payload = 475 random bytes
 
 # flow frame for link1
 read [0x00 0x00 0x00 0x1e]                                        # length = 30
@@ -257,7 +255,7 @@ write [0x00 0x00 0x00 0x8c]                                       # length = 140
       [0x00 0x53 0x14]                                            # performative = transfer (20)
       [0xc0 0x02 0x01]                                            # list type (list8), length = 2, field count = 1
       [0x43]                                                      # handle = 0
-write ${message125}                                               # payload = 125 random bytes
+write ${amqp:randomBytes(125)}                                               # payload = 125 random bytes
 
 # transfer frame for link2
 write [0x00 0x00 0x00 0x8d]                                       # length = 141
@@ -267,4 +265,4 @@ write [0x00 0x00 0x00 0x8d]                                       # length = 141
       [0x00 0x53 0x14]                                            # performative = transfer (20)
       [0xc0 0x03 0x01]                                            # list type (list8), length = 3, field count = 1
       [0x52 0x01]                                                 # handle = 1
-write ${message125}                                               # payload = 125 random bytes
+write ${amqp:randomBytes(125)}                                               # payload = 125 random bytes
