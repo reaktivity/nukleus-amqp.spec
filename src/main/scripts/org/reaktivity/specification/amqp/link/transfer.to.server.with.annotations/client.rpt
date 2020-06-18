@@ -125,7 +125,7 @@ read [0x00 0x00 0x00 0x20]                                       # length = 32
      [0x52 0x01]                                                 # link-credit = 1
 
 # transfer frame
-write [0x00 0x00 0x00 0x37]                                      # length = 55
+write [0x00 0x00 0x00 0x38]                                      # length = 56
       [0x02]                                                     # doff = 2
       [0x00]                                                     # type = AMQP (0)
       [0x00 0x01]                                                # channel = 1
@@ -137,8 +137,8 @@ write [0x00 0x00 0x00 0x37]                                      # length = 55
       [0x43]                                                     # message-format = 0
       [0x41]                                                     # settled = true
       [0x00 0x53 0x72]                                           # message-annotations header
-      [0xc1 0x10 0x02]                                           # map8, length = 16, field count = 2
+      [0xc1 0x11 0x02]                                           # map8, length = 17, field count = 2
       [0xa3 0x0b] "annotation1"                                  # map key = annotation1
-      [0x51 0x31]                                                # map value = 49 (byte)
+      [0xa0 0x01 0x31]                                           # map value = amqp-byte, length = 1
       [0x00 0x53 0x77]                                           # application data, value header
       [0xb0 0x00 0x00 0x00 0x05] "Text!"                         # vbin32, length = 5, value = "Text!"
