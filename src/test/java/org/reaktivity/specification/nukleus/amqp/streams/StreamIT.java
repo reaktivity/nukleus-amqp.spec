@@ -287,6 +287,19 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
+        "${streams}/send.to.server.when.fragmented/client",
+        "${streams}/send.to.server.when.fragmented/server"
+    })
+    public void shouldSendToServerWhenFragmented() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
         "${streams}/send.to.client.when.links.interleaved/client",
         "${streams}/send.to.client.when.links.interleaved/server"
     })
