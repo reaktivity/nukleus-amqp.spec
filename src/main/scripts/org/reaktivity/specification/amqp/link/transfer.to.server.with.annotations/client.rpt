@@ -46,7 +46,7 @@ read [0x00 0x00 0x00 0x1c]                                       # length = 28
      [0x03]                                                      # field count = 3
      [0xa1 0x06] "server"                                        # container-id = "server"
      [0x40]                                                      # hostname = null
-     [0x70 0x00 0x02 0x00 0x00]                                  # max frame size = 131072
+     [0x70 0x00 0x00 0x03 0xe8]                                  # max frame size = 1000
 
 # begin frame exchange
 write [0x00 0x00 0x00 0x1b]                                      # length = 27
@@ -122,7 +122,7 @@ read [0x00 0x00 0x00 0x20]                                       # length = 32
      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
      [0x43]                                                      # handle
      [0x43]                                                      # delivery-count = 0
-     [0x52 0x01]                                                 # link-credit = 1
+     [0x52 0x08]                                                 # link-credit = 8
 
 # transfer frame
 write [0x00 0x00 0x00 0x38]                                      # length = 56
