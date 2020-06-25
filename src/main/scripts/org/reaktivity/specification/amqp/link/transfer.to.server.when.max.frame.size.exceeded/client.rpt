@@ -125,21 +125,35 @@ read [0x00 0x00 0x00 0x1d]                                       # length = 29
      [0x52 0x08]                                                 # link-credit = 8
 
 # transfer frame
-write [0x00 0x00 0x00 0x40]                                      # length = 64
-      [0x02]                                                     # doff = 2
-      [0x00]                                                     # type = AMQP (0)
-      [0x00 0x01]                                                # channel = 1
-      [0x00 0x53 0x14]                                           # performative = transfer (20)
-      [0xc0 0x08]                                                # list type (list8), length = 8
-      [0x05]                                                     # field count = 5
-      [0x43]                                                     # handle = 0
-      [0x43]                                                     # delivery-id = 0
-      [0xa0 0x01 0x30]                                           # delivery-tag = "0"
-      [0x43]                                                     # message-format = 0
-      [0x41]                                                     # settled = true
-      [0x00 0x53 0x74]                                           # application-properties header
-      [0xc1 0x19 0x02]                                           # map8, length = 25, field count = 2
-      [0xa1 0x0b] "application"                                  # map key = "application"
-      [0xa1 0x09] "property1"                                    # map value = "property1"
-      [0x00 0x53 0x77]                                           # application data, value header
-      [0xb0 0x00 0x00 0x00 0x05] "Text!"                         # vbin32, length = 5, value = "Text!"
+write [0x00 0x00 0x04 0x05]                                       # length = 1029
+      [0x02]                                                      # doff = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x01]                                                 # channel = 1
+      [0x00 0x53 0x14]                                            # performative = transfer (20)
+      [0xc0 0x08 0x05]                                            # list type (list8), length = 8, field count = 5
+      [0x43]                                                      # handle = 0
+      [0x43]                                                      # delivery-id = 0
+      [0xa0 0x01 0x30]                                            # delivery-tag = "0"
+      [0x43]                                                      # message-format = 0
+      [0x41]                                                      # settled = true
+      [0x00 0x53 0x77 0xb0 0x00 0x00 0x03 0xe8]                   # application data value header, vbin32, length = 1000
+      ${amqp:randomBytes(1000)}                                   # payload = 7970 random bytes
+
+# close frame
+read [0x00 0x00 0x00 0x33]                                        # length = 51
+     [0x02]                                                       # doff = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x01]                                                  # channel = 1
+     [0x00 0x53 0x18]                                             # performative = close (24)
+     [0xc0 0x26 0x01]                                             # list type (list8), length = 38, field count = 1
+     [0x00 0x53 0x1d]                                             # error header
+     [0xc0 0x20]                                                  # list type (list8), length = 32
+     [0x01]                                                       # field count = 1
+     [0xa3 0x1d] "amqp:connection:framing-error"                  # error type, length = 29
+
+write [0x00 0x00 0x00 0x0c]                                       # length = 12
+      [0x02]                                                      # doff = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x01]                                                 # channel = 1
+      [0x00 0x53 0x18]                                            # performative = close (24)
+      [0x45]                                                      # list type (list0)
