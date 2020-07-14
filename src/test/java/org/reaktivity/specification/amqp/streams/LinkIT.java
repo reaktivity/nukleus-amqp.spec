@@ -147,8 +147,8 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/link.credit.max.exceeded/client",
-        "${scripts}/link.credit.max.exceeded/server"})
+        "${scripts}/link.credit.exceeded/client",
+        "${scripts}/link.credit.exceeded/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldRejectTransferWhenLinkCreditMaxExceeded() throws Exception
     {
