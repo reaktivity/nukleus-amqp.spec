@@ -47,5 +47,3 @@ write nukleus:data.ext ${amqp:dataEx()
 write "Text!"
 
 write abort
-
-read aborted

@@ -117,7 +117,7 @@ read [0x00 0x00 0x00 0x1d]                                       # length = 29
      [0x00 0x53 0x13]                                            # performative = flow (19)
      [0xc0 0x10 0x07]                                            # list type (list8), length = 16, field count = 7
      [0x52 0x01]                                                 # next-incoming-id = 1
-     [0x52 0x08]                                                 # incoming-window = 8
+     [0x52 0x01]                                                 # incoming-window = 1
      [0x52 0x01]                                                 # next-outgoing-id = 1
      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
      [0x43]                                                      # handle
@@ -153,14 +153,16 @@ write [0x00 0x00 0x00 0x23]                                       # length = 35
       [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x05] "Text!"           # payload = "Text!"
 
 # detach frame exchange
-read [0x00 0x00 0x00 0x33]                                        # length = 51
+read [0x00 0x00 0x00 0x39]                                        # length = 57
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
      [0x00 0x53 0x16]                                             # performative = detach (22)
-     [0xc0 0x26 0x03]                                             # list type (list8), length = 38, field count = 3
+     [0xc0 0x2c 0x03]                                             # list type (list8), length = 44, field count = 3
      [0x43]                                                       # handle = 0
      [0x41]                                                       # closed = true
+     [0x00 0x53 0x1d]                                             # error header
+     [0xc0 0x24 0x01]                                             # list type (list8), length = 36, field count = 1
      [0xa3 0x21] "amqp:link:transfer-limit-exceeded"              # error = transfer-limit-exceeded
 
 write [0x00 0x00 0x00 0x10]                                       # length = 16
