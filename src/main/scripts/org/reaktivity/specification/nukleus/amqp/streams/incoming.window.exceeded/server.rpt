@@ -25,7 +25,7 @@ accepted
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
                              .address("clients")
-                             .capabilities("RECEIVE_ONLY")
+                             .capabilities("SEND_ONLY")
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
@@ -33,43 +33,20 @@ read nukleus:begin.ext ${amqp:beginEx()
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
                               .address("clients")
-                              .capabilities("RECEIVE_ONLY")
+                              .capabilities("SEND_ONLY")
                               .senderSettleMode("SETTLED")
                               .receiverSettleMode("FIRST")
                               .build()}
-
 connected
 
-write nukleus:data.ext ${amqp:dataEx()
-                             .typeId(nukleus:id("amqp"))
-                             .deliveryId(0)
-                             .deliveryTag("0")
-                             .messageFormat(0)
-                             .flags("SETTLED")
-                             .build()}
+read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
+                            .deliveryId(0)
+                            .deliveryTag("0")
+                            .messageFormat(0)
+                            .flags("SETTLED")
+                            .build()}
 
-write "Text1"
+read "Text!"
 
-write nukleus:data.ext ${amqp:dataEx()
-                             .typeId(nukleus:id("amqp"))
-                             .deliveryId(1)
-                             .deliveryTag("1")
-                             .messageFormat(0)
-                             .flags("SETTLED")
-                             .build()}
-
-write "Text2"
-
-write nukleus:data.ext ${amqp:dataEx()
-                             .typeId(nukleus:id("amqp"))
-                             .deliveryId(2)
-                             .deliveryTag("2")
-                             .messageFormat(0)
-                             .flags("SETTLED")
-                             .build()}
-
-write "Text3"
-
-read closed
-
-write close
+read aborted
