@@ -38,13 +38,13 @@ connected
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
-                            .deferred(600 - 475)
+                            .deferred(8000 - 7827)
                             .deliveryId(0)
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
                             .build()}
-read [0..600]
+read [0..8000]
 
 connect await ROUTED_CLIENT
         "nukleus://streams/amqp#0"
@@ -70,12 +70,10 @@ connected
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
-                            .deferred(600 - 475)
+                            .deferred(8000 - 7827)
                             .deliveryId(0)
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
                             .build()}
-read [0..600]
-
-read closed
+read [0..8000]
