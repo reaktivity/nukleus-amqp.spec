@@ -132,6 +132,7 @@ scope amqp
 
         struct AmqpDataEx extends core::stream::Extension
         {
+            int32 deferred = 0;
             uint32 deliveryId;
             AmqpBinary deliveryTag;
             uint32 messageFormat;

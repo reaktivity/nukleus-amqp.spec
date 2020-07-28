@@ -26,29 +26,33 @@ write "AMQP" [0x00 0x01 0x00 0x00]
 read "AMQP" [0x00 0x01 0x00 0x00]
 
 # open frame exchange
-write [0x00 0x00 0x00 0x16]                                      # length = 22
+write [0x00 0x00 0x00 0x23]                                      # length = 35
       [0x02]                                                     # doff = 2
       [0x00]                                                     # type = AMQP (0)
       [0x00 0x00]                                                # channel = 0
       [0x00 0x53 0x10]                                           # performative = open (16)
-      [0xc0 0x09]                                                # list type (LIST1), length = 9
-      [0x01]                                                     # field count = 1
+      [0xc0 0x16]                                                # list type (LIST1), length = 22
+      [0x03]                                                     # field count = 3
       [0xa1 0x06] "client"                                       # container-id = "client"
+      [0xa1 0x06] "server"                                       # hostname = "server"
+      [0x70 0x00 0x10 0x00 0x00]                                 # max frame size = 1048576
 
-read [0x00 0x00 0x00 0x16]                                       # length = 22
+read [0x00 0x00 0x00 0x1c]                                       # length = 28
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
      [0x00 0x53 0x10]                                            # performative = open (16)
-     [0xc0 0x09]                                                 # list type (LIST1), length = 9
-     [0x01]                                                      # field count = 1
+     [0xc0 0x0f]                                                 # list type (LIST1), length = 15
+     [0x03]                                                      # field count = 3
      [0xa1 0x06] "server"                                        # container-id = "server"
+     [0x40]                                                      # hostname = null
+     [0x70 0x00 0x02 0x00 0x00]                                  # max frame size = 131072
 
 # begin frame exchange
 write [0x00 0x00 0x00 0x1b]                                      # length = 27
       [0x02]                                                     # doff = 2
       [0x00]                                                     # type = AMQP (0)
-      [0x00 0x01]                                                # channel = 1
+      [0x00 0x00]                                                # channel = 0
       [0x00 0x53 0x11]                                           # performative = begin (17)
       [0xc0 0x0e]                                                # list type (list8), length = 14
       [0x04]                                                     # field count = 4
@@ -60,26 +64,26 @@ write [0x00 0x00 0x00 0x1b]                                      # length = 27
 read [0x00 0x00 0x00 0x1d]                                       # length = 29
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
-     [0x00 0x01]                                                 # channel = 1
+     [0x00 0x00]                                                 # channel = 0
      [0x00 0x53 0x11]                                            # performative = begin (17)
      [0xc0 0x10]                                                 # list type (list8), length = 16
      [0x04]                                                      # field count = 4
-     [0x60 0x00 0x01]                                            # remote-channel = 1
+     [0x60 0x00 0x00]                                            # remote-channel = 0
      [0x52 0x01]                                                 # next-outgoing-id = 1
-     [0x70 0x00 0x02 0x00 0x00]                                  # incoming-window = 131072
+     [0x70 0x00 0x01 0x00 0x00]                                  # incoming-window = 65536
      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
 
 # end frame exchange
 write [0x00 0x00 0x00 0x0c]                                      # length = 12
       [0x02]                                                     # doff = 2
       [0x00]                                                     # type = AMQP (0)
-      [0x00 0x01]                                                # channel = 1
+      [0x00 0x00]                                                # channel = 0
       [0x00 0x53 0x17]                                           # performative = end (23)
       [0x45]                                                     # list type (list0)
 
 read [0x00 0x00 0x00 0x0c]                                       # length = 12
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
-     [0x00 0x01]                                                 # channel = 1
+     [0x00 0x00]                                                 # channel = 0
      [0x00 0x53 0x17]                                            # performative = end (23)
      [0x45]                                                      # list type (list0)

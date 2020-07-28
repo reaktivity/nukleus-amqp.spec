@@ -154,6 +154,13 @@ public final class AmqpFunctions
             return this;
         }
 
+        public AmqpDataExBuilder deferred(
+            int deferred)
+        {
+            dataExRW.deferred(deferred);
+            return this;
+        }
+
         public AmqpDataExBuilder deliveryId(
             long deliveryId)
         {
@@ -384,6 +391,7 @@ public final class AmqpFunctions
         private final AmqpDataExFW dataExRO = new AmqpDataExFW();
 
         private Integer typeId;
+        private Integer deferred;
         private Long deliveryId;
         private AmqpBinaryFW.Builder deliveryTagRW;
         private Long messageFormat;
@@ -396,6 +404,13 @@ public final class AmqpFunctions
             int typeId)
         {
             this.typeId = typeId;
+            return this;
+        }
+
+        public AmqpDataExMatcherBuilder deferred(
+            int deferred)
+        {
+            this.deferred = deferred;
             return this;
         }
 
@@ -631,6 +646,7 @@ public final class AmqpFunctions
 
             if (dataEx != null &&
                 matchTypeId(dataEx) &&
+                matchDeferred(dataEx) &&
                 matchDeliveryId(dataEx) &&
                 matchDeliveryTag(dataEx) &&
                 matchMessageFormat(dataEx) &&
@@ -650,6 +666,12 @@ public final class AmqpFunctions
             final AmqpDataExFW dataEx)
         {
             return typeId == dataEx.typeId();
+        }
+
+        private boolean matchDeferred(
+            final AmqpDataExFW dataEx)
+        {
+            return deferred == null || deferred == dataEx.deferred();
         }
 
         private boolean matchDeliveryId(
