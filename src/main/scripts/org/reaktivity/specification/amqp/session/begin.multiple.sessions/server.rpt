@@ -68,7 +68,7 @@ write [0x00 0x00 0x00 0x1d]                                       # length = 29
       [0x04]                                                      # field count = 4
       [0x60 0x00 0x00]                                            # remote-channel = 0
       [0x52 0x01]                                                 # next-outgoing-id = 1
-      [0x70 0x00 0x02 0x00 0x00]                                  # incoming-window = 131072
+      [0x70 0x00 0x01 0x00 0x00]                                  # incoming-window = 65536
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
 
 # begin frame exchange
@@ -93,5 +93,5 @@ write [0x00 0x00 0x00 0x1d]                                       # length = 29
       [0x04]                                                      # field count = 4
       [0x60 0x00 0x01]                                            # remote-channel = 1
       [0x52 0x01]                                                 # next-outgoing-id = 1
-      [0x70 0x00 0x02 0x00 0x00]                                  # incoming-window = 131072
+      [0x70 0x00 0x01 0x00 0x00]                                  # incoming-window = 65536
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647

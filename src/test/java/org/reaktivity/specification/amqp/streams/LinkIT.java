@@ -87,10 +87,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.client.at.most.once/client",
-        "${scripts}/transfer.to.client.at.most.once/server"})
+        "${scripts}/transfer.to.client/client",
+        "${scripts}/transfer.to.client/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToClientAtMostOnce() throws Exception
+    public void shouldTransferToClient() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -99,8 +99,8 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.server.at.most.once/client",
-        "${scripts}/transfer.to.server.at.most.once/server"})
+        "${scripts}/transfer.to.server/client",
+        "${scripts}/transfer.to.server/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldTransferToServerAtMostOnce() throws Exception
     {
@@ -151,18 +151,6 @@ public class LinkIT
         "${scripts}/link.credit.max.exceeded/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldRejectTransferWhenLinkCreditMaxExceeded() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_SERVER");
-        k3po.finish();
-    }
-
-    @Test
-    @Specification({
-        "${scripts}/transfer.with.more.to.client/client",
-        "${scripts}/transfer.with.more.to.client/server"})
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferWithMoreToClient() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -235,6 +223,114 @@ public class LinkIT
         "${scripts}/transfer.to.server.with.application.properties/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldTransferToServerWithApplicationProperties() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.when.max.frame.size.exceeded/client",
+        "${scripts}/transfer.to.client.when.max.frame.size.exceeded/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWhenMaxFrameSizeExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.when.max.frame.size.exceeded/client",
+        "${scripts}/transfer.to.server.when.max.frame.size.exceeded/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWhenMaxFrameSizeExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.when.fragmented/client",
+        "${scripts}/transfer.to.client.when.fragmented/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWhenFragmented() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.when.fragmented/client",
+        "${scripts}/transfer.to.server.when.fragmented/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWhenFragmented() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.when.links.interleaved/client",
+        "${scripts}/transfer.to.client.when.links.interleaved/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWhenLinksInterleaved() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.when.links.interleaved/client",
+        "${scripts}/transfer.to.server.when.links.interleaved/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWhenLinksInterleaved() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.when.links.interleaved.and.max.frame.size.exceeded/client",
+        "${scripts}/transfer.to.client.when.links.interleaved.and.max.frame.size.exceeded/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWhenLinksInterleavedAndMaxFrameSizeExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.when.links.interleaved.and.fragmented/client",
+        "${scripts}/transfer.to.client.when.links.interleaved.and.fragmented/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWhenLinksInterleavedAndFragmented() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.when.links.interleaved.and.fragmented/client",
+        "${scripts}/transfer.to.server.when.links.interleaved.and.fragmented/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWhenLinksInterleavedAndFragmented() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");

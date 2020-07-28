@@ -123,6 +123,27 @@ public class AmqpFunctionsTest
     }
 
     @Test
+    public void shouldEncodeAmqpDataExtensionWithDeferred()
+    {
+        final byte[] array = dataEx()
+            .typeId(0)
+            .deferred(100)
+            .deliveryId(0)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags("SETTLED")
+            .build();
+
+        DirectBuffer buffer = new UnsafeBuffer(array);
+        AmqpDataExFW amqpDataEx = new AmqpDataExFW().wrap(buffer, 0, buffer.capacity());
+        assertEquals(amqpDataEx.deliveryId(), 0);
+        assertEquals(amqpDataEx.deliveryTag().toString(), "AMQP_BINARY [length=2, bytes=octets[2]]");
+        assertEquals(amqpDataEx.messageFormat(), 0);
+        assertEquals(amqpDataEx.flags(), 1);
+        assertEquals(amqpDataEx.deferred(), 100);
+    }
+
+    @Test
     public void shouldEncodeAmqpDataExtensionWithAnnotations()
     {
         final byte[] array = dataEx()
@@ -390,6 +411,32 @@ public class AmqpFunctionsTest
         assertNotNull(matcher.match(byteBuf));
     }
 
+    @Test
+    public void shouldMatchAmqpDataExtensionWithDeferred() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .deferred(100)
+            .deliveryId(0)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags("BATCHABLE", "ABORTED", "RESUME", "SETTLED")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deferred(100)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(15)
+            .build();
+
+        assertNotNull(matcher.match(byteBuf));
+    }
+
     @Test(expected = Exception.class)
     public void shouldNotMatchAmqpDataExtensionTypeId() throws Exception
     {
@@ -405,6 +452,32 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
+            .deliveryId(0)
+            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
+            .messageFormat(0)
+            .flags(1)
+            .build();
+
+        matcher.match(byteBuf);
+    }
+
+    @Test(expected = Exception.class)
+    public void shouldNotMatchAmqpDataExtensionDeferred() throws Exception
+    {
+        BytesMatcher matcher = matchDataEx()
+            .typeId(0)
+            .deferred(120)
+            .deliveryId(0)
+            .deliveryTag("00")
+            .messageFormat(0)
+            .flags("SETTLED")
+            .build();
+
+        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
+
+        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
+            .typeId(0)
+            .deferred(60)
             .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
