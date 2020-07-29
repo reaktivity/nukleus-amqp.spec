@@ -137,7 +137,7 @@ write [0x00 0x00 0x04 0x05]                                       # length = 102
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
       [0x00 0x53 0x77 0xb0 0x00 0x00 0x03 0xe8]                   # application data value header, vbin32, length = 1000
-      ${amqp:randomBytes(1000)}                                   # payload = 7970 random bytes
+      ${amqp:randomBytes(1000)}                                   # payload = 1000 random bytes
 
 # close frame
 read [0x00 0x00 0x00 0x33]                                        # length = 51
