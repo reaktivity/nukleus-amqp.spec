@@ -439,4 +439,30 @@ public class StreamIT
         k3po.notifyBarrier("ROUTED_CLIENT");
         k3po.finish();
     }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/link.credit.exceeded/client",
+        "${streams}/link.credit.exceeded/server"
+    })
+    public void shouldDetachLinkWhenLinkCreditExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/max.frame.size.exceeded.with.multiple.sessions.and.links/client",
+        "${streams}/max.frame.size.exceeded.with.multiple.sessions.and.links/server"
+    })
+    public void shouldCloseConnectionWhenMaxFrameSizeExceededWithMultipleSessions() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
 }

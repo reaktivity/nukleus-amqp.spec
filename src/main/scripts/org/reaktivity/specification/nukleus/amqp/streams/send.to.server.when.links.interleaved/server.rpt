@@ -18,7 +18,9 @@ property serverTransport "nukleus://streams/target#0"
 
 accept ${serverTransport}
   option nukleus:window 8192
+  option nukleus:sharedWindow 8192
   option nukleus:transmission "duplex"
+  option nukleus:budgetId 5
 
 accepted
 

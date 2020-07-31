@@ -135,8 +135,8 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/detach.link/client",
-        "${scripts}/detach.link/server"})
+        "${scripts}/detach.exchange/client",
+        "${scripts}/detach.exchange/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldDetachLink() throws Exception
     {
@@ -147,10 +147,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/link.credit.max.exceeded/client",
-        "${scripts}/link.credit.max.exceeded/server"})
+        "${scripts}/link.credit.exceeded/client",
+        "${scripts}/link.credit.exceeded/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldRejectTransferWhenLinkCreditMaxExceeded() throws Exception
+    public void shouldDetachLinkCreditExceeded() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -331,6 +331,18 @@ public class LinkIT
         "${scripts}/transfer.to.server.when.links.interleaved.and.fragmented/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldTransferToServerWhenLinksInterleavedAndFragmented() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/max.frame.size.exceeded.with.multiple.sessions.and.links/client",
+        "${scripts}/max.frame.size.exceeded.with.multiple.sessions.and.links/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldCloseConnectionWhenMaxFrameSizeExceededWithMultipleSessions() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
