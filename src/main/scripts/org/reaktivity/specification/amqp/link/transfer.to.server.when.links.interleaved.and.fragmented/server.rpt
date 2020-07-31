@@ -265,7 +265,7 @@ write [0x00 0x00 0x00 0x1e]                                       # length = 30
       [0x52 0x01]                                                 # link-credit = 1
 
 # transfer frame for link1
-read [0x00 0x00 0x00 0x2e]                                        # length = 46
+read [0x00 0x00 0x00 0x2f]                                        # length = 47
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
