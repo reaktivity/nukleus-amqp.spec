@@ -39,14 +39,23 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .build()}
 connected
 
-read nukleus:data.ext ${amqp:dataEx()
-                            .typeId(nukleus:id("amqp"))
-                            .deliveryId(0)
-                            .deliveryTag("0")
-                            .messageFormat(0)
-                            .flags("SETTLED")
-                            .build()}
+accepted
 
-read "Text!"
+read nukleus:begin.ext ${amqp:beginEx()
+                             .typeId(nukleus:id("amqp"))
+                             .address("clients")
+                             .capabilities("SEND_ONLY")
+                             .senderSettleMode("SETTLED")
+                             .receiverSettleMode("FIRST")
+                             .build()}
+
+write nukleus:begin.ext ${amqp:beginEx()
+                              .typeId(nukleus:id("amqp"))
+                              .address("clients")
+                              .capabilities("SEND_ONLY")
+                              .senderSettleMode("SETTLED")
+                              .receiverSettleMode("FIRST")
+                              .build()}
+connected
 
 read aborted
