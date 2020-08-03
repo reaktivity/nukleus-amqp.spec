@@ -56,10 +56,10 @@ public final class AmqpFunctions
                 .wrap(writeBuffer, 0, writeBuffer.capacity());
         }
 
-        public AmqpRouteExBuilder targetAddress(
-            String targetAddress)
+        public AmqpRouteExBuilder address(
+            String address)
         {
-            routeExRW.targetAddress(targetAddress);
+            routeExRW.address(address);
             return this;
         }
 

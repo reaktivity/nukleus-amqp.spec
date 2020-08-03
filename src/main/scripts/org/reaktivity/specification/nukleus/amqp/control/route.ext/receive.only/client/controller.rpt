@@ -32,7 +32,7 @@ write 0L
 write ${core:string("amqp#0")}
 write ${core:string("target#0")}
 write ${amqp:routeEx()
-            .targetAddress("target#0")
+            .address("clients")
             .capabilities("RECEIVE_ONLY")
             .build()}
 write flush

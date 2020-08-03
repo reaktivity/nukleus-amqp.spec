@@ -115,7 +115,7 @@ scope amqp
     {
         struct AmqpRouteEx
         {
-            string8 targetAddress;
+            string8 address;
             AmqpCapabilities capabilities = SEND_AND_RECEIVE;
         }
     }
