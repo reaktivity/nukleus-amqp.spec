@@ -72,14 +72,14 @@ public class AmqpFunctionsTest
     public void shouldEncodeAmqpRouteExtension()
     {
         final byte[] array = routeEx()
-            .targetAddress("clients")
+            .address("clients")
             .capabilities("RECEIVE_ONLY")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
         AmqpRouteExFW amqpRouteEx = new AmqpRouteExFW().wrap(buffer, 0, buffer.capacity());
 
-        assertEquals(amqpRouteEx.targetAddress().asString(), "clients");
+        assertEquals(amqpRouteEx.address().asString(), "clients");
         assertEquals(amqpRouteEx.capabilities().toString(), "RECEIVE_ONLY");
     }
 

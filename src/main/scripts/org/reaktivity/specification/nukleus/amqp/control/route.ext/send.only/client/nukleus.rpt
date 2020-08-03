@@ -32,8 +32,8 @@ read [0..8] # authorization
 read ${core:string("amqp#0")}
 read ${core:string("target#0")}
 read ${amqp:routeEx()
-           .targetAddress("target#0")
-           .capabilities("RECEIVE_ONLY")
+           .address("clients")
+           .capabilities("SEND_ONLY")
            .build()}
 
 write 0x40000001

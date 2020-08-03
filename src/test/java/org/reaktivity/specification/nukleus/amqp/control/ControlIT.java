@@ -47,20 +47,20 @@ public class ControlIT
 
     @Test
     @Specification({
-        "route.ext.receiver/server/nukleus",
-        "route.ext.receiver/server/controller"
+        "route.ext/receive.only/server/nukleus",
+        "route.ext/receive.only/server/controller"
     })
-    public void shouldRouteServerWithExtensionAsReceiver() throws Exception
+    public void shouldRouteServerReceiveOnly() throws Exception
     {
         k3po.finish();
     }
 
     @Test
     @Specification({
-        "route.ext.sender/server/nukleus",
-        "route.ext.sender/server/controller"
+        "route.ext/send.only/server/nukleus",
+        "route.ext/send.only/server/controller"
     })
-    public void shouldRouteServerWithExtensionAsSender() throws Exception
+    public void shouldRouteServerSendOnly() throws Exception
     {
         k3po.finish();
     }
@@ -77,20 +77,20 @@ public class ControlIT
 
     @Test
     @Specification({
-        "route.ext.receiver/client/nukleus",
-        "route.ext.receiver/client/controller"
+        "route.ext/receive.only/client/nukleus",
+        "route.ext/receive.only/client/controller"
     })
-    public void shouldRouteClientWithExtensionAsReceiver() throws Exception
+    public void shouldRouteClientReceiveOnly() throws Exception
     {
         k3po.finish();
     }
 
     @Test
     @Specification({
-        "route.ext.sender/client/nukleus",
-        "route.ext.sender/client/controller"
+        "route.ext/send.only/client/nukleus",
+        "route.ext/send.only/client/controller"
     })
-    public void shouldRouteClientWithExtensionAsSender() throws Exception
+    public void shouldRouteClientSendOnly() throws Exception
     {
         k3po.finish();
     }

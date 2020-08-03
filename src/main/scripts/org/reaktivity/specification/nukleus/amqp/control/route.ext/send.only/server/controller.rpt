@@ -14,34 +14,36 @@
 # under the License.
 #
 
-property nukleiRG010101C ${nuklei:directory("target/nukleus-itests").controlCapacity(1024, 1024)}
+property nukleiRG010001C ${nuklei:directory("target/nukleus-itests").controlCapacity(1024, 1024)}
 
-property controlRG010101C ${nukleiRG010101C.control()}
+property controlRG010001C ${nukleiRG010001C.control()}
+
+property routeAuthorization 0x0000_000000000000L
 
 connect "agrona://stream/bidirectional"
-        option agrona:reader ${agrona:broadcastReceiver(controlRG010101C.controller)}
-        option agrona:writer ${agrona:manyToOneWriter(controlRG010101C.nukleus)}
+        option agrona:reader ${agrona:broadcastReceiver(controlRG010001C.controller)}
+        option agrona:writer ${agrona:manyToOneWriter(controlRG010001C.nukleus)}
 
 connected
 
 write 0x00000001
-write ${controlRG010101C.nextCorrelationId()}
+write ${controlRG010001C.nextCorrelationId()}
 write ${core:string("amqp")}
-write [0x01]
-write 0L
+write [0x00]
+write ${routeAuthorization}
 write ${core:string("amqp#0")}
 write ${core:string("target#0")}
 write ${amqp:routeEx()
-            .targetAddress("target#0")
+            .address("clients")
             .capabilities("SEND_ONLY")
             .build()}
 write flush
 
 read 0x40000001
-read ${controlRG010101C.correlationId()}
-read (long:newClientRouteId)
+read ${controlRG010001C.correlationId()}
+read (long:newServerRouteId)
 
-read notify ROUTED_CLIENT
+read notify ROUTED_SERVER
 
 close
 closed
