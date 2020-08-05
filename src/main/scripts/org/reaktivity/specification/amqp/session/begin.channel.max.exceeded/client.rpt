@@ -26,7 +26,7 @@ write "AMQP" [0x00 0x01 0x00 0x00]
 read "AMQP" [0x00 0x01 0x00 0x00]
 
 # open frame exchange
-write [0x00 0x00 0x00 0x2f]                                      # length = 47
+write [0x00 0x00 0x00 0x2f]                                      # size = 47
       [0x02]                                                     # doff = 2
       [0x00]                                                     # type = AMQP (0)
       [0x00 0x00]                                                # channel = 0
@@ -38,7 +38,7 @@ write [0x00 0x00 0x00 0x2f]                                      # length = 47
       [0x70 0x00 0x10 0x00 0x00]                                 # max-frame-size = 1048576
       [0x60 0x00 0x00]                                           # channel-max = 0
 
-read [0x00 0x00 0x00 0x1f]                                       # length = 31
+read [0x00 0x00 0x00 0x1f]                                       # size = 31
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
@@ -51,7 +51,7 @@ read [0x00 0x00 0x00 0x1f]                                       # length = 31
      [0x60 0x00 0x00]                                            # channel-max = 0
 
 # begin frame exchange
-write [0x00 0x00 0x00 0x1b]                                      # length = 27
+write [0x00 0x00 0x00 0x1b]                                      # size = 27
       [0x02]                                                     # doff = 2
       [0x00]                                                     # type = AMQP (0)
       [0x00 0x01]                                                # channel = 1
@@ -63,7 +63,7 @@ write [0x00 0x00 0x00 0x1b]                                      # length = 27
       [0x70 0x00 0x00 0x07 0xff]                                 # incoming-window = 2047
       [0x70 0x7f 0xff 0xff 0xff]                                 # outgoing-window = 2147483647
 
-read [0x00 0x00 0x00 0x1d]                                       # length = 29
+read [0x00 0x00 0x00 0x1d]                                       # size = 29
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x01]                                                 # channel = 1
@@ -76,7 +76,7 @@ read [0x00 0x00 0x00 0x1d]                                       # length = 29
      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
 
 # begin frame exchange
-write [0x00 0x00 0x00 0x1b]                                      # length = 27
+write [0x00 0x00 0x00 0x1b]                                      # size = 27
       [0x02]                                                     # doff = 2
       [0x00]                                                     # type = AMQP (0)
       [0x00 0x02]                                                # channel = 2
@@ -89,7 +89,7 @@ write [0x00 0x00 0x00 0x1b]                                      # length = 27
       [0x70 0x7f 0xff 0xff 0xff]                                 # outgoing-window = 2147483647
 
 # close frame exchange
-read [0x00 0x00 0x00 0x2d]                                       # length = 45
+read [0x00 0x00 0x00 0x2d]                                       # size = 45
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0

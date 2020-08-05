@@ -28,7 +28,7 @@ read "AMQP" [0x00 0x01 0x00 0x00]
 write "AMQP" [0x00 0x01 0x00 0x00]
 
 # open frame exchange
-read [0x00 0x00 0x00 0x16]                                        # length = 22
+read [0x00 0x00 0x00 0x16]                                        # size = 22
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
@@ -37,7 +37,7 @@ read [0x00 0x00 0x00 0x16]                                        # length = 22
      [0x01]                                                       # field count = 1
      [0xa1 0x06] "client"                                         # container-id = "client"
 
-write [0x00 0x00 0x00 0x16]                                       # length = 22
+write [0x00 0x00 0x00 0x16]                                       # size = 22
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
@@ -47,7 +47,7 @@ write [0x00 0x00 0x00 0x16]                                       # length = 22
       [0xa1 0x06] "server"                                        # container-id = "server"
 
 # begin frame exchange
-read [0x00 0x00 0x00 0x1b]                                        # length = 27
+read [0x00 0x00 0x00 0x1b]                                        # size = 27
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
@@ -59,7 +59,7 @@ read [0x00 0x00 0x00 0x1b]                                        # length = 27
      [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
      [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
 
-write [0x00 0x00 0x00 0x1d]                                       # length = 29
+write [0x00 0x00 0x00 0x1d]                                       # size = 29
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x01]                                                 # channel = 1
@@ -72,7 +72,7 @@ write [0x00 0x00 0x00 0x1d]                                       # length = 29
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
 
 # attach frame exchange
-read [0x00 0x00 0x00 0x2a]                                        # length = 42
+read [0x00 0x00 0x00 0x2a]                                        # size = 42
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
@@ -89,7 +89,7 @@ read [0x00 0x00 0x00 0x2a]                                        # length = 42
      [0x01]                                                       # field count = 1
      [0xa1 0x07] "clients"                                        # address = "clients"
 
-write [0x00 0x00 0x00 0x2a]                                       # length = 42
+write [0x00 0x00 0x00 0x2a]                                       # size = 42
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x01]                                                 # channel = 1
@@ -107,7 +107,7 @@ write [0x00 0x00 0x00 0x2a]                                       # length = 42
       [0xa1 0x07] "clients"                                       # address = "clients"
 
 # flow frame
-read [0x00 0x00 0x00 0x1c]                                        # length = 28
+read [0x00 0x00 0x00 0x1c]                                        # size = 28
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
@@ -120,7 +120,7 @@ read [0x00 0x00 0x00 0x1c]                                        # length = 28
      [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
 
 # attach frame exchange
-read [0x00 0x00 0x00 0x2a]                                        # length = 42
+read [0x00 0x00 0x00 0x2a]                                        # size = 42
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
@@ -137,7 +137,7 @@ read [0x00 0x00 0x00 0x2a]                                        # length = 42
      [0x01]                                                       # field count = 1
      [0xa1 0x07] "clients"                                        # address = "clients"
 
-write [0x00 0x00 0x00 0x2a]                                       # length = 42
+write [0x00 0x00 0x00 0x2a]                                       # size = 42
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x01]                                                 # channel = 1
@@ -155,7 +155,7 @@ write [0x00 0x00 0x00 0x2a]                                       # length = 42
       [0xa1 0x07] "clients"                                       # address = "clients"
 
 # flow frame
-write [0x00 0x00 0x00 0x1c]                                       # length = 28
+write [0x00 0x00 0x00 0x1c]                                       # size = 28
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x01]                                                 # channel = 1
