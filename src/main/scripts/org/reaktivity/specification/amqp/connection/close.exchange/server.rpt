@@ -33,7 +33,7 @@ read [0x00 0x00 0x00 0x16]                                        # size = 22
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x10]                                             # performative = open (16)
-     [0xc0 0x09 0x01]                                             # list type (LIST1), length = 9, field count = 1
+     [0xc0 0x09 0x01]                                             # list type (LIST1), length = 9, fields = 1
      [0xa1 0x06] "client"                                         # container-id = "client"
 
 write [0x00 0x00 0x00 0x16]                                       # size = 22
@@ -41,7 +41,7 @@ write [0x00 0x00 0x00 0x16]                                       # size = 22
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x10]                                            # performative = open (16)
-      [0xc0 0x09 0x01]                                            # list type (LIST1), length = 9, field count = 1
+      [0xc0 0x09 0x01]                                            # list type (LIST1), length = 9, fields = 1
       [0xa1 0x06] "server"                                        # container-id = "server"
 
 # close frame exchange
