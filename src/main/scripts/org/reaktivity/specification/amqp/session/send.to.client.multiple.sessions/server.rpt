@@ -29,125 +29,110 @@ read "AMQP" [0x00 0x01 0x00 0x00]
 write "AMQP" [0x00 0x01 0x00 0x00]
 
 # open frame exchange
-read [0x00 0x00 0x00 0x23]                                        # length = 35
+read [0x00 0x00 0x00 0x16]                                        # size = 22
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x10]                                             # performative = open (16)
-     [0xc0 0x16]                                                  # list type (LIST1), length = 22
-     [0x03]                                                       # field count = 3
+     [0xc0 0x09 0x01]                                             # list type (LIST1), length = 9, fields = 1
      [0xa1 0x06] "client"                                         # container-id = "client"
-     [0xa1 0x06] "server"                                         # hostname = "server"
-     [0x70 0x00 0x10 0x00 0x00]                                   # max frame size = 1048576
 
-write [0x00 0x00 0x00 0x1c]                                       # length = 28
+write [0x00 0x00 0x00 0x16]                                       # size = 22
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x10]                                            # performative = open (16)
-      [0xc0 0x0f]                                                 # list type (LIST1), length = 15
-      [0x03]                                                      # field count = 3
+      [0xc0 0x09 0x01]                                            # list type (LIST1), length = 9, fields = 1
       [0xa1 0x06] "server"                                        # container-id = "server"
-      [0x40]                                                      # hostname = null
-      [0x70 0x00 0x02 0x00 0x00]                                  # max frame size = 131072
 
-# begin frame exchange
-read [0x00 0x00 0x00 0x1b]                                        # length = 27
+# begin frame exchange for session 1
+read [0x00 0x00 0x00 0x1b]                                        # size = 27
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x11]                                             # performative = begin (17)
-     [0xc0 0x0e]                                                  # list type (list8), length = 14
-     [0x04]                                                       # field count = 4
+     [0xc0 0x0e 0x04]                                             # list type (list8), length = 14, fields = 4
      [0x40]                                                       # remote-channel = null
      [0x52 0x01]                                                  # next-outgoing-id = 1
      [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
      [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
 
-write [0x00 0x00 0x00 0x1d]                                       # length = 29
+write [0x00 0x00 0x00 0x1d]                                       # size = 29
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x11]                                            # performative = begin (17)
-      [0xc0 0x10]                                                 # list type (list8), length = 16
-      [0x04]                                                      # field count = 4
+      [0xc0 0x10 0x04]                                            # list type (list8), length = 16, fields = 4
       [0x60 0x00 0x00]                                            # remote-channel = 0
       [0x52 0x01]                                                 # next-outgoing-id = 1
       [0x70 0x00 0x01 0x00 0x00]                                  # incoming-window = 65536
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
 
-# begin frame exchange
-read [0x00 0x00 0x00 0x1b]                                        # length = 27
+# begin frame exchange for session 2
+read [0x00 0x00 0x00 0x1b]                                        # size = 27
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
      [0x00 0x53 0x11]                                             # performative = begin (17)
-     [0xc0 0x0e]                                                  # list type (list8), length = 14
-     [0x04]                                                       # field count = 4
+     [0xc0 0x0e 0x04]                                             # list type (list8), length = 14, fields = 4
      [0x40]                                                       # remote-channel = null
      [0x52 0x01]                                                  # next-outgoing-id = 1
      [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
      [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
 
-write [0x00 0x00 0x00 0x1d]                                       # length = 29
+write [0x00 0x00 0x00 0x1d]                                       # size = 29
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x01]                                                 # channel = 1
       [0x00 0x53 0x11]                                            # performative = begin (17)
-      [0xc0 0x10]                                                 # list type (list8), length = 16
-      [0x04]                                                      # field count = 4
+      [0xc0 0x10 0x04]                                            # list type (list8), length = 16, fields = 4
       [0x60 0x00 0x01]                                            # remote-channel = 1
       [0x52 0x01]                                                 # next-outgoing-id = 1
       [0x70 0x00 0x01 0x00 0x00]                                  # incoming-window = 65536
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
 
-# attach frame exchange for session with channel 1
-read [0x00 0x00 0x00 0x2a]                                        # length = 42
+# attach frame exchange for session 1
+read [0x00 0x00 0x00 0x2a]                                        # size = 42
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x12]                                             # performative = attach (18)
-     [0xc0 0x1d]                                                  # list type (list8), length = 29
-     [0x06]                                                       # field count = 6
+     [0xc0 0x1d 0x06]                                             # list type (list8), length = 29, fields = 6
      [0xa1 0x05] "link1"                                          # name = "link1"
      [0x43]                                                       # handle = 0
      [0x41]                                                       # role = receiver
      [0x50 0x01]                                                  # snd-settle-mode = settled
      [0x50 0x00]                                                  # rcv-settle-mode = first
      [0x00 0x53 0x28]                                             # source
-     [0xc0 0x0a]                                                  # list type (list8), length = 10
-     [0x01]                                                       # field count = 1
+     [0xc0 0x0a 0x01]                                             # list type (list8), length = 10, fields = 1
      [0xa1 0x07] "clients"                                        # address = "clients"
 
-write [0x00 0x00 0x00 0x31]                                       # length = 49
+write [0x00 0x00 0x00 0x31]                                       # size = 49
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x12]                                            # performative = attach (18)
-      [0xc0 0x24]                                                 # list type (list8), length = 36
-      [0x0a]                                                      # field count = 10
+      [0xc0 0x24 0x0a]                                            # list type (list8), length = 36, fields = 10
       [0xa1 0x05] "link1"                                         # name = "link1"
       [0x43]                                                      # handle = 0
       [0x42]                                                      # role = sender
       [0x50 0x01]                                                 # snd-settle-mode = settled
       [0x50 0x00]                                                 # rcv-settle-mode = first
       [0x00 0x53 0x28]                                            # source
-      [0xc0 0x0a]                                                 # list type (list8), length = 10
-      [0x01]                                                      # field count = 1
+      [0xc0 0x0a 0x01]                                            # list type (list8), length = 10, fields = 1
       [0xa1 0x07] "clients"                                       # address = "clients"
       [0x00 0x53 0x29 0x45]                                       # target = empty list
       [0x40]                                                      # unsettled = null
       [0x40]                                                      # incomplete-unsettled = null (default = false)
       [0x43]                                                      # initial-delivery-count = 0
 
-# flow frame
-read [0x00 0x00 0x00 0x23]                                        # length = 35
+# flow frame for session 1
+read [0x00 0x00 0x00 0x23]                                        # size = 35
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x13]                                             # performative = flow (19)
-     [0xc0 0x16]                                                  # list type (list8), length = 22
-     [0x07]                                                       # field count = 7
+     [0xc0 0x16 0x07]                                             # list type (list8), length = 22, fields = 7
      [0x52 0x01]                                                  # next-incoming-id = 1
      [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
      [0x52 0x01]                                                  # next-outgoing-id = 1
@@ -156,68 +141,63 @@ read [0x00 0x00 0x00 0x23]                                        # length = 35
      [0x43]                                                       # delivery-count = 0
      [0x70 0x00 0x00 0x03 0xe8]                                   # link-credit = 1000
 
-# transfer frame
-write [0x00 0x00 0x00 0x22]                                       # length = 34
+# transfer frame for session 1
+write [0x00 0x00 0x00 0x22]                                       # size = 34
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x14]                                            # performative = transfer (20)
-      [0xc0 0x08]                                                 # list type (list8), length = 8
-      [0x05]                                                      # field count = 5
+      [0xc0 0x08 0x05]                                            # list type (list8), length = 8, fields = 5
       [0x43]                                                      # handle = 0
       [0x43]                                                      # delivery-id = 0
       [0xa0 0x01 0x30]                                            # delivery-tag = "0"
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
-      [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x05] "Text!"           # payload = "Text!"
+      [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x05]                   # message format = amqp-value, vbin32, size = 5
+      "Text!"                                                     # body = "Text!"
 
-# attach frame exchange for session with channel 2
-read [0x00 0x00 0x00 0x2b]                                        # length = 43
+# attach frame exchange for session 2
+read [0x00 0x00 0x00 0x2b]                                        # size = 43
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
      [0x00 0x53 0x12]                                             # performative = attach (18)
-     [0xc0 0x1e]                                                  # list type (list8), length = 30
-     [0x06]                                                       # field count = 6
+     [0xc0 0x1e 0x06]                                             # list type (list8), length = 30, fields = 6
      [0xa1 0x05] "link2"                                          # name = "link2"
      [0x52 0x01]                                                  # handle = 1
      [0x41]                                                       # role = receiver
      [0x50 0x01]                                                  # snd-settle-mode = settled
      [0x50 0x00]                                                  # rcv-settle-mode = first
      [0x00 0x53 0x28]                                             # source
-     [0xc0 0x0a]                                                  # list type (list8), length = 10
-     [0x01]                                                       # field count = 1
+     [0xc0 0x0a 0x01]                                             # list type (list8), length = 10, fields = 1
      [0xa1 0x07] "clients"                                        # address = "clients"
 
-write [0x00 0x00 0x00 0x32]                                       # length = 50
+write [0x00 0x00 0x00 0x32]                                       # size = 50
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x01]                                                 # channel = 1
       [0x00 0x53 0x12]                                            # performative = attach (18)
-      [0xc0 0x25]                                                 # list type (list8), length = 37
-      [0x0a]                                                      # field count = 10
+      [0xc0 0x25 0x0a]                                            # list type (list8), length = 37, fields = 10
       [0xa1 0x05] "link2"                                         # name = "link2"
       [0x52 0x01]                                                 # handle = 1
       [0x42]                                                      # role = sender
       [0x50 0x01]                                                 # snd-settle-mode = settled
       [0x50 0x00]                                                 # rcv-settle-mode = first
       [0x00 0x53 0x28]                                            # source
-      [0xc0 0x0a]                                                 # list type (list8), length = 10
-      [0x01]                                                      # field count = 1
+      [0xc0 0x0a 0x01]                                            # list type (list8), length = 10, fields = 1
       [0xa1 0x07] "clients"                                       # address = "clients"
       [0x00 0x53 0x29 0x45]                                       # target = empty list
       [0x40]                                                      # unsettled = null
       [0x40]                                                      # incomplete-unsettled = null (default = false)
       [0x43]                                                      # initial-delivery-count = 0
 
-# flow frame
-read [0x00 0x00 0x00 0x24]                                        # length = 36
+# flow frame for session 2
+read [0x00 0x00 0x00 0x24]                                        # size = 36
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x01]                                                  # channel = 1
      [0x00 0x53 0x13]                                             # performative = flow (19)
-     [0xc0 0x17]                                                  # list type (list8), length = 23
-     [0x07]                                                       # field count = 7
+     [0xc0 0x17 0x07]                                             # list type (list8), length = 23, fields = 7
      [0x52 0x01]                                                  # next-incoming-id = 1
      [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
      [0x52 0x01]                                                  # next-outgoing-id = 1
@@ -226,17 +206,17 @@ read [0x00 0x00 0x00 0x24]                                        # length = 36
      [0x43]                                                       # delivery-count = 0
      [0x70 0x00 0x00 0x03 0xe8]                                   # link-credit = 1000
 
-# transfer frame
-write [0x00 0x00 0x00 0x23]                                       # length = 35
+# transfer frame for session 2
+write [0x00 0x00 0x00 0x23]                                       # size = 35
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x01]                                                 # channel = 1
       [0x00 0x53 0x14]                                            # performative = transfer (20)
-      [0xc0 0x09]                                                 # list type (list8), length = 9
-      [0x05]                                                      # field count = 5
+      [0xc0 0x09 0x05]                                            # list type (list8), length = 9, fields = 5
       [0x52 0x01]                                                 # handle = 1
       [0x43]                                                      # delivery-id = 0
       [0xa0 0x01 0x30]                                            # delivery-tag = "0"
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
-      [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x05] "Text!"           # payload = "Text!"
+      [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x05]                   # message format = amqp-value, vbin32, size = 5
+      "Text!"                                                     # body = "Text!"
