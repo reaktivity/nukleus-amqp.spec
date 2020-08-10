@@ -111,6 +111,15 @@ scope amqp
         SECOND
     }
 
+    enum AmqpBodyKind
+    {
+        DATA,
+        SEQUENCE,
+        VALUE_STRING,
+        VALUE_BINARY,
+        VALUE
+    }
+
     scope control
     {
         struct AmqpRouteEx
@@ -140,6 +149,7 @@ scope amqp
             AmqpAnnotation[] annotations;
             AmqpProperties properties;
             AmqpApplicationProperty[] applicationProperties;
+            AmqpBodyKind bodyKind;
         }
 
         struct AmqpWindowEx extends core::stream::Extension
