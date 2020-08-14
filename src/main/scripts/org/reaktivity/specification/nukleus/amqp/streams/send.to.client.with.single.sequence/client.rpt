@@ -14,21 +14,10 @@
 # under the License.
 #
 
-property serverTransport "nukleus://streams/target#0"
-
-accept ${serverTransport}
-  option nukleus:window 8192
-  option nukleus:transmission "duplex"
-
-accepted
-
-read nukleus:begin.ext ${amqp:beginEx()
-                             .typeId(nukleus:id("amqp"))
-                             .address("clients")
-                             .capabilities("RECEIVE_ONLY")
-                             .senderSettleMode("SETTLED")
-                             .receiverSettleMode("FIRST")
-                             .build()}
+connect await ROUTED_CLIENT
+        "nukleus://streams/amqp#0"
+        option nukleus:window 8192
+        option nukleus:transmission "duplex"
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
@@ -38,17 +27,24 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .receiverSettleMode("FIRST")
                               .build()}
 
+read nukleus:begin.ext ${amqp:beginEx()
+                             .typeId(nukleus:id("amqp"))
+                             .address("clients")
+                             .capabilities("RECEIVE_ONLY")
+                             .senderSettleMode("SETTLED")
+                             .receiverSettleMode("FIRST")
+                             .build()}
 connected
 
-write nukleus:data.ext ${amqp:dataEx()
-                             .typeId(nukleus:id("amqp"))
-                             .deliveryId(0)
-                             .deliveryTag("0")
-                             .messageFormat(0)
-                             .flags("SETTLED")
-                             .bodyKind("VALUE_BINARY")
-                             .build()}
+read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
+                            .deliveryId(0)
+                            .deliveryTag("0")
+                            .messageFormat(0)
+                            .flags("SETTLED")
+                            .bodyKind("SEQUENCE")
+                            .build()}
 
-write "Text!"
+read [0xc0 0x08 0x01 0xa1 0x05] "Text!"
 
-write close
+read closed

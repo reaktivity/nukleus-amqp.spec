@@ -46,9 +46,9 @@ write nukleus:data.ext ${amqp:dataEx()
                              .deliveryTag("0")
                              .messageFormat(0)
                              .flags("SETTLED")
-                             .bodyKind("VALUE_BINARY")
+                             .bodyKind("VALUE")
                              .build()}
 
-write "Text!"
+write [0xa3 0x05] "Text!"
 
 write close
