@@ -43,6 +43,7 @@ read nukleus:data.ext ${amqp:dataEx()
                             .messageFormat(0)
                             .flags("SETTLED")
                             .property("application", "property1")
+                            .bodyKind("VALUE_STRING8")
                             .build()}
 
 read "Text!"

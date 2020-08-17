@@ -42,7 +42,7 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
-                            .bodyKind("VALUE")
+                            .bodyKind("VALUE_SYMBOL8")
                             .build()}
 
 read [0xa3 0x05] "Text!"

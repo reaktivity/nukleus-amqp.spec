@@ -42,7 +42,7 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
-                            .bodyKind("VALUE_STRING")
+                            .bodyKind("VALUE_STRING32")
                             .build()}
 
 read "large text"

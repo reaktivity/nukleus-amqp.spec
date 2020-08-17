@@ -27,7 +27,7 @@ import static org.reaktivity.specification.amqp.internal.AmqpFunctions.dataEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.matchDataEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomBytes;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.routeEx;
-import static org.reaktivity.specification.amqp.internal.types.AmqpBodyKind.VALUE_STRING;
+import static org.reaktivity.specification.amqp.internal.types.AmqpBodyKind.VALUE;
 
 import java.nio.ByteBuffer;
 
@@ -113,7 +113,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
-            .bodyKind("VALUE_STRING")
+            .bodyKind("VALUE")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -122,7 +122,7 @@ public class AmqpFunctionsTest
         assertEquals(amqpDataEx.deliveryTag().toString(), "AMQP_BINARY [length=2, bytes=octets[2]]");
         assertEquals(amqpDataEx.messageFormat(), 0);
         assertEquals(amqpDataEx.flags(), 1);
-        assertEquals(amqpDataEx.bodyKind().get(), VALUE_STRING);
+        assertEquals(amqpDataEx.bodyKind().get(), VALUE);
     }
 
     @Test
@@ -135,7 +135,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
-            .bodyKind("VALUE_STRING")
+            .bodyKind("VALUE")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -145,7 +145,7 @@ public class AmqpFunctionsTest
         assertEquals(amqpDataEx.messageFormat(), 0);
         assertEquals(amqpDataEx.flags(), 1);
         assertEquals(amqpDataEx.deferred(), 100);
-        assertEquals(amqpDataEx.bodyKind().get(), VALUE_STRING);
+        assertEquals(amqpDataEx.bodyKind().get(), VALUE);
     }
 
     @Test
@@ -159,7 +159,7 @@ public class AmqpFunctionsTest
             .flags("SETTLED")
             .annotation("annotation1", "1")
             .annotation(1L, "0")
-            .bodyKind("VALUE_STRING")
+            .bodyKind("VALUE")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -190,7 +190,7 @@ public class AmqpFunctionsTest
             .groupId("group_id1")
             .groupSequence(1)
             .replyToGroupId("reply_group_id")
-            .bodyKind("VALUE_STRING")
+            .bodyKind("VALUE")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -239,7 +239,7 @@ public class AmqpFunctionsTest
             .subject("subject1")
             .replyTo("localhost")
             .correlationId(12345L)
-            .bodyKind("VALUE_STRING")
+            .bodyKind("VALUE")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -274,7 +274,7 @@ public class AmqpFunctionsTest
             .subject("subject1")
             .replyTo("localhost")
             .correlationId("correlation1".getBytes(UTF_8))
-            .bodyKind("VALUE_STRING")
+            .bodyKind("VALUE")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -304,7 +304,7 @@ public class AmqpFunctionsTest
             .messageFormat(0)
             .flags("SETTLED")
             .property("annotation", "property1")
-            .bodyKind("VALUE_STRING")
+            .bodyKind("VALUE")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -325,7 +325,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("BATCHABLE", "ABORTED", "RESUME", "SETTLED")
-            .bodyKind("VALUE_STRING")
+            .bodyKind("VALUE")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -345,7 +345,7 @@ public class AmqpFunctionsTest
             .messageId("message1")
             .property("annotation1", "property1")
             .property("annotation2", "property2")
-            .bodyKind("VALUE_STRING")
+            .bodyKind("VALUE")
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -394,7 +394,7 @@ public class AmqpFunctionsTest
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(15)
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         assertNotNull(matcher.match(byteBuf));
@@ -419,7 +419,7 @@ public class AmqpFunctionsTest
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(15)
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         assertNotNull(matcher.match(byteBuf));
@@ -446,7 +446,7 @@ public class AmqpFunctionsTest
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(15)
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         assertNotNull(matcher.match(byteBuf));
@@ -471,7 +471,7 @@ public class AmqpFunctionsTest
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         matcher.match(byteBuf);
@@ -498,7 +498,7 @@ public class AmqpFunctionsTest
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         matcher.match(byteBuf);
@@ -523,7 +523,7 @@ public class AmqpFunctionsTest
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         matcher.match(byteBuf);
@@ -548,7 +548,7 @@ public class AmqpFunctionsTest
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         matcher.match(byteBuf);
@@ -573,7 +573,7 @@ public class AmqpFunctionsTest
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         matcher.match(byteBuf);
@@ -598,7 +598,7 @@ public class AmqpFunctionsTest
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(15)
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         matcher.match(byteBuf);
@@ -625,7 +625,7 @@ public class AmqpFunctionsTest
                                            .value(v -> v.bytes(b2 -> b2.set("1".getBytes()))))
                                .item(i -> i.key(k2 -> k2.id(1L))
                                            .value(v -> v.bytes(b2 -> b2.set("0".getBytes())))))
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         matcher.match(byteBuf);
@@ -653,7 +653,7 @@ public class AmqpFunctionsTest
             .properties(p -> p.messageId(m -> m.stringtype("message1"))
                               .userId(u -> u.bytes(b2 -> b2.set("user1".getBytes())))
                               .to("clients"))
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         matcher.match(byteBuf);
@@ -681,7 +681,7 @@ public class AmqpFunctionsTest
                               .to("clients"))
             .applicationProperties(b -> b.item(i -> i.key("property1").value("1"))
                                          .item(i -> i.key("property2").value("2")))
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         matcher.match(byteBuf);
@@ -708,7 +708,7 @@ public class AmqpFunctionsTest
                                            .value(v -> v.bytes(b2 -> b2.set("1".getBytes()))))
                                .item(i -> i.key(k2 -> k2.id(1L))
                                            .value(v -> v.bytes(b2 -> b2.set("0".getBytes())))))
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         assertNotNull(matcher.match(byteBuf));
@@ -736,7 +736,7 @@ public class AmqpFunctionsTest
             .properties(p -> p.messageId(m -> m.stringtype("message1"))
                               .userId(u -> u.bytes(b2 -> b2.set("user1".getBytes())))
                               .to("clients"))
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         assertNotNull(matcher.match(byteBuf));
@@ -763,7 +763,7 @@ public class AmqpFunctionsTest
             .properties(b -> b.messageId(m -> m.ulong(1L))
                               .userId(u -> u.bytes(b2 -> b2.set("user1".getBytes())))
                               .to("clients"))
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         assertNotNull(matcher.match(byteBuf));
@@ -810,7 +810,7 @@ public class AmqpFunctionsTest
                               .groupId("group_id1")
                               .groupSequence(1)
                               .replyToGroupId("reply_group_id"))
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         assertNotNull(matcher.match(byteBuf));
@@ -857,7 +857,7 @@ public class AmqpFunctionsTest
                               .groupId("group_id1")
                               .groupSequence(1)
                               .replyToGroupId("reply_group_id"))
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         assertNotNull(matcher.match(byteBuf));
@@ -904,7 +904,7 @@ public class AmqpFunctionsTest
                               .groupId("group_id1")
                               .groupSequence(1)
                               .replyToGroupId("reply_group_id"))
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         assertNotNull(matcher.match(byteBuf));
@@ -932,7 +932,7 @@ public class AmqpFunctionsTest
                               .to("clients"))
             .applicationProperties(b -> b.item(i -> i.key("property1").value("1"))
                                          .item(i -> i.key("property2").value("2")))
-            .bodyKind(b -> b.set(VALUE_STRING))
+            .bodyKind(b -> b.set(VALUE))
             .build();
 
         assertNotNull(matcher.match(byteBuf));

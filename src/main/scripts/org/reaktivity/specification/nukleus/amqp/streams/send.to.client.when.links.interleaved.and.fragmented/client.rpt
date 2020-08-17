@@ -43,6 +43,7 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
+                            .bodyKind("VALUE_BINARY32")
                             .build()}
 read [0..600]
 
@@ -75,6 +76,7 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
+                            .bodyKind("VALUE_BINARY32")
                             .build()}
 read [0..600]
 

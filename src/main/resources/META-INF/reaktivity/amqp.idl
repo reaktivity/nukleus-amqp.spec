@@ -115,8 +115,12 @@ scope amqp
     {
         DATA,
         SEQUENCE,
-        VALUE_STRING,
-        VALUE_BINARY,
+        VALUE_STRING32,
+        VALUE_STRING8,
+        VALUE_BINARY32,
+        VALUE_BINARY8,
+        VALUE_SYMBOL32,
+        VALUE_SYMBOL8,
         VALUE
     }
 
