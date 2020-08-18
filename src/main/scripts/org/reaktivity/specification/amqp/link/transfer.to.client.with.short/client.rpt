@@ -117,7 +117,7 @@ write [0x00 0x00 0x00 0x23]                                      # size = 35
       [0x70 0x00 0x00 0x03 0xe8]                                 # link-credit = 1000
 
 # transfer frame
-read [0x00 0x00 0x00 ≈
+read [0x00 0x00 0x00 0x2d]                                       # size = 45
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0

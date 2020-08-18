@@ -130,7 +130,7 @@ write [0x00 0x00 0x00 0x30]                                       # size = 48
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
       [0x00 0x53 0x77]                                            # message format = amqp-value
-      [0xf0 0x00 0x00 0x00 0x13 0x00 0x00 0x00 0x02]              # constructor = array8, length = 19, fields = 2
+      [0xf0 0x00 0x00 0x00 0x13 0x00 0x00 0x00 0x02]              # constructor = array32, length = 19, fields = 2
       [0xa1]                                                      # array type =  str8-utf8
       [0x06] "field1"                                             # array field = "field1"
       [0x06] "field2"                                             # array field = "field2"

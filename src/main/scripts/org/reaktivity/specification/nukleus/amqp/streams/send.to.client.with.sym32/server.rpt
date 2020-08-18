@@ -49,6 +49,6 @@ write nukleus:data.ext ${amqp:dataEx()
                              .bodyKind("VALUE_SYMBOL32")
                              .build()}
 
-write [0xb3 0x00 0x00 0x00 0x0a] "large text"
+write "large text"
 
 write close

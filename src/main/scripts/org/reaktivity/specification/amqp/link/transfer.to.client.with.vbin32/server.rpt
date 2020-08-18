@@ -130,4 +130,4 @@ write [0x00 0x00 0x02 0x11]                                       # size = 529
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
       [0x00 0x53 0x77 0xb0 0x00 0x00 0x01 0xf4]                   # message format = amqp-value, constructor = vbin32, length = 10
-      [0..500]                                                    # body = 500 random bytes
+      ${amqp:randomBytes(500)}                                    # body = 500 random bytes
