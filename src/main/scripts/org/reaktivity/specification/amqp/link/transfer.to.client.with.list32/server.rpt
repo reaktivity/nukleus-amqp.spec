@@ -130,5 +130,5 @@ write [0x00 0x00 0x00 0x28]                                       # size = 40
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
       [0x00 0x53 0x77]                                            # message format = amqp-value
-      [0xd0 0x00 0x00 0x00 0x08 0x00 0x00 0x00 0x01]              # constructor = list32, length = 8, fields = 1
+      [0xd0 0x00 0x00 0x00 0x0b 0x00 0x00 0x00 0x01]              # constructor = list32, length = 11, fields = 1
       [0xa1 0x05] "Text!"                                         # str8-utf8 field = "Text!"

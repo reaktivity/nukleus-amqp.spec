@@ -824,6 +824,22 @@ public final class AmqpFunctions
         return bytes;
     }
 
+    @Function
+    public static String randomString(
+        int length)
+    {
+        int leftLimit = 97;
+        int rightLimit = 122;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(length);
+        for (int i = 0; i < length; i++)
+        {
+            int randomLimitedInt = leftLimit + (int) (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        return buffer.toString();
+    }
+
     public static class Mapper extends FunctionMapperSpi.Reflective
     {
         public Mapper()

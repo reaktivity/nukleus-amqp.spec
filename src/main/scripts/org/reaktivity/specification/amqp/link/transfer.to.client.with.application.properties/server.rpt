@@ -118,7 +118,7 @@ read [0x00 0x00 0x00 0x23]                                        # size = 35
      [0x70 0x00 0x00 0x03 0xe8]                                   # link-credit = 1000
 
 # transfer frame
-write [0x00 0x00 0x00 0x40]                                       # size = 64
+write [0x00 0x00 0x00 0x3d]                                       # size = 61
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
@@ -133,5 +133,5 @@ write [0x00 0x00 0x00 0x40]                                       # size = 64
       [0xc1 0x19 0x02]                                            # map8, length = 25, fields = 2
       [0xa1 0x0b] "application"                                   # map key = "application"
       [0xa1 0x09] "property1"                                     # map value = "property1"
-      [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x05]                   # message format = amqp-value, vbin32, size = 5
+      [0x00 0x53 0x77 0xa1 0x05]                                  # message format = amqp-value, str8utf8, size = 5
       "Text!"                                                     # body = "Text!"

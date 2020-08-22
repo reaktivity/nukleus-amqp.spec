@@ -121,7 +121,7 @@ write [0x00 0x00 0x00 0x1d]                                       # size = 29
       [0x52 0x08]                                                 # link-credit = 8
 
 # transfer frame
-read [0x00 0x00 0x00 0x2c]                                        # size = 44
+read [0x00 0x00 0x00 0x2f]                                        # size = 47
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
@@ -135,5 +135,6 @@ read [0x00 0x00 0x00 0x2c]                                        # size = 44
      [0x00 0x53 0x76]                                             # message format = amqp-sequence
      [0xc0 0x08 0x01]                                             # list type (list8), length = 8, fields = 1
      [0xa1 0x05] "list1"                                          # field = str8-utf8
+     [0x00 0x53 0x76]                                             # message format = amqp-sequence
      [0xc0 0x08 0x01]                                             # list type (list8), length = 8, fields = 1
      [0xa1 0x05] "list2"                                          # field = str8-utf8

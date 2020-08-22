@@ -120,7 +120,7 @@ read [0x00 0x00 0x00 0x1d]                                        # size = 29
      [0x52 0x02]                                                  # link-credit = 2
 
 # transfer frame for link1
-write [0x00 0x00 0x00 0x2d]                                       # size = 45
+write [0x00 0x00 0x00 0x2a]                                       # size = 42
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel  = 0
@@ -131,7 +131,7 @@ write [0x00 0x00 0x00 0x2d]                                       # size = 45
       [0xa0 0x01 0x30]                                            # delivery-tag = "0"
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
-      [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x10]                   # message format = amqp-value, vbin32, size = 16
+      [0x00 0x53 0x77 0xa1 0x10]                                  # message format = amqp-value, str8utf8, size = 16
       "Text1 from link1"                                          # body = "Text1 from link1"
 
 # attach frame exchange for link2
@@ -185,7 +185,7 @@ read [0x00 0x00 0x00 0x1e]                                        # size = 30
      [0x52 0x02]                                                  # link-credit = 2
 
 # transfer frame for link2
-write [0x00 0x00 0x00 0x2e]                                       # size = 46
+write [0x00 0x00 0x00 0x2b]                                       # size = 43
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel  = 0
@@ -196,7 +196,7 @@ write [0x00 0x00 0x00 0x2e]                                       # size = 46
       [0xa0 0x01 0x30]                                            # delivery-tag = "0"
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
-      [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x10]                   # message format = amqp-value, vbin32, size = 16
+      [0x00 0x53 0x77 0xa1 0x10]                                  # message format = amqp-value, str8utf8, size = 16
       "Text1 from link2"                                          # body = "Text1 from link2"
 
 # flow frame for link1
@@ -215,7 +215,7 @@ read [0x00 0x00 0x00 0x1e]                                        # size = 30
      [0x52 0x02]                                                  # link-credit = 2
 
 # transfer frame for link1
-write [0x00 0x00 0x00 0x2e]                                       # size = 46
+write [0x00 0x00 0x00 0x2b]                                       # size = 43
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel  = 0
@@ -226,7 +226,7 @@ write [0x00 0x00 0x00 0x2e]                                       # size = 46
       [0xa0 0x01 0x31]                                            # delivery-tag = "1"
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
-      [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x10]                   # message format = amqp-value, vbin32, size = 16
+      [0x00 0x53 0x77 0xa1 0x10]                                  # message format = amqp-value, str8utf8, size = 16
       "Text2 from link1"                                          # body = "Text2 from link1"
 
 # flow frame for link2
@@ -245,7 +245,7 @@ read [0x00 0x00 0x00 0x1f]                                        # size = 31
      [0x52 0x02]                                                  # link-credit = 2
 
 # transfer frame for link2
-write [0x00 0x00 0x00 0x2f]                                       # size = 47
+write [0x00 0x00 0x00 0x2c]                                       # size = 44
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel  = 0
@@ -256,5 +256,5 @@ write [0x00 0x00 0x00 0x2f]                                       # size = 47
       [0xa0 0x01 0x31]                                            # delivery-tag = "1"
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
-      [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x10]                   # message format = amqp-value, vbin32, size = 16
+      [0x00 0x53 0x77 0xa1 0x10]                                  # message format = amqp-value, str8utf8, size = 16
       "Text2 from link2"                                          # body = "Text2 from link2"

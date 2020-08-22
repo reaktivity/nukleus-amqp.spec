@@ -87,30 +87,6 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.client/client",
-        "${scripts}/transfer.to.client/server"})
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToClient() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_SERVER");
-        k3po.finish();
-    }
-
-    @Test
-    @Specification({
-        "${scripts}/transfer.to.server/client",
-        "${scripts}/transfer.to.server/server"})
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToServerAtMostOnce() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_SERVER");
-        k3po.finish();
-    }
-
-    @Test
-    @Specification({
         "${scripts}/transfer.to.client.at.least.once/client",
         "${scripts}/transfer.to.client.at.least.once/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")

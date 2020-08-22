@@ -118,36 +118,10 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
-        "${streams}/send.to.client/client",
-        "${streams}/send.to.client/server"
-    })
-    public void shouldSendToClient() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_CLIENT");
-        k3po.finish();
-    }
-
-    @Test
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    @Specification({
         "${streams}/send.to.server.at.least.once/client",
         "${streams}/send.to.server.at.least.once/server"
     })
     public void shouldSendToServerAtLeastOnce() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_CLIENT");
-        k3po.finish();
-    }
-
-    @Test
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    @Specification({
-        "${streams}/send.to.server/client",
-        "${streams}/send.to.server/server"
-    })
-    public void shouldSendToServer() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");

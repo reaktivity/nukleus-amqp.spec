@@ -118,7 +118,7 @@ read [0x00 0x00 0x00 0x23]                                        # size = 35
      [0x70 0x00 0x00 0x03 0xe8]                                   # link-credit = 1000
 
 # transfer frame
-write [0x00 0x00 0x00 0x27]                                       # size = 39
+write [0x00 0x00 0x01 0x49]                                       # size = 329
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
@@ -129,5 +129,5 @@ write [0x00 0x00 0x00 0x27]                                       # size = 39
       [0xa0 0x01 0x30]                                            # delivery-tag = "0"
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
-      [0x00 0x53 0x77 0xb3 0x00 0x00 0x00 0x0a]                   # message format = amqp-value, constructor = sym32, length = 10
-      "large text"                                                # body = "large text"
+      [0x00 0x53 0x77 0xb3 0x00 0x00 0x01 0x2c]                   # message format = amqp-value, constructor = sym32, length = 300
+      ${amqp:randomString(300)}                                   # body = 300 random string

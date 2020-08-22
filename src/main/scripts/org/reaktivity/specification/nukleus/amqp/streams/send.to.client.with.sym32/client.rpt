@@ -45,6 +45,6 @@ read nukleus:data.ext ${amqp:dataEx()
                             .bodyKind("VALUE_SYMBOL32")
                             .build()}
 
-read "large text"
+read [0..300]
 
 read closed

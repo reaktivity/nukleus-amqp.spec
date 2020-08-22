@@ -26,6 +26,7 @@ import static org.reaktivity.specification.amqp.internal.AmqpFunctions.beginEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.dataEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.matchDataEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomBytes;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomString;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.routeEx;
 import static org.reaktivity.specification.amqp.internal.types.AmqpBodyKind.VALUE;
 
@@ -959,5 +960,14 @@ public class AmqpFunctionsTest
 
         assertNotNull(bytes);
         assertEquals(600, bytes.length);
+    }
+
+    @Test
+    public void shouldRandomizeString() throws Exception
+    {
+        final String string = randomString(600);
+
+        assertNotNull(string);
+        assertEquals(600, string.length());
     }
 }

@@ -49,6 +49,6 @@ write nukleus:data.ext ${amqp:dataEx()
                              .bodyKind("VALUE_SYMBOL32")
                              .build()}
 
-write "large text"
+write ${amqp:randomString(300)}
 
 write close
