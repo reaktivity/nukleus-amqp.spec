@@ -121,7 +121,7 @@ write [0x00 0x00 0x00 0x1d]                                       # size = 29
       [0x52 0x08]                                                 # link-credit = 8
 
 # transfer frame
-read [0x00 0x00 0x00 0x2d]                                        # size = 45
+read [0x00 0x00 0x00 0x1b]                                        # size = 27
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
@@ -133,4 +133,4 @@ read [0x00 0x00 0x00 0x2d]                                        # size = 45
      [0x43]                                                       # message-format = 0
      [0x41]                                                       # settled = true
      [0x00 0x53 0x77 0x61]                                        # descriptor = amqp-value, constructor = short
-     [0x00 0x01]                                                  # body = 65535
+     [0x01 0x00]                                                  # body = 265

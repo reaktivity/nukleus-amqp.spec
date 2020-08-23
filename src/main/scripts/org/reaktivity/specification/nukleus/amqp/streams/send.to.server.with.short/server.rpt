@@ -48,6 +48,6 @@ read nukleus:data.ext ${amqp:dataEx()
                             .bodyKind("VALUE")
                             .build()}
 
-read [0x61 0x00 0x01]
+read [0x61 0x01 0x00]
 
 write close

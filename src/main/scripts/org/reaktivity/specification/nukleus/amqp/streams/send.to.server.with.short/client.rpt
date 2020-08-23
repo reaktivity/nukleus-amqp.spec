@@ -45,6 +45,6 @@ write nukleus:data.ext ${amqp:dataEx()
                              .bodyKind("VALUE")
                              .build()}
 
-write [0x61 0x00 0x01]
+write [0x61 0x01 0x00]
 
 read closed
