@@ -410,6 +410,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("BATCHABLE", "ABORTED", "RESUME", "SETTLED")
+            .bodyKind("VALUE")
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -436,6 +437,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("BATCHABLE", "ABORTED", "RESUME", "SETTLED")
+            .bodyKind("VALUE")
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -462,6 +464,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
+            .bodyKind("VALUE")
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -488,6 +491,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
+            .bodyKind("VALUE")
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -514,6 +518,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
+            .bodyKind("VALUE")
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -539,6 +544,7 @@ public class AmqpFunctionsTest
             .deliveryTag("01")
             .messageFormat(0)
             .flags("SETTLED")
+            .bodyKind("VALUE")
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -564,6 +570,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(1)
             .flags("SETTLED")
+            .bodyKind("VALUE")
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -589,6 +596,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
+            .bodyKind("VALUE")
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -969,5 +977,41 @@ public class AmqpFunctionsTest
 
         assertNotNull(string);
         assertEquals(600, string.length());
+    }
+
+    @Test(expected = AssertionError.class)
+    public void shouldRejectAmqpDataExtensionRepeatedDeliveryId() throws Exception
+    {
+        matchDataEx()
+            .deliveryId(1)
+            .deliveryId(2)
+            .build();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void shouldRejectAmqpDataExtensionRepeatedDeliveryTag() throws Exception
+    {
+        matchDataEx()
+            .deliveryTag("01")
+            .deliveryTag("02")
+            .build();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void shouldRejectAmqpDataExtensionRepeatedMessageFormat() throws Exception
+    {
+        matchDataEx()
+            .messageFormat(0)
+            .messageFormat(1)
+            .build();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void shouldRejectAmqpDataExtensionRepeatedFlags() throws Exception
+    {
+        matchDataEx()
+            .flags("SETTLED")
+            .flags("BATCHABLE")
+            .build();
     }
 }
