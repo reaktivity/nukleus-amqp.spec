@@ -131,12 +131,12 @@ public class AmqpFunctionsTest
     {
         final byte[] array = dataEx()
             .typeId(0)
-            .deferred(100)
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
             .bodyKind("VALUE")
+            .deferred(100)
             .build();
 
         DirectBuffer buffer = new UnsafeBuffer(array);
@@ -432,24 +432,24 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .deferred(100)
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("BATCHABLE", "ABORTED", "RESUME", "SETTLED")
             .bodyKind("VALUE")
+            .deferred(100)
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deferred(100)
             .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(15)
             .bodyKind(b -> b.set(VALUE))
+            .deferred(100)
             .build();
 
         assertNotNull(matcher.match(byteBuf));
@@ -486,24 +486,24 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .deferred(120)
             .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
             .bodyKind("VALUE")
+            .deferred(120)
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deferred(60)
             .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
             .bodyKind(b -> b.set(VALUE))
+            .deferred(60)
             .build();
 
         matcher.match(byteBuf);

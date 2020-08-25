@@ -38,12 +38,12 @@ connected
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
-                            .deferred(8000 - 7827)
                             .deliveryId(0)
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
                             .bodyKind("VALUE_BINARY32")
+                            .deferred(8000 - 7827)
                             .build()}
 read [0..8000]
 
@@ -71,11 +71,11 @@ connected
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
-                            .deferred(8000 - 7827)
                             .deliveryId(0)
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
                             .bodyKind("VALUE_BINARY32")
+                            .deferred(8000 - 7827)
                             .build()}
 read [0..8000]
