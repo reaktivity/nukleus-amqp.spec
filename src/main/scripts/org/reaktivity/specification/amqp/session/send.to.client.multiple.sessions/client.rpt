@@ -139,7 +139,7 @@ write [0x00 0x00 0x00 0x23]                                      # size = 35
       [0x70 0x00 0x00 0x03 0xe8]                                 # link-credit = 1000
 
 # transfer frame
-read [0x00 0x00 0x00 0x22]                                       # size = 34
+read [0x00 0x00 0x00 0x1f]                                       # size = 31
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
@@ -150,7 +150,7 @@ read [0x00 0x00 0x00 0x22]                                       # size = 34
      [0xa0 0x01 0x30]                                            # delivery-tag = "0"
      [0x43]                                                      # message-format = 0
      [0x41]                                                      # settled = true
-     [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x05]                   # message format = amqp-value, vbin32, size = 5
+     [0x00 0x53 0x77 0xa1 0x05]                                  # message format = amqp-value, str8utf8, size = 5
      "Text!"                                                     # body = "Text!"
 
 # attach frame exchange for session with channel 2
@@ -204,7 +204,7 @@ write [0x00 0x00 0x00 0x24]                                      # size = 36
       [0x70 0x00 0x00 0x03 0xe8]                                 # link-credit = 1000
 
 # transfer frame
-read [0x00 0x00 0x00 0x23]                                       # size = 35
+read [0x00 0x00 0x00 0x20]                                       # size = 32
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x01]                                                 # channel = 1
@@ -215,5 +215,5 @@ read [0x00 0x00 0x00 0x23]                                       # size = 35
      [0xa0 0x01 0x30]                                            # delivery-tag = "0"
      [0x43]                                                      # message-format = 0
      [0x41]                                                      # settled = true
-     [0x00 0x53 0x77 0xb0 0x00 0x00 0x00 0x05]                   # message format = amqp-value, vbin32, size = 5
+     [0x00 0x53 0x77 0xa1 0x05]                                  # message format = amqp-value, str8utf8, size = 5
      "Text!"                                                     # body = "Text!"

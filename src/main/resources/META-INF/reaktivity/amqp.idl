@@ -111,6 +111,19 @@ scope amqp
         SECOND
     }
 
+    enum AmqpBodyKind
+    {
+        DATA,
+        SEQUENCE,
+        VALUE_STRING32,
+        VALUE_STRING8,
+        VALUE_BINARY32,
+        VALUE_BINARY8,
+        VALUE_SYMBOL32,
+        VALUE_SYMBOL8,
+        VALUE
+    }
+
     scope control
     {
         struct AmqpRouteEx
@@ -132,7 +145,6 @@ scope amqp
 
         struct AmqpDataEx extends core::stream::Extension
         {
-            int32 deferred = 0;
             uint32 deliveryId;
             AmqpBinary deliveryTag;
             uint32 messageFormat;
@@ -140,6 +152,8 @@ scope amqp
             AmqpAnnotation[] annotations;
             AmqpProperties properties;
             AmqpApplicationProperty[] applicationProperties;
+            AmqpBodyKind bodyKind;
+            int32 deferred = 0;
         }
 
         struct AmqpWindowEx extends core::stream::Extension

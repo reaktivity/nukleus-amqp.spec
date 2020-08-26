@@ -44,6 +44,7 @@ write nukleus:data.ext ${amqp:dataEx()
                              .flags("SETTLED")
                              .messageId("message1")
                              .to("clients")
+                             .bodyKind("VALUE_STRING8")
                              .build()}
 
 write "Text!"
