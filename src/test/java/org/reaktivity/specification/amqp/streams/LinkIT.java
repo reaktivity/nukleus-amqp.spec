@@ -135,10 +135,58 @@ public class LinkIT
 
     @Test
     @Specification({
+        "${scripts}/transfer.to.client.with.headers/client",
+        "${scripts}/transfer.to.client.with.headers/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWithHeaders() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.with.delivery.annotations/client",
+        "${scripts}/transfer.to.client.with.delivery.annotations/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWithDeliveryAnnotations() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/transfer.to.client.with.annotations/client",
         "${scripts}/transfer.to.client.with.annotations/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldTransferToClientWithAnnotations() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.with.headers/client",
+        "${scripts}/transfer.to.server.with.headers/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWithHeaders() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.with.delivery.annotations/client",
+        "${scripts}/transfer.to.server.with.delivery.annotations/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWithDeliveryAnnotations() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
