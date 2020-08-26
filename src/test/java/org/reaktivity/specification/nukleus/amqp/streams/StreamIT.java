@@ -288,6 +288,32 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
+        "${streams}/send.to.client.with.footer/client",
+        "${streams}/send.to.client.with.footer/server"
+    })
+    public void shouldSendToClientWithFooter() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.server.with.footer/client",
+        "${streams}/send.to.server.with.footer/server"
+    })
+    public void shouldSendToServerWithFooter() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
         "${streams}/send.to.client.when.max.frame.size.exceeded/client",
         "${streams}/send.to.client.when.max.frame.size.exceeded/server"
     })
