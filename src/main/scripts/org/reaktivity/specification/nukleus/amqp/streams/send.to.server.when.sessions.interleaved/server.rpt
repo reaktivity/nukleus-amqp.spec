@@ -45,6 +45,7 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
+                            .bodyKind("VALUE_STRING8")
                             .build()}
 
 read "Text!"
@@ -74,6 +75,7 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
+                            .bodyKind("VALUE_STRING8")
                             .build()}
 
 read "Text!"

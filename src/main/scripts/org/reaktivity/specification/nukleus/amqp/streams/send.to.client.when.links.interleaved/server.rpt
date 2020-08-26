@@ -46,6 +46,7 @@ write nukleus:data.ext ${amqp:dataEx()
                              .deliveryTag("0")
                              .messageFormat(0)
                              .flags("SETTLED")
+                             .bodyKind("VALUE_STRING8")
                              .build()}
 
 write "Text1 from link1"
@@ -56,6 +57,7 @@ write nukleus:data.ext ${amqp:dataEx()
                              .deliveryTag("1")
                              .messageFormat(0)
                              .flags("SETTLED")
+                             .bodyKind("VALUE_STRING8")
                              .build()}
 
 write "Text2 from link1"
@@ -86,6 +88,7 @@ write nukleus:data.ext ${amqp:dataEx()
                              .deliveryTag("0")
                              .messageFormat(0)
                              .flags("SETTLED")
+                             .bodyKind("VALUE_STRING8")
                              .build()}
 
 write "Text1 from link2"
@@ -96,6 +99,7 @@ write nukleus:data.ext ${amqp:dataEx()
                              .deliveryTag("1")
                              .messageFormat(0)
                              .flags("SETTLED")
+                             .bodyKind("VALUE_STRING8")
                              .build()}
 
 write "Text2 from link2"

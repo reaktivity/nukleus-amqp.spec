@@ -30,6 +30,7 @@ import org.kaazing.k3po.lang.el.spi.FunctionMapperSpi;
 import org.reaktivity.specification.amqp.internal.types.AmqpAnnotationFW;
 import org.reaktivity.specification.amqp.internal.types.AmqpApplicationPropertyFW;
 import org.reaktivity.specification.amqp.internal.types.AmqpBinaryFW;
+import org.reaktivity.specification.amqp.internal.types.AmqpBodyKind;
 import org.reaktivity.specification.amqp.internal.types.AmqpCapabilities;
 import org.reaktivity.specification.amqp.internal.types.AmqpPropertiesFW;
 import org.reaktivity.specification.amqp.internal.types.AmqpReceiverSettleMode;
@@ -370,6 +371,19 @@ public final class AmqpFunctions
             return propertiesRW;
         }
 
+        public AmqpDataExBuilder bodyKind(
+            String bodyKind)
+        {
+            if (propertiesRW != null && !isPropertiesSet)
+            {
+                final AmqpPropertiesFW properties = propertiesRW.build();
+                dataExRW.properties(properties);
+                isPropertiesSet = true;
+            }
+            dataExRW.bodyKind(b -> b.set(AmqpBodyKind.valueOf(bodyKind)));
+            return this;
+        }
+
         public byte[] build()
         {
             if (propertiesRW != null && !isPropertiesSet)
@@ -396,6 +410,7 @@ public final class AmqpFunctions
         private AmqpBinaryFW.Builder deliveryTagRW;
         private Long messageFormat;
         private Integer flags;
+        private String bodyKind;
         private Array32FW.Builder<AmqpAnnotationFW.Builder, AmqpAnnotationFW> annotationsRW;
         private AmqpPropertiesFW.Builder propertiesRW;
         private Array32FW.Builder<AmqpApplicationPropertyFW.Builder, AmqpApplicationPropertyFW> applicationPropertiesRW;
@@ -633,6 +648,14 @@ public final class AmqpFunctions
             return this;
         }
 
+        public AmqpDataExMatcherBuilder bodyKind(
+            String bodyKind)
+        {
+            assert this.bodyKind == null;
+            this.bodyKind = bodyKind;
+            return this;
+        }
+
         public BytesMatcher build()
         {
             return typeId != null ? this::match : buf -> null;
@@ -653,7 +676,8 @@ public final class AmqpFunctions
                 matchFlags(dataEx) &&
                 matchAnnotations(dataEx) &&
                 matchProperties(dataEx) &&
-                matchApplicationProperties(dataEx))
+                matchApplicationProperties(dataEx) &&
+                matchBodyKind(dataEx))
             {
                 byteBuf.position(byteBuf.position() + dataEx.sizeof());
                 return dataEx;
@@ -714,6 +738,12 @@ public final class AmqpFunctions
             final AmqpDataExFW dataEx)
         {
             return applicationPropertiesRW == null || applicationPropertiesRW.build().equals(dataEx.applicationProperties());
+        }
+
+        private boolean matchBodyKind(
+            final AmqpDataExFW dataEx)
+        {
+            return bodyKind == null || bodyKind.equals(dataEx.bodyKind().get().name());
         }
     }
 
@@ -792,6 +822,22 @@ public final class AmqpFunctions
             bytes[i] = (byte) random.nextInt(0x100);
         }
         return bytes;
+    }
+
+    @Function
+    public static String randomString(
+        int length)
+    {
+        int leftLimit = 97;
+        int rightLimit = 122;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(length);
+        for (int i = 0; i < length; i++)
+        {
+            int randomLimitedInt = leftLimit + (int) (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        return buffer.toString();
     }
 
     public static class Mapper extends FunctionMapperSpi.Reflective
