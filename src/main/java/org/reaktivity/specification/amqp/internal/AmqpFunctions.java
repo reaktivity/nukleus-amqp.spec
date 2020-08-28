@@ -212,26 +212,26 @@ public final class AmqpFunctions
 
         public AmqpDataExBuilder annotation(
             Object key,
-            String value)
+            byte[] value)
         {
             return key instanceof Long ? annotations((long) key, value) : annotations((String) key, value);
         }
 
         private AmqpDataExBuilder annotations(
             long key,
-            String value)
+            byte[] value)
         {
             dataExRW.annotationsItem(a -> a.key(k -> k.id(key))
-                                           .value(v -> v.bytes(b -> b.set(value.getBytes(UTF_8)))));
+                                           .value(v -> v.bytes(o -> o.set(value))));
             return this;
         }
 
         private AmqpDataExBuilder annotations(
             String key,
-            String value)
+            byte[] value)
         {
             dataExRW.annotationsItem(a -> a.key(k -> k.name(key))
-                                           .value(v -> v.bytes(b -> b.set(value.getBytes(UTF_8)))));
+                                           .value(v -> v.bytes(o -> o.set(value))));
             return this;
         }
 
@@ -484,7 +484,7 @@ public final class AmqpFunctions
 
         public AmqpDataExMatcherBuilder annotation(
             Object key,
-            String value)
+            byte[] value)
         {
             if (annotationsRW == null)
             {
@@ -496,19 +496,19 @@ public final class AmqpFunctions
 
         private AmqpDataExMatcherBuilder annotations(
             long key,
-            String value)
+            byte[] value)
         {
             annotationsRW.item(a -> a.key(k -> k.id(key))
-                                     .value(v -> v.bytes(o -> o.set(value.getBytes(UTF_8)))));
+                                     .value(v -> v.bytes(o -> o.set(value))));
             return this;
         }
 
         private AmqpDataExMatcherBuilder annotations(
             String key,
-            String value)
+            byte[] value)
         {
             annotationsRW.item(a -> a.key(k -> k.name(key))
-                                     .value(v -> v.bytes(b -> b.set(value.getBytes(UTF_8)))));
+                                     .value(v -> v.bytes(o -> o.set(value))));
             return this;
         }
 
@@ -838,6 +838,26 @@ public final class AmqpFunctions
             buffer.append((char) randomLimitedInt);
         }
         return buffer.toString();
+    }
+
+    @Function
+    public static byte[] string(
+        String value)
+    {
+        int valueLength = value.length();
+        int byteLength = Byte.BYTES + (valueLength > 0xff ? Integer.BYTES : Byte.BYTES) + valueLength;
+
+        byte[] bytes;
+        if (valueLength > 0xff)
+        {
+            bytes = ByteBuffer.allocate(byteLength).put((byte) 0xb1).putInt(valueLength).put(value.getBytes(UTF_8)).array();
+        }
+        else
+        {
+            bytes = ByteBuffer.allocate(byteLength).put((byte) 0xa1).put((byte) valueLength).put(value.getBytes(UTF_8)).array();
+        }
+
+        return bytes;
     }
 
     public static class Mapper extends FunctionMapperSpi.Reflective

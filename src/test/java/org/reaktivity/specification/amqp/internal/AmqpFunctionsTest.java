@@ -16,6 +16,7 @@
 package org.reaktivity.specification.amqp.internal;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -28,6 +29,7 @@ import static org.reaktivity.specification.amqp.internal.AmqpFunctions.matchData
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomBytes;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomString;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.routeEx;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.string;
 import static org.reaktivity.specification.amqp.internal.types.AmqpBodyKind.VALUE;
 
 import java.nio.ByteBuffer;
@@ -158,8 +160,8 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
-            .annotation("annotation1", "1")
-            .annotation(1L, "0")
+            .annotation("annotation1", "1".getBytes(UTF_8))
+            .annotation(1L, "0".getBytes(UTF_8))
             .bodyKind("VALUE")
             .build();
 
@@ -618,8 +620,8 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .annotation("annotation2", "2")
-            .annotation(1L, "0")
+            .annotation("annotation2", "2".getBytes(UTF_8))
+            .annotation(1L, "0".getBytes(UTF_8))
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -701,8 +703,8 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .annotation("annotation1", "1")
-            .annotation(1L, "0")
+            .annotation("annotation1", "1".getBytes(UTF_8))
+            .annotation(1L, "0".getBytes(UTF_8))
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -977,6 +979,15 @@ public class AmqpFunctionsTest
 
         assertNotNull(string);
         assertEquals(600, string.length());
+    }
+
+    @Test
+    public void shouldCreateAmqpStringBytes() throws Exception
+    {
+        final byte[] string = string("1");
+
+        assertArrayEquals(string, new byte[] {(byte) 0xa1, 0x01, 0x31});
+        assertEquals(3, string.length);
     }
 
     @Test(expected = AssertionError.class)
