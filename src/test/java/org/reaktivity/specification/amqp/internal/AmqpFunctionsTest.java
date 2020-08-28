@@ -990,6 +990,13 @@ public class AmqpFunctionsTest
         assertEquals(3, string.length);
     }
 
+    @Test
+    public void shouldCreateAmqpStringBytesWithLargeString() throws Exception
+    {
+        final byte[] string = string(randomString(300));
+        assertEquals(305, string.length);
+    }
+
     @Test(expected = AssertionError.class)
     public void shouldRejectAmqpDataExtensionRepeatedDeliveryId() throws Exception
     {
