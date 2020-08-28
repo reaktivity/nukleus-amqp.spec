@@ -112,7 +112,6 @@ public class AmqpFunctionsTest
     {
         final byte[] array = dataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
@@ -121,7 +120,6 @@ public class AmqpFunctionsTest
 
         DirectBuffer buffer = new UnsafeBuffer(array);
         AmqpDataExFW amqpDataEx = new AmqpDataExFW().wrap(buffer, 0, buffer.capacity());
-        assertEquals(amqpDataEx.deliveryId(), 0);
         assertEquals(amqpDataEx.deliveryTag().toString(), "AMQP_BINARY [length=2, bytes=octets[2]]");
         assertEquals(amqpDataEx.messageFormat(), 0);
         assertEquals(amqpDataEx.flags(), 1);
@@ -133,7 +131,6 @@ public class AmqpFunctionsTest
     {
         final byte[] array = dataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
@@ -143,7 +140,6 @@ public class AmqpFunctionsTest
 
         DirectBuffer buffer = new UnsafeBuffer(array);
         AmqpDataExFW amqpDataEx = new AmqpDataExFW().wrap(buffer, 0, buffer.capacity());
-        assertEquals(amqpDataEx.deliveryId(), 0);
         assertEquals(amqpDataEx.deliveryTag().toString(), "AMQP_BINARY [length=2, bytes=octets[2]]");
         assertEquals(amqpDataEx.messageFormat(), 0);
         assertEquals(amqpDataEx.flags(), 1);
@@ -156,7 +152,6 @@ public class AmqpFunctionsTest
     {
         final byte[] array = dataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
@@ -176,7 +171,6 @@ public class AmqpFunctionsTest
     {
         final byte[] array = dataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
@@ -232,7 +226,6 @@ public class AmqpFunctionsTest
     {
         final byte[] array = dataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
@@ -267,7 +260,6 @@ public class AmqpFunctionsTest
     {
         final byte[] array = dataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
@@ -302,7 +294,6 @@ public class AmqpFunctionsTest
     {
         final byte[] array = dataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
@@ -324,7 +315,6 @@ public class AmqpFunctionsTest
     {
         final byte[] array = dataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("BATCHABLE", "ABORTED", "RESUME", "SETTLED")
@@ -341,7 +331,6 @@ public class AmqpFunctionsTest
     {
         final byte[] array = dataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
@@ -393,7 +382,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(15)
@@ -408,7 +396,6 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("BATCHABLE", "ABORTED", "RESUME", "SETTLED")
@@ -419,7 +406,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(15)
@@ -434,7 +420,6 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("BATCHABLE", "ABORTED", "RESUME", "SETTLED")
@@ -446,7 +431,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(15)
@@ -462,7 +446,6 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(5)
-            .deliveryId(2)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
@@ -473,7 +456,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -488,7 +470,6 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
@@ -500,7 +481,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -512,37 +492,10 @@ public class AmqpFunctionsTest
     }
 
     @Test(expected = Exception.class)
-    public void shouldNotMatchAmqpDataExtensionDeliveryId() throws Exception
-    {
-        BytesMatcher matcher = matchDataEx()
-            .typeId(0)
-            .deliveryId(2)
-            .deliveryTag("00")
-            .messageFormat(0)
-            .flags("SETTLED")
-            .bodyKind("VALUE")
-            .build();
-
-        ByteBuffer byteBuf = ByteBuffer.allocate(1024);
-
-        new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
-            .typeId(0)
-            .deliveryId(0)
-            .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
-            .messageFormat(0)
-            .flags(1)
-            .bodyKind(b -> b.set(VALUE))
-            .build();
-
-        matcher.match(byteBuf);
-    }
-
-    @Test(expected = Exception.class)
     public void shouldNotMatchAmqpDataExtensionDeliveryTag() throws Exception
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("01")
             .messageFormat(0)
             .flags("SETTLED")
@@ -553,7 +506,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -568,7 +520,6 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(1)
             .flags("SETTLED")
@@ -579,7 +530,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -594,7 +544,6 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
@@ -605,7 +554,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(15)
@@ -628,7 +576,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -647,7 +594,6 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .deliveryId(0)
             .messageId("message2")
             .userId("user1")
             .to("clients")
@@ -657,7 +603,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -683,7 +628,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -711,7 +655,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -730,7 +673,6 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .deliveryId(0)
             .messageId("message1")
             .userId("user1")
             .to("clients")
@@ -740,7 +682,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -767,7 +708,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -804,7 +744,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -851,7 +790,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -898,7 +836,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -934,7 +871,6 @@ public class AmqpFunctionsTest
 
         new AmqpDataExFW.Builder().wrap(new UnsafeBuffer(byteBuf), 0, byteBuf.capacity())
             .typeId(0)
-            .deliveryId(0)
             .deliveryTag(b -> b.bytes(b2 -> b2.set("00".getBytes())))
             .messageFormat(0)
             .flags(1)
@@ -995,15 +931,6 @@ public class AmqpFunctionsTest
     {
         final byte[] string = string(randomString(300));
         assertEquals(305, string.length);
-    }
-
-    @Test(expected = AssertionError.class)
-    public void shouldRejectAmqpDataExtensionRepeatedDeliveryId() throws Exception
-    {
-        matchDataEx()
-            .deliveryId(1)
-            .deliveryId(2)
-            .build();
     }
 
     @Test(expected = AssertionError.class)
