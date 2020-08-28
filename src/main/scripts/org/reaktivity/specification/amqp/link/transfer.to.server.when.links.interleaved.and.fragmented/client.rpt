@@ -211,18 +211,18 @@ write [0x00 0x00 0x00 0x2d]                                      # size = 45
       ${amqp:randomBytes(30)}                                    # body = 30 random bytes
 
 # flow frame
-read [0x00 0x00 0x00 0x1d]                                       # size = 29
+read [0x00 0x00 0x00 0x1e]                                       # size = 30
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
      [0x00 0x53 0x13]                                            # performative = flow (19)
-     [0xc0 0x10 0x07]                                            # list type (list8), length = 16, fields = 7
+     [0xc0 0x11 0x07]                                            # list type (list8), length = 17, fields = 7
      [0x52 0x03]                                                 # next-incoming-id = 3
      [0x52 0x02]                                                 # incoming-window = 2
      [0x52 0x01]                                                 # next-outgoing-id = 1
      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
      [0x43]                                                      # handle = 0
-     [0x43]                                                      # delivery-count = 0
+     [0x52 0x01]                                                 # delivery-count = 1
      [0x52 0x01]                                                 # link-credit = 1
 
 # transfer frame for link2
@@ -267,16 +267,16 @@ write [0x00 0x00 0x00 0x2f]                                      # size = 47
       ${amqp:randomBytes(31)}                                    # body = 31 random bytes
 
 # flow frame for link2
-read [0x00 0x00 0x00 0x1e]                                       # size = 30
+read [0x00 0x00 0x00 0x1f]                                       # size = 31
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
      [0x00 0x53 0x13]                                            # performative = flow (19)
-     [0xc0 0x11 0x07]                                            # list type (list8), length = 17, fields = 7
+     [0xc0 0x12 0x07]                                            # list type (list8), length = 18, fields = 7
      [0x52 0x05]                                                 # next-incoming-id = 5
      [0x52 0x02]                                                 # incoming-window = 2
      [0x52 0x01]                                                 # next-outgoing-id = 1
      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
      [0x52 0x01]                                                 # handle = 1
-     [0x43]                                                      # delivery-count = 0
+     [0x52 0x01]                                                 # delivery-count = 1
      [0x52 0x01]                                                 # link-credit = 1
