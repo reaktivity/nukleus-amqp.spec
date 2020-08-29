@@ -162,13 +162,6 @@ public final class AmqpFunctions
             return this;
         }
 
-        public AmqpDataExBuilder deliveryId(
-            long deliveryId)
-        {
-            dataExRW.deliveryId(deliveryId);
-            return this;
-        }
-
         public AmqpDataExBuilder deliveryTag(
             String deliveryTag)
         {
@@ -406,7 +399,6 @@ public final class AmqpFunctions
 
         private Integer typeId;
         private Integer deferred;
-        private Long deliveryId;
         private AmqpBinaryFW.Builder deliveryTagRW;
         private Long messageFormat;
         private Integer flags;
@@ -426,14 +418,6 @@ public final class AmqpFunctions
             int deferred)
         {
             this.deferred = deferred;
-            return this;
-        }
-
-        public AmqpDataExMatcherBuilder deliveryId(
-            long deliveryId)
-        {
-            assert this.deliveryId == null;
-            this.deliveryId = deliveryId;
             return this;
         }
 
@@ -670,7 +654,6 @@ public final class AmqpFunctions
             if (dataEx != null &&
                 matchTypeId(dataEx) &&
                 matchDeferred(dataEx) &&
-                matchDeliveryId(dataEx) &&
                 matchDeliveryTag(dataEx) &&
                 matchMessageFormat(dataEx) &&
                 matchFlags(dataEx) &&
@@ -696,12 +679,6 @@ public final class AmqpFunctions
             final AmqpDataExFW dataEx)
         {
             return deferred == null || deferred == dataEx.deferred();
-        }
-
-        private boolean matchDeliveryId(
-            final AmqpDataExFW dataEx)
-        {
-            return deliveryId == null || deliveryId == dataEx.deliveryId();
         }
 
         private boolean matchDeliveryTag(
