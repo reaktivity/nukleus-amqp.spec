@@ -145,7 +145,6 @@ scope amqp
 
         struct AmqpDataEx extends core::stream::Extension
         {
-            uint32 deliveryId;
             AmqpBinary deliveryTag;
             uint32 messageFormat;
             uint8 flags;   // set of AmqpTransferFlag
@@ -154,19 +153,6 @@ scope amqp
             AmqpApplicationProperty[] applicationProperties;
             AmqpBodyKind bodyKind;
             int32 deferred = 0;
-        }
-
-        struct AmqpWindowEx extends core::stream::Extension
-        {
-            // session flow control
-            uint32 nextIncomingId;
-            uint32 incomingWindow;
-            uint32 nextOutgoingId;
-            uint32 outgoingWindow;
-
-            // link flow control
-            uint32 deliveryCount;
-            uint32 linkCredit;
         }
 
         struct AmqpAbortEx extends core::stream::Extension
