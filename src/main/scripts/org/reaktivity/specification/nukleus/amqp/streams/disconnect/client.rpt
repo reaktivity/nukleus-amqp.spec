@@ -14,21 +14,10 @@
 # under the License.
 #
 
-property serverTransport "nukleus://streams/target#0"
-
-accept ${serverTransport}
-  option nukleus:window 8192
-  option nukleus:transmission "duplex"
-
-accepted
-
-read nukleus:begin.ext ${amqp:beginEx()
-                             .typeId(nukleus:id("amqp"))
-                             .address("clients")
-                             .capabilities("RECEIVE_ONLY")
-                             .senderSettleMode("SETTLED")
-                             .receiverSettleMode("FIRST")
-                             .build()}
+connect await ROUTED_CLIENT
+        "nukleus://streams/amqp#0"
+        option nukleus:window 8192
+        option nukleus:transmission "duplex"
 
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
@@ -38,7 +27,14 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .receiverSettleMode("FIRST")
                               .build()}
 
+read nukleus:begin.ext ${amqp:beginEx()
+                             .typeId(nukleus:id("amqp"))
+                             .address("clients")
+                             .capabilities("RECEIVE_ONLY")
+                             .senderSettleMode("SETTLED")
+                             .receiverSettleMode("FIRST")
+                             .build()}
 connected
 
-read aborted
-write aborted
+write close
+read closed
