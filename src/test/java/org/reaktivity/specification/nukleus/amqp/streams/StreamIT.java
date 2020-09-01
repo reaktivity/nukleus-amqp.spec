@@ -105,6 +105,19 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
+        "${streams}/connect.and.reset/client",
+        "${streams}/connect.and.reset/server"
+    })
+    public void shouldConnectAndReset() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
         "${streams}/send.to.client.at.least.once/client",
         "${streams}/send.to.client.at.least.once/server"
     })
