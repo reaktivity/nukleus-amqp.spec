@@ -92,8 +92,8 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
-        "${streams}/disconnect.abort/client",
-        "${streams}/disconnect.abort/server"
+        "${streams}/disconnect/client",
+        "${streams}/disconnect/server"
     })
     public void shouldAbortConnection() throws Exception
     {
