@@ -87,10 +87,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/attach.as.receiver.then.attach.with.no.local.terminus/client",
-        "${scripts}/attach.as.receiver.then.attach.with.no.local.terminus/server"})
+        "${scripts}/attach.as.receiver.when.source.does.not.exist/client",
+        "${scripts}/attach.as.receiver.when.source.does.not.exist/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldAttachAsReceiverThenAttachWithNoLocalTerminus() throws Exception
+    public void shouldAttachAsReceiverWhenSourceDoesNotExist() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -99,10 +99,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/attach.as.sender.then.attach.with.no.local.terminus/client",
-        "${scripts}/attach.as.sender.then.attach.with.no.local.terminus/server"})
+        "${scripts}/attach.as.sender.when.target.does.not.exist/client",
+        "${scripts}/attach.as.sender.when.target.does.not.exist/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldAttachAsSenderThenAttachWithNoLocalTerminus() throws Exception
+    public void shouldAttachAsSenderWhenTargetDoesNotExist() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
