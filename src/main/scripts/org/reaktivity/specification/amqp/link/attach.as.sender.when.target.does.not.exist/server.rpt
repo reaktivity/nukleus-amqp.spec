@@ -68,21 +68,40 @@ write [0x00 0x00 0x00 0x1d]                                       # size = 29
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
 
 # attach frame exchange
-read [0x00 0x00 0x00 0x2a]                                        # size = 42
+read [0x00 0x00 0x00 0x3b]                                        # size = 59
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x12]                                             # performative = attach (18)
-     [0xc0 0x1d 0x06]                                             # list type (list8), length = 29, fields = 6
+     [0xc0 0x2e 0x0a]                                             # list (list8), length = 46, fields = 10
      [0xa1 0x05] "link1"                                          # name = "link1"
      [0x43]                                                       # handle = 0
-     [0x41]                                                       # role = receiver
+     [0x42]                                                       # role = sender
      [0x50 0x01]                                                  # snd-settle-mode = settled
      [0x50 0x00]                                                  # rcv-settle-mode = first
-     [0x00 0x53 0x28]                                             # source
-     [0xc0 0x0a 0x01]                                             # list type (list8), length = 10, fields = 1
+     [0x00 0x53 0x28 0xc0 0x09 0x01]                              # source list (list8), length = 9, fields = 1
+     [0xa1 0x06] "server"                                         # address = "server"
+     [0x00 0x53 0x29 0xc0 0x0a 0x01]                              # target list (list8), length = 10, fields = 1
      [0xa1 0x07] "clients"                                        # address = "clients"
+     [0x40]                                                       # unsettled = null
+     [0x40]                                                       # incomplete-unsettled = null (default = false)
+     [0x43]                                                       # initial-delivery-count = 0
 
+write [0x00 0x00 0x00 0x29]                                       # size = 41
+      [0x02]                                                      # doff = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x00]                                                 # channel = 0
+      [0x00 0x53 0x12]                                            # performative = attach (18)
+      [0xc0 0x1c 0x06]                                            # list (list8), length = 28, fields = 6
+      [0xa1 0x05] "link1"                                         # name = "link1"
+      [0x43]                                                      # handle = 0
+      [0x41]                                                      # role = receiver
+      [0x50 0x02]                                                 # snd-settle-mode = mixed
+      [0x50 0x00]                                                 # rcv-settle-mode = first
+      [0x00 0x53 0x28 0xc0 0x09 0x01]                             # source list (list8), length = 9, fields = 1
+      [0xa1 0x06] "server"                                        # address = "server"
+
+# detach frame exchange
 write [0x00 0x00 0x00 0x2f]                                       # size = 47
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
