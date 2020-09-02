@@ -87,6 +87,18 @@ public class LinkIT
 
     @Test
     @Specification({
+        "${scripts}/attach.then.detach.with.error/client",
+        "${scripts}/attach.then.detach.with.error/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldAttachThenDetachWithError() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/transfer.to.client.at.least.once/client",
         "${scripts}/transfer.to.client.at.least.once/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
