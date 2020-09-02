@@ -87,10 +87,22 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/attach.then.detach.with.error/client",
-        "${scripts}/attach.then.detach.with.error/server"})
+        "${scripts}/attach.as.receiver.then.attach.with.no.local.terminus/client",
+        "${scripts}/attach.as.receiver.then.attach.with.no.local.terminus/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldAttachThenDetachWithError() throws Exception
+    public void shouldAttachAsReceiverThenAttachWithNoLocalTerminus() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/attach.as.sender.then.attach.with.no.local.terminus/client",
+        "${scripts}/attach.as.sender.then.attach.with.no.local.terminus/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldAttachAsSenderThenAttachWithNoLocalTerminus() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
