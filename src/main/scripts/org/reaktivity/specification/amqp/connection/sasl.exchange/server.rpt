@@ -23,6 +23,20 @@ accept ${serverTransport}
 accepted
 connected
 
+# protocol header exchange
+read "AMQP" [0x03 0x01 0x00 0x00]
+
+write "AMQP" [0x03 0x01 0x00 0x00]
+
+write [0x00 0x00 0x00 0x19]                                     # size = 25
+      [0x02]                                                    # doff = 2
+      [0x01]                                                    # type = SASL (1)
+      [0x00 0x00]                                               # channel = 0
+      [0x00 0x53 0x40]                                          # SASL method = sasl-mechanisms (64)
+      [0xc0 0x0c 0x01]                                          # list type (LIST1), length = 12, fields = 1
+      [0xa1 0x09] "ANONYMOUS"                                   # mechanism = "ANONYMOUS"
+
+# sasl frame exchange
 read [0x00 0x00 0x00 0x19]                                      # size = 25
      [0x02]                                                     # doff = 2
      [0x01]                                                     # type = SASL (1)
@@ -38,3 +52,8 @@ write [0x00 0x00 0x00 0x10]                                     # size = 16
       [0x00 0x53 0x44]                                          # SASL method = sasl.outcome (68)
       [0xc0 0x03 0x01]                                          # list type (LIST1), length = 3, fields = 1
       [0x50 0x00]                                               # code = okay (0)
+
+# protocol header exchange
+read "AMQP" [0x00 0x01 0x00 0x00]
+
+write "AMQP" [0x00 0x01 0x00 0x00]
