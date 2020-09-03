@@ -28,22 +28,24 @@ read "AMQP" [0x03 0x01 0x00 0x00]
 
 write "AMQP" [0x03 0x01 0x00 0x00]
 
-write [0x00 0x00 0x00 0x19]                                     # size = 25
+write [0x00 0x00 0x00 0x1c]                                     # size = 28
       [0x02]                                                    # doff = 2
       [0x01]                                                    # type = SASL (1)
       [0x00 0x00]                                               # channel = 0
       [0x00 0x53 0x40]                                          # SASL method = sasl-mechanisms (64)
-      [0xc0 0x0c 0x01]                                          # list type (LIST1), length = 12, fields = 1
-      [0xa1 0x09] "ANONYMOUS"                                   # mechanism = "ANONYMOUS"
+      [0xc0 0x0f 0x01]                                          # list type (LIST1), length = 15, fields = 1
+      [0xe0 0x0c 0x01]                                          # array type (array8), length = 12, fields = 1
+      [0xa3 0x09] "ANONYMOUS"                                   # mechanism = "ANONYMOUS"
 
 # sasl frame exchange
-read [0x00 0x00 0x00 0x19]                                      # size = 25
+read [0x00 0x00 0x00 0x1c]                                      # size = 28
      [0x02]                                                     # doff = 2
      [0x01]                                                     # type = SASL (1)
      [0x00 0x00]                                                # channel = 0
      [0x00 0x53 0x41]                                           # SASL method = sasl.init (65)
-     [0xc0 0x0c 0x01]                                           # list type (LIST1), length = 12, fields = 1
-     [0xa1 0x09] "ANONYMOUS"                                    # mechanism = "ANONYMOUS"
+     [0xc0 0x0f 0x01]                                           # list type (LIST1), length = 15, fields = 1
+     [0xe0 0x0c 0x01]                                           # array type (array8), length = 12, fields = 1
+     [0xa3 0x09] "ANONYMOUS"                                    # mechanism = "ANONYMOUS"
 
 write [0x00 0x00 0x00 0x10]                                     # size = 16
       [0x02]                                                    # doff = 2
