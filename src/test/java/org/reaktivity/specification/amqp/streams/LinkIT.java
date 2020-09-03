@@ -87,10 +87,22 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/attach.then.detach.with.error/client",
-        "${scripts}/attach.then.detach.with.error/server"})
+        "${scripts}/attach.as.receiver.when.source.does.not.exist/client",
+        "${scripts}/attach.as.receiver.when.source.does.not.exist/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldAttachThenDetachWithError() throws Exception
+    public void shouldAttachAsReceiverWhenSourceDoesNotExist() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/attach.as.sender.when.target.does.not.exist/client",
+        "${scripts}/attach.as.sender.when.target.does.not.exist/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldAttachAsSenderWhenTargetDoesNotExist() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
