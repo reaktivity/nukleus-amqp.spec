@@ -45,9 +45,9 @@ write nukleus:data.ext ${amqp:dataEx()
                              .deliveryTag("0")
                              .messageFormat(0)
                              .flags("SETTLED")
-                             .bodyKind("VALUE")
+                             .bodyKind("VALUE_NULL")
                              .build()}
 
-write [0x40]
+write flush
 
 write close

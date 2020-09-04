@@ -121,6 +121,7 @@ scope amqp
         VALUE_BINARY8,
         VALUE_SYMBOL32,
         VALUE_SYMBOL8,
+        VALUE_NULL,
         VALUE
     }
 

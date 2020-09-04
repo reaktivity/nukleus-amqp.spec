@@ -41,9 +41,9 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryTag("0")
                             .messageFormat(0)
                             .flags("SETTLED")
-                            .bodyKind("VALUE")
+                            .bodyKind("VALUE_NULL")
                             .build()}
 
-read [0x40]
+read nukleus:data.null
 
 read closed
