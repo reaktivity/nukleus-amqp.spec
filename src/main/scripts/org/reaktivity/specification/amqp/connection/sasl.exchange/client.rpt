@@ -26,6 +26,7 @@ write "AMQP" [0x03 0x01 0x00 0x00]
 
 read "AMQP" [0x03 0x01 0x00 0x00]
 
+# sasl-mechanisms
 read [0x00 0x00 0x00 0x1c]                                      # size = 28
      [0x02]                                                     # doff = 2
      [0x01]                                                     # type = SASL (1)
@@ -35,7 +36,7 @@ read [0x00 0x00 0x00 0x1c]                                      # size = 28
      [0xe0 0x0c 0x01]                                           # array type (array8), length = 12, fields = 1
      [0xa3 0x09] "ANONYMOUS"                                    # mechanism = "ANONYMOUS"
 
-# sasl frame exchange
+# sasl-init
 write [0x00 0x00 0x00 0x1c]                                      # size = 28
       [0x02]                                                     # doff = 2
       [0x01]                                                     # type = SASL (1)
@@ -45,6 +46,7 @@ write [0x00 0x00 0x00 0x1c]                                      # size = 28
       [0xe0 0x0c 0x01]                                           # array type (array8), length = 12, fields = 1
       [0xa3 0x09] "ANONYMOUS"                                    # mechanism = "ANONYMOUS"
 
+#sasl-outcome
 read [0x00 0x00 0x00 0x10]                                       # size = 16
      [0x02]                                                      # doff = 2
      [0x01]                                                      # type = SASL (1)
