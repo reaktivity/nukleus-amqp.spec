@@ -40,26 +40,6 @@ read [0x00 0x00 0x00 0x1e]                                        # size = 30
      [0x40]                                                       # channel-max
      [0x70 0x00 0x00 0x27 0x10]                                   # idle-time-out = 10000
 
-write [0x00 0x00 0x00 0x16]                                       # size = 22
-      [0x02]                                                      # doff = 2
-      [0x00]                                                      # type = AMQP (0)
-      [0x00 0x00]                                                 # channel = 0
-      [0x00 0x53 0x10]                                            # performative = open (16)
-      [0xc0 0x09 0x01]                                            # list type (LIST1), length = 9, fields = 1
-      [0xa1 0x06] "server"                                        # container-id = "server"
-
-# begin frame
-read [0x00 0x00 0x00 0x1b]                                        # size = 27
-     [0x02]                                                       # doff = 2
-     [0x00]                                                       # type = AMQP (0)
-     [0x00 0x00]                                                  # channel = 0
-     [0x00 0x53 0x11]                                             # performative = begin (17)
-     [0xc0 0x0e 0x04]                                             # list type (list8), length = 14, fields = 4
-     [0x40]                                                       # remote-channel = null
-     [0x52 0x01]                                                  # next-outgoing-id = 1
-     [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
-     [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
-
 # empty frame to prevent timeout
 write [0x00 0x00 0x00 0x08]                                       # size = 8
       [0x02]                                                      # doff = 2
