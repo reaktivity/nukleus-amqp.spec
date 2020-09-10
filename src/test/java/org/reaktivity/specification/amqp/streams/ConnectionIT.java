@@ -75,8 +75,8 @@ public class ConnectionIT
 
     @Test
     @Specification({
-        "${scripts}/timeout.by.client.does.not.expire/client",
-        "${scripts}/timeout.by.client.does.not.expire/server"})
+        "${scripts}/client.idle.timeout.does.not.expire/client",
+        "${scripts}/client.idle.timeout.does.not.expire/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldPreventTimeoutSentByClient() throws Exception
     {
@@ -87,8 +87,8 @@ public class ConnectionIT
 
     @Test
     @Specification({
-        "${scripts}/timeout.by.client.expire/client",
-        "${scripts}/timeout.by.client.expire/server"})
+        "${scripts}/client.idle.timeout.expires/client",
+        "${scripts}/client.idle.timeout.expires/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldCloseConnectionWithTimeoutSentByClient() throws Exception
     {
@@ -99,8 +99,8 @@ public class ConnectionIT
 
     @Test
     @Specification({
-        "${scripts}/timeout.by.server.does.not.expire/client",
-        "${scripts}/timeout.by.server.does.not.expire/server"})
+        "${scripts}/server.idle.timeout.does.not.expire/client",
+        "${scripts}/server.idle.timeout.does.not.expire/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldPreventTimeoutSentByServer() throws Exception
     {
@@ -111,8 +111,8 @@ public class ConnectionIT
 
     @Test
     @Specification({
-        "${scripts}/timeout.by.server.expire/client",
-        "${scripts}/timeout.by.server.expire/server"})
+        "${scripts}/server.idle.timeout.expires/client",
+        "${scripts}/server.idle.timeout.expires/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldCloseConnectionWithTimeout() throws Exception
     {
