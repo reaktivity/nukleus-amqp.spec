@@ -38,6 +38,14 @@ write [0x00 0x00 0x00 0x1e]                                      # size = 30
       [0x40]                                                     # channel-max
       [0x70 0x00 0x00 0x27 0x10]                                 # idle-time-out = 10000
 
+read [0x00 0x00 0x00 0x16]                                       # size = 22
+     [0x02]                                                      # doff = 2
+     [0x00]                                                      # type = AMQP (0)
+     [0x00 0x00]                                                 # channel = 0
+     [0x00 0x53 0x10]                                            # performative = open (16)
+     [0xc0 0x09 0x01]                                            # list type (LIST1), length = 9, fields = 1
+     [0xa1 0x06] "server"                                        # container-id = "server"
+
 # empty frame to prevent timeout
 read [0x00 0x00 0x00 0x08]                                       # size = 8
      [0x02]                                                      # doff = 2
