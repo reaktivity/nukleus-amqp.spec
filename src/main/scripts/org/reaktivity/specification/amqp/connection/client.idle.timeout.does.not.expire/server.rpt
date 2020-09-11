@@ -38,7 +38,7 @@ read [0x00 0x00 0x00 0x1e]                                        # size = 30
      [0x40]                                                       # hostname
      [0x40]                                                       # max-frame-size
      [0x40]                                                       # channel-max
-     [0x70 0x00 0x00 0x27 0x10]                                   # idle-time-out = 10000
+     [0x70 0x00 0x00 0x03 0xe8]                                   # idle-time-out = 1000
 
 write [0x00 0x00 0x00 0x16]                                       # size = 22
       [0x02]                                                      # doff = 2
