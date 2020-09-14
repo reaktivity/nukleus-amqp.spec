@@ -53,3 +53,9 @@ write [0x00 0x00 0x00 0x08]                                       # size = 8
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
+
+# empty frame to prevent timeout
+write [0x00 0x00 0x00 0x08]                                       # size = 8
+      [0x02]                                                      # doff = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x00]                                                 # channel = 0
