@@ -37,6 +37,7 @@ import org.reaktivity.specification.amqp.internal.types.AmqpReceiverSettleMode;
 import org.reaktivity.specification.amqp.internal.types.AmqpSenderSettleMode;
 import org.reaktivity.specification.amqp.internal.types.AmqpTransferFlag;
 import org.reaktivity.specification.amqp.internal.types.Array32FW;
+import org.reaktivity.specification.amqp.internal.types.OctetsFW;
 import org.reaktivity.specification.amqp.internal.types.control.AmqpRouteExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpAbortExFW;
 import org.reaktivity.specification.amqp.internal.types.stream.AmqpBeginExFW;
@@ -45,6 +46,7 @@ import org.reaktivity.specification.amqp.internal.types.stream.AmqpDataExFW;
 public final class AmqpFunctions
 {
     private static final int MAX_BUFFER_SIZE = 1024 * 8;
+    private static final OctetsFW EMPTY_OCTETS = new OctetsFW().wrap(new UnsafeBuffer(), 0, 0);
 
     public static class AmqpRouteExBuilder
     {
@@ -140,6 +142,7 @@ public final class AmqpFunctions
         private final AmqpDataExFW.Builder dataExRW;
         private AmqpPropertiesFW.Builder propertiesRW;
         private boolean isPropertiesSet;
+        private boolean isDeliveryTagSet;
 
         public AmqpDataExBuilder()
         {
@@ -166,12 +169,17 @@ public final class AmqpFunctions
             String deliveryTag)
         {
             dataExRW.deliveryTag(d -> d.bytes(b -> b.set(deliveryTag.getBytes(UTF_8))));
+            isDeliveryTagSet = true;
             return this;
         }
 
         public AmqpDataExBuilder messageFormat(
             long messageFormat)
         {
+            if (!isDeliveryTagSet)
+            {
+                dataExRW.deliveryTag(d -> d.bytes(EMPTY_OCTETS));
+            }
             dataExRW.messageFormat(messageFormat);
             return this;
         }
