@@ -75,10 +75,59 @@ public class ConnectionIT
 
     @Test
     @Specification({
+        "${scripts}/client.idle.timeout.does.not.expire/client",
+        "${scripts}/client.idle.timeout.does.not.expire/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldPreventTimeoutSentByClient() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/client.idle.timeout.expires/client",
+        "${scripts}/client.idle.timeout.expires/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldCloseConnectionWithTimeoutSentByClient() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/server.idle.timeout.does.not.expire/client",
+        "${scripts}/server.idle.timeout.does.not.expire/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldPreventTimeoutSentByServer() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/server.idle.timeout.expires/client",
+        "${scripts}/server.idle.timeout.expires/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldCloseConnectionWithTimeout() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/sasl.exchange/client",
         "${scripts}/sasl.exchange/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldExchangeSasl() throws Exception
+
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
