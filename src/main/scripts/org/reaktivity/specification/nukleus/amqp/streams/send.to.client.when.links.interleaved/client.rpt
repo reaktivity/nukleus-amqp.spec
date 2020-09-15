@@ -38,7 +38,7 @@ connected
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
-                            .deliveryTag("0")
+                            .deliveryTag("")
                             .messageFormat(0)
                             .flags("SETTLED")
                             .bodyKind("VALUE_STRING8")
@@ -80,7 +80,7 @@ connected
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
-                            .deliveryTag("0")
+                            .deliveryTag("")
                             .messageFormat(0)
                             .flags("SETTLED")
                             .bodyKind("VALUE_STRING8")
