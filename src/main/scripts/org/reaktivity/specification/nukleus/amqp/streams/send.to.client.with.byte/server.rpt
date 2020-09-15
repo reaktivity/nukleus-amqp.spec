@@ -42,6 +42,7 @@ connected
 
 write nukleus:data.ext ${amqp:dataEx()
                              .typeId(nukleus:id("amqp"))
+                             .deliveryTag("")
                              .messageFormat(0)
                              .flags("SETTLED")
                              .bodyKind("VALUE")

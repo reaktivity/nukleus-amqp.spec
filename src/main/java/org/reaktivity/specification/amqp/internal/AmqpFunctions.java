@@ -142,7 +142,6 @@ public final class AmqpFunctions
         private final AmqpDataExFW.Builder dataExRW;
         private AmqpPropertiesFW.Builder propertiesRW;
         private boolean isPropertiesSet;
-        private boolean isDeliveryTagSet;
 
         public AmqpDataExBuilder()
         {
@@ -169,17 +168,12 @@ public final class AmqpFunctions
             String deliveryTag)
         {
             dataExRW.deliveryTag(d -> d.bytes(b -> b.set(deliveryTag.getBytes(UTF_8))));
-            isDeliveryTagSet = true;
             return this;
         }
 
         public AmqpDataExBuilder messageFormat(
             long messageFormat)
         {
-            if (!isDeliveryTagSet)
-            {
-                dataExRW.deliveryTag(d -> d.bytes(EMPTY_OCTETS));
-            }
             dataExRW.messageFormat(messageFormat);
             return this;
         }
