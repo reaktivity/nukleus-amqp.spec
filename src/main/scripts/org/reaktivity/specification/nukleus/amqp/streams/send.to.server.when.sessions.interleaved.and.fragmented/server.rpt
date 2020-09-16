@@ -45,7 +45,7 @@ read nukleus:data.ext ${amqp:dataEx()
                             .messageFormat(0)
                             .flags("SETTLED")
                             .bodyKind("VALUE_BINARY32")
-                            .deferred(8000 - 7970)
+                            .deferred(8000 - 7971)
                             .build()}
 
 read [0..8000]
@@ -75,7 +75,7 @@ read nukleus:data.ext ${amqp:dataEx()
                             .messageFormat(0)
                             .flags("SETTLED")
                             .bodyKind("VALUE_BINARY32")
-                            .deferred(8000 - 7970)
+                            .deferred(8000 - 7971)
                             .build()}
 
 read [0..8000]

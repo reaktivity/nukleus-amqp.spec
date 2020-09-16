@@ -42,7 +42,7 @@ write nukleus:data.ext ${amqp:dataEx()
                              .messageFormat(0)
                              .flags("SETTLED")
                              .bodyKind("VALUE_BINARY32")
-                             .deferred(8000 - 7970)
+                             .deferred(8000 - 7971)
                              .build()}
 
 write ${amqp:randomBytes(8000)}
@@ -75,7 +75,7 @@ write nukleus:data.ext ${amqp:dataEx()
                              .messageFormat(0)
                              .flags("SETTLED")
                              .bodyKind("VALUE_BINARY32")
-                             .deferred(8000 - 7968)
+                             .deferred(8000 - 7969)
                              .build()}
 
 write ${amqp:randomBytes(8000)}

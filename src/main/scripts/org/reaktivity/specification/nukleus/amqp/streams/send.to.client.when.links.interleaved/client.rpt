@@ -48,7 +48,7 @@ read "Text1 from link1"
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
-                            .deliveryTag("1")
+                            .deliveryTag("")
                             .messageFormat(0)
                             .flags("SETTLED")
                             .bodyKind("VALUE_STRING8")
@@ -90,7 +90,7 @@ read "Text1 from link2"
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
-                            .deliveryTag("1")
+                            .deliveryTag("")
                             .messageFormat(0)
                             .flags("SETTLED")
                             .bodyKind("VALUE_STRING8")
