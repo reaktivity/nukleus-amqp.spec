@@ -51,6 +51,18 @@ public class ConnectionIT
 
     @Test
     @Specification({
+        "${scripts}/protocol.header.unmatched/client",
+        "${scripts}/protocol.header.unmatched/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldCloseStreamWhenHeaderUnmatched() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/open.exchange/client",
         "${scripts}/open.exchange/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
