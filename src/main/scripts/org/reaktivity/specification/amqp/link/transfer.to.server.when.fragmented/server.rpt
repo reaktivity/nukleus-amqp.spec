@@ -126,15 +126,15 @@ read [0x00 0x00 0x1f 0x40]                                        # size = 8000
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x14]                                             # performative = transfer (20)
-     [0xc0 0x09 0x06]                                             # list type (list8), length = 9, fields = 6
+     [0xc0 0x08 0x06]                                             # list type (list8), length = 8, fields = 6
      [0x43]                                                       # handle = 0
      [0x43]                                                       # delivery-id = 0
-     [0xa0 0x01 0x30]                                             # delivery-tag = "0"
+     [0xa0 0x00]                                                  # delivery-tag = empty bytes
      [0x43]                                                       # message-format = 0
      [0x41]                                                       # settled = true
      [0x41]                                                       # more = true
      [0x00 0x53 0x77 0xb0 0x00 0x00 0x1f 0x40]                    # message format = amqp-value, vbin32, size = 8000
-     [0..7970]                                                    # body = 7970 random bytes
+     [0..7971]                                                    # body = 7971 random bytes
 
 # flow frame
 write [0x00 0x00 0x00 0x1d]                                       # size = 29
@@ -152,11 +152,11 @@ write [0x00 0x00 0x00 0x1d]                                       # size = 29
       [0x52 0x01]                                                 # link-credit = 1
 
 # transfer frame
-read [0x00 0x00 0x00 0x2d]                                        # size = 45
+read [0x00 0x00 0x00 0x2c]                                        # size = 44
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x14]                                             # performative = transfer (20)
      [0xc0 0x02 0x01]                                             # list type (list8), length = 2, fields = 1
      [0x43]                                                       # handle = 0
-     [0..30]                                                      # body = 30 random bytes
+     [0..29]                                                      # body = 29 random bytes
