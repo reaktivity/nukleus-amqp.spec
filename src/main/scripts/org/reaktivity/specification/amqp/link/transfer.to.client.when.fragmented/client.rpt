@@ -118,15 +118,15 @@ write [0x00 0x00 0x00 0x20]                                      # size = 32
       [0x52 0x06]                                                # link-credit = 6
 
 # transfer frame
-read [0x00 0x00 0x00 0xb9]                                       # size = 185
+read [0x00 0x00 0x00 0xb8]                                       # size = 184
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
      [0x00 0x53 0x14]                                            # performative = transfer (20)
-     [0xc0 0x09 0x06]                                            # list type (list8), length = 9, fields = 6
+     [0xc0 0x08 0x06]                                            # list type (list8), length = 8, fields = 6
      [0x43]                                                      # handle = 0
      [0x43]                                                      # delivery-id = 0
-     [0xa0 0x01 0x30]                                            # delivery-tag = "0"
+     [0xa0 0x00]                                                 # delivery-tag = empty bytes
      [0x43]                                                      # message-format = 0
      [0x41]                                                      # settled = true
      [0x41]                                                      # more = true
