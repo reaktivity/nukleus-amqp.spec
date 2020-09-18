@@ -67,7 +67,7 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .receiverSettleMode("FIRST")
                              .build()}
 connected
-read notify FLOW_PROCESSED
+write await FLOW_PROCESSED
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))

@@ -69,7 +69,7 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .build()}
 
 connected
-write await FLOW_PROCESSED
+read notify FLOW_PROCESSED
 
 write nukleus:data.ext ${amqp:dataEx()
                              .typeId(nukleus:id("amqp"))
