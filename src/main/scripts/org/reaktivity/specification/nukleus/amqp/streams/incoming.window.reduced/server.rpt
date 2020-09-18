@@ -60,8 +60,6 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .receiverSettleMode("FIRST")
                              .build()}
 
-write await FLOW_PROCESSED
-
 write nukleus:begin.ext ${amqp:beginEx()
                               .typeId(nukleus:id("amqp"))
                               .address("clients")
@@ -71,6 +69,7 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .build()}
 
 connected
+write await FLOW_PROCESSED
 
 write nukleus:data.ext ${amqp:dataEx()
                              .typeId(nukleus:id("amqp"))
