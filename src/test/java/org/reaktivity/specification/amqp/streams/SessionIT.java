@@ -183,8 +183,8 @@ public class SessionIT
 
     @Test
     @Specification({
-        "${scripts}/incoming.widnow.reduced/client",
-        "${scripts}/incoming.widnow.reduced/server"})
+        "${scripts}/incoming.window.reduced/client",
+        "${scripts}/incoming.window.reduced/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldHandleReducedIncomingWindow() throws Exception
     {
