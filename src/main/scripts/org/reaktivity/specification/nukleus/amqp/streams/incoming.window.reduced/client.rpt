@@ -46,6 +46,76 @@ read nukleus:data.ext ${amqp:dataEx()
 
 read "Text!"
 
+read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
+                            .deliveryTag("")
+                            .messageFormat(0)
+                            .flags("SETTLED")
+                            .bodyKind("VALUE_STRING8")
+                            .build()}
+
+read "Text!"
+
+read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
+                            .deliveryTag("")
+                            .messageFormat(0)
+                            .flags("SETTLED")
+                            .bodyKind("VALUE_STRING8")
+                            .build()}
+
+read "Text!"
+
+read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
+                            .deliveryTag("")
+                            .messageFormat(0)
+                            .flags("SETTLED")
+                            .bodyKind("VALUE_STRING8")
+                            .build()}
+
+read "Text!"
+
+read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
+                            .deliveryTag("")
+                            .messageFormat(0)
+                            .flags("SETTLED")
+                            .bodyKind("VALUE_STRING8")
+                            .build()}
+
+read "Text!"
+
+read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
+                            .deliveryTag("")
+                            .messageFormat(0)
+                            .flags("SETTLED")
+                            .bodyKind("VALUE_STRING8")
+                            .build()}
+
+read "Text!"
+
+read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
+                            .deliveryTag("")
+                            .messageFormat(0)
+                            .flags("SETTLED")
+                            .bodyKind("VALUE_STRING8")
+                            .build()}
+
+read "Text!"
+
+read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
+                            .deliveryTag("")
+                            .messageFormat(0)
+                            .flags("SETTLED")
+                            .bodyKind("VALUE_STRING8")
+                            .build()}
+
+read "Text!"
+
 connect await ROUTED_CLIENT
         "nukleus://streams/amqp#0"
         option nukleus:window 8192
@@ -67,76 +137,5 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .receiverSettleMode("FIRST")
                              .build()}
 connected
-write await FLOW_PROCESSED
-
-read nukleus:data.ext ${amqp:dataEx()
-                            .typeId(nukleus:id("amqp"))
-                            .deliveryTag("")
-                            .messageFormat(0)
-                            .flags("SETTLED")
-                            .bodyKind("VALUE_STRING8")
-                            .build()}
-
-read "Text!"
-
-read nukleus:data.ext ${amqp:dataEx()
-                            .typeId(nukleus:id("amqp"))
-                            .deliveryTag("")
-                            .messageFormat(0)
-                            .flags("SETTLED")
-                            .bodyKind("VALUE_STRING8")
-                            .build()}
-
-read "Text!"
-
-read nukleus:data.ext ${amqp:dataEx()
-                            .typeId(nukleus:id("amqp"))
-                            .deliveryTag("")
-                            .messageFormat(0)
-                            .flags("SETTLED")
-                            .bodyKind("VALUE_STRING8")
-                            .build()}
-
-read "Text!"
-
-read nukleus:data.ext ${amqp:dataEx()
-                            .typeId(nukleus:id("amqp"))
-                            .deliveryTag("")
-                            .messageFormat(0)
-                            .flags("SETTLED")
-                            .bodyKind("VALUE_STRING8")
-                            .build()}
-
-read "Text!"
-
-read nukleus:data.ext ${amqp:dataEx()
-                            .typeId(nukleus:id("amqp"))
-                            .deliveryTag("")
-                            .messageFormat(0)
-                            .flags("SETTLED")
-                            .bodyKind("VALUE_STRING8")
-                            .build()}
-
-read "Text!"
-
-read nukleus:data.ext ${amqp:dataEx()
-                            .typeId(nukleus:id("amqp"))
-                            .deliveryTag("")
-                            .messageFormat(0)
-                            .flags("SETTLED")
-                            .bodyKind("VALUE_STRING8")
-                            .build()}
-
-read "Text!"
-
-read nukleus:data.ext ${amqp:dataEx()
-                            .typeId(nukleus:id("amqp"))
-                            .deliveryTag("")
-                            .messageFormat(0)
-                            .flags("SETTLED")
-                            .bodyKind("VALUE_STRING8")
-                            .build()}
-
-read "Text!"
 
 read closed
