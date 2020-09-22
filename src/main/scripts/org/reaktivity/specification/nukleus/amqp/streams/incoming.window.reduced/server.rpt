@@ -50,6 +50,8 @@ write nukleus:data.ext ${amqp:dataEx()
 
 write "Text!"
 
+write await SEND_REMAINING_DATA
+
 write nukleus:data.ext ${amqp:dataEx()
                              .typeId(nukleus:id("amqp"))
                              .deliveryTag("")
@@ -139,6 +141,4 @@ write nukleus:begin.ext ${amqp:beginEx()
                               .build()}
 
 connected
-read notify FLOW_PROCESSED
-
-write close
+read notify SEND_REMAINING_DATA

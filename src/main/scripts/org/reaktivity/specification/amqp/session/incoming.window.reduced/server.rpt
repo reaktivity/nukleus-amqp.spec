@@ -28,13 +28,15 @@ read "AMQP" [0x00 0x01 0x00 0x00]
 write "AMQP" [0x00 0x01 0x00 0x00]
 
 # open frame exchange
-read [0x00 0x00 0x00 0x16]                                        # size = 22
+read [0x00 0x00 0x00 0x1c]                                        # size = 28
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x10]                                             # performative = open (16)
-     [0xc0 0x09 0x01]                                             # list type (LIST1), length = 9, fields = 1
+     [0xc0 0x0f 0x03]                                             # list type (LIST1), length = 15, fields = 3
      [0xa1 0x06] "client"                                         # container-id = "client"
+     [0x40]                                                       # hostname = null
+     [0x70 0x00 0x00 0x02 0x58]                                   # max-frame-size = 600
 
 write [0x00 0x00 0x00 0x16]                                       # size = 22
       [0x02]                                                      # doff = 2
@@ -264,7 +266,7 @@ read [0x00 0x00 0x00 0x20]                                        # size = 32
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x13]                                             # performative = flow (19)
      [0xc0 0x13 0x07]                                             # list type (list8), length = 19, fields = 7
-     [0x52 0x06]                                                  # next-incoming-id = 6
+     [0x52 0x07]                                                  # next-incoming-id = 7
      [0x52 0x0a]                                                  # incoming-window = 10
      [0x52 0x01]                                                  # next-outgoing-id = 1
      [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
