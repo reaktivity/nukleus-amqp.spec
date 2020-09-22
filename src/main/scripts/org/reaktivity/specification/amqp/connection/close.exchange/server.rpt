@@ -52,7 +52,7 @@ read [0x00 0x00 0x00 0x2c]                                        # size = 44
      [0x00 0x53 0x18]                                             # performative = close (24)
      [0xc0 0x1f 0x01]                                             # list type (list8), length = 31, fields = 1
      [0x00 0x53 0x1d]                                             # error header
-     [0xc0 0x19 0x02]                                             # list type (list8), length = 25, fields = 1
+     [0xc0 0x19 0x01]                                             # list type (list8), length = 25, fields = 1
      [0xa3 0x16] "amqp:connection:forced"                         # condition = "amqp:connection:forced"
 
 write [0x00 0x00 0x00 0x0c]                                       # size = 12
