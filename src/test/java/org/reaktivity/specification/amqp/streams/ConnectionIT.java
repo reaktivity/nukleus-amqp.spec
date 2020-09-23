@@ -148,10 +148,10 @@ public class ConnectionIT
 
     @Test
     @Specification({
-        "${scripts}/open.proactive.exchange/client",
-        "${scripts}/open.proactive.exchange/server"})
+        "${scripts}/open.exchange.pipelined/client",
+        "${scripts}/open.exchange.pipelined/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldSendOpenProactively() throws Exception
+    public void shouldSendOpenPipelined() throws Exception
 
     {
         k3po.start();
@@ -161,8 +161,8 @@ public class ConnectionIT
 
     @Test
     @Specification({
-        "${scripts}/pipelined.open.after.sasl/client",
-        "${scripts}/pipelined.open.after.sasl/server"})
+        "${scripts}/sasl.exchange.then.open.exchange.pipelined/client",
+        "${scripts}/sasl.exchange.then.open.exchange.pipelined/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldSendOpenPipelinedAfterSasl() throws Exception
 
