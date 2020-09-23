@@ -148,10 +148,10 @@ public class ConnectionIT
 
     @Test
     @Specification({
-        "${scripts}/close.timeout/client",
-        "${scripts}/close.timeout/server"})
+        "${scripts}/close.exchange.server.abandoned/client",
+        "${scripts}/close.exchange.server.abandoned/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldCloseConnectionWhenCloseTimeoutExpired() throws Exception
+    public void shouldCloseConnectionWhenServerAbandoned() throws Exception
 
     {
         k3po.start();
