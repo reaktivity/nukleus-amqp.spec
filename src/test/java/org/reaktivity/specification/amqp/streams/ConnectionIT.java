@@ -152,7 +152,6 @@ public class ConnectionIT
         "${scripts}/open.exchange.pipelined/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldSendOpenPipelined() throws Exception
-
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -165,7 +164,18 @@ public class ConnectionIT
         "${scripts}/sasl.exchange.then.open.exchange.pipelined/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldSendOpenPipelinedAfterSasl() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
 
+    @Test
+    @Specification({
+        "${scripts}/close.exchange.server.abandoned/client",
+        "${scripts}/close.exchange.server.abandoned/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldCloseConnectionWhenServerAbandoned() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
