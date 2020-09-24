@@ -36,28 +36,28 @@ read [0x00 0x00 0x00 0x16]                                        # size = 22
      [0xc0 0x09 0x01]                                             # list type (LIST1), length = 9, fields = 1
      [0xa1 0x06] "client"                                         # container-id = "client"
 
-write [0x00 0x00 0x00 0x16]                                       # size = 22
+write [0x00 0x00 0x00 0x1e]                                       # size = 30
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x10]                                            # performative = open (16)
-      [0xc0 0x09 0x01]                                            # list type (LIST1), length = 9, fields = 1
+      [0xc0 0x11 0x05]                                            # list type (LIST1), length = 17, fields = 5
       [0xa1 0x06] "server"                                        # container-id = "server"
+      [0x40]                                                      # hostname
+      [0x40]                                                      # max-frame-size
+      [0x40]                                                      # channel-max
+      [0x70 0x00 0x00 0x03 0xe8]                                  # idle-time-out = 1000
 
-# close frame exchange
-read [0x00 0x00 0x00 0x2c]                                        # size = 44
-     [0x02]                                                       # doff = 2
-     [0x00]                                                       # type = AMQP (0)
-     [0x00 0x00]                                                  # channel = 0
-     [0x00 0x53 0x18]                                             # performative = close (24)
-     [0xc0 0x1f 0x01]                                             # list type (list8), length = 31, fields = 1
-     [0x00 0x53 0x1d]                                             # error header
-     [0xc0 0x19 0x01]                                             # list type (list8), length = 25, fields = 1
-     [0xa3 0x16] "amqp:connection:forced"                         # condition = "amqp:connection:forced"
-
-write [0x00 0x00 0x00 0x0c]                                       # size = 12
+ # close frame with error
+write [0x00 0x00 0x00 0x48]                                       # size = 72
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x18]                                            # performative = close (24)
-      [0x45]                                                      # list type (list0)
+      [0xc0 0x3b 0x01]                                            # list type (list8), length = 59, fields = 1
+      [0x00 0x53 0x1d]                                            # error header
+      [0xc0 0x35 0x02]                                            # list type (list8), length = 53, fields = 2
+      [0xa3 0x1c] "amqp:resource-limit-exceeded"                  # condition = "amqp:resource-limit-exceeded"
+      [0xa1 0x14] "idle-timeout expired"                          # description = "idle-timeout expired"
+
+write close
