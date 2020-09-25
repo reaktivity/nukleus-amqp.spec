@@ -192,4 +192,16 @@ public class SessionIT
         k3po.notifyBarrier("ROUTED_SERVER");
         k3po.finish();
     }
+
+    @Test
+    @Specification({
+        "${scripts}/simultaneous.end.exchange/client",
+        "${scripts}/simultaneous.end.exchange/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldEndSessionSimultaneously() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
 }
