@@ -195,8 +195,8 @@ public class SessionIT
 
     @Test
     @Specification({
-        "${scripts}/simultaneous.end.exchange/client",
-        "${scripts}/simultaneous.end.exchange/server"})
+        "${scripts}/end.exchange.simultaneous/client",
+        "${scripts}/end.exchange.simultaneous/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldEndSessionSimultaneously() throws Exception
     {
