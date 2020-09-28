@@ -184,8 +184,8 @@ public class ConnectionIT
 
     @Test
     @Specification({
-        "${scripts}/simultaneous.close.exchange/client",
-        "${scripts}/simultaneous.close.exchange/server"})
+        "${scripts}/close.exchange.simultaneous/client",
+        "${scripts}/close.exchange.simultaneous/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldCloseSimultaneously() throws Exception
 
