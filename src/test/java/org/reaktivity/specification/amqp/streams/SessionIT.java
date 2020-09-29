@@ -195,6 +195,18 @@ public class SessionIT
 
     @Test
     @Specification({
+        "${scripts}/end.exchange.simultaneous/client",
+        "${scripts}/end.exchange.simultaneous/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldEndSessionSimultaneously() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/discard.after.end/client",
         "${scripts}/discard.after.end/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
