@@ -115,14 +115,17 @@ read [0x00 0x00 0x00 0x1c]                                        # size = 28
      [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
 
 # detach frame
-read [0x00 0x00 0x00 0x10]                                        # size = 16
+read [0x00 0x00 0x00 0x2f]                                        # size = 47
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x16]                                             # performative = detach (22)
-     [0xc0 0x03 0x02]                                             # list type (list8), length = 3, fields = 2
+     [0xc0 0x22 0x03]                                             # list type (list8), length = 34, fields = 3
      [0x43]                                                       # handle = 0
      [0x41]                                                       # closed = true
+     [0x00 0x53 0x1d]                                             # error header
+     [0xc0 0x1a 0x01]                                             # list type (list8), length = 26, fields = 1
+     [0xa3 0x17] "amqp:link:detach-forced"                        # error = detach-forced
 
 write [0x00 0x00 0x00 0x10]                                       # size = 16
       [0x02]                                                      # doff = 2
@@ -132,3 +135,37 @@ write [0x00 0x00 0x00 0x10]                                       # size = 16
       [0xc0 0x03 0x02]                                            # list type (list8), length = 3, fields = 2
       [0x43]                                                      # handle = 0
       [0x41]                                                      # closed = true
+
+# attach to destroyed link
+read [0x00 0x00 0x00 0x2a]                                        # size = 42
+     [0x02]                                                       # doff = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x00]                                                  # channel = 0
+     [0x00 0x53 0x12]                                             # performative = attach (18)
+     [0xc0 0x1d 0x06]                                             # list type (list8), length = 29, fields = 6
+     [0xa1 0x05] "link1"                                          # name = "link1"
+     [0x43]                                                       # handle = 0
+     [0x41]                                                       # role = receiver
+     [0x50 0x01]                                                  # snd-settle-mode = settled
+     [0x50 0x00]                                                  # rcv-settle-mode = first
+     [0x00 0x53 0x28]                                             # source
+     [0xc0 0x0a 0x01]                                             # list type (list8), length = 10, fields = 1
+     [0xa1 0x07] "clients"                                        # address = "clients"
+
+# end frame
+write [0x00 0x00 0x00 0x2e]                                       # size = 46
+      [0x02]                                                      # doff = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x00]                                                 # channel = 0
+      [0x00 0x53 0x17]                                            # performative = end (23)
+      [0xc0 0x21 0x01]                                            # list type (list8), length = 33, fields = 1
+      [0x00 0x53 0x1d]                                            # error header
+      [0xc0 0x1b 0x01]                                            # list type (list8), length = 27, fields = 1
+      [0xa3 0x18] "amqp:session:errant-link"                      # error type = errant-link
+
+read [0x00 0x00 0x00 0x0c]                                        # size = 12
+     [0x02]                                                       # doff = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x00]                                                  # channel = 0
+     [0x00 0x53 0x17]                                             # performative = end (23)
+     [0x45]                                                       # list type (list0)
