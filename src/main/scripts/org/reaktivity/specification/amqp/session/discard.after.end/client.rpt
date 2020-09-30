@@ -174,7 +174,7 @@ write [0x00 0x00 0x00 0x1f]                                       # size = 31
       [0x00 0x53 0x77 0xa1 0x05]                                  # message format = amqp-value, str8utf8, size = 5
       "Text!"                                                     # body = "Text!"
 
-write [0x00 0x00 0x00 0x0c]                                       # size = 12
+      [0x00 0x00 0x00 0x0c]                                       # size = 12
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
