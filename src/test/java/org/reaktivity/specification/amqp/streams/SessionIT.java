@@ -219,10 +219,10 @@ public class SessionIT
 
     @Test
     @Specification({
-        "${scripts}/reject.errant.links/client",
-        "${scripts}/reject.errant.links/server"})
+        "${scripts}/reject.errant.link/client",
+        "${scripts}/reject.errant.link/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldRejectErrantLinks() throws Exception
+    public void shouldRejectErrantLink() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
