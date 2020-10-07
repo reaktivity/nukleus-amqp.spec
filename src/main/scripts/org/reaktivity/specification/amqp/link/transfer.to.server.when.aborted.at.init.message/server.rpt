@@ -44,7 +44,7 @@ write [0x00 0x00 0x00 0x1c]                                       # size = 28
       [0xc0 0x0f 0x03]                                            # list type (LIST1), length = 15, fields = 3
       [0xa1 0x06] "server"                                        # container-id = "server"
       [0x40]                                                      # hostname = null
-      [0x70 0x00 0x00 0x1f 0x40]                                  # max frame size = 8000
+      [0x70 0x00 0x00 0x03 0xe8]                                  # max frame size = 1000
 
 # begin frame exchange
 read [0x00 0x00 0x00 0x1b]                                        # size = 27
@@ -113,46 +113,15 @@ write [0x00 0x00 0x00 0x1d]                                       # size = 29
       [0x00 0x53 0x13]                                            # performative = flow (19)
       [0xc0 0x10 0x07]                                            # list type (list8), length = 16, fields = 7
       [0x52 0x01]                                                 # next-incoming-id = 1
-      [0x52 0x01]                                                 # incoming-window = 1
+      [0x52 0x08]                                                 # incoming-window = 8
       [0x52 0x01]                                                 # next-outgoing-id = 1
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
       [0x43]                                                      # handle = 0
       [0x43]                                                      # delivery-count = 0
-      [0x52 0x01]                                                 # link-credit = 1
+      [0x52 0x08]                                                 # link-credit = 8
 
 # transfer frame
-read [0x00 0x00 0x1f 0x40]                                        # size = 8000
-     [0x02]                                                       # doff = 2
-     [0x00]                                                       # type = AMQP (0)
-     [0x00 0x00]                                                  # channel = 0
-     [0x00 0x53 0x14]                                             # performative = transfer (20)
-     [0xc0 0x08 0x06]                                             # list type (list8), length = 8, fields = 6
-     [0x43]                                                       # handle = 0
-     [0x43]                                                       # delivery-id = 0
-     [0xa0 0x00]                                                  # delivery-tag = empty bytes
-     [0x43]                                                       # message-format = 0
-     [0x41]                                                       # settled = true
-     [0x41]                                                       # more = true
-     [0x00 0x53 0x77 0xb0 0x00 0x00 0x1f 0x40]                    # message format = amqp-value, vbin32, size = 8000
-     [0..7971]                                                    # body = 7971 random bytes
-
-# flow frame
-write [0x00 0x00 0x00 0x1d]                                       # size = 29
-      [0x02]                                                      # doff = 2
-      [0x00]                                                      # type = AMQP (0)
-      [0x00 0x00]                                                 # channel = 0
-      [0x00 0x53 0x13]                                            # performative = flow (19)
-      [0xc0 0x10 0x07]                                            # list type (list8), length = 16, fields = 7
-      [0x52 0x02]                                                 # next-incoming-id = 2
-      [0x52 0x01]                                                 # incoming-window = 1
-      [0x52 0x01]                                                 # next-outgoing-id = 1
-      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
-      [0x43]                                                      # handle = 0
-      [0x43]                                                      # delivery-count = 0
-      [0x52 0x01]                                                 # link-credit = 1
-
-# transfer frame
-read [0x00 0x00 0x00 0x35]                                        # size = 53
+read [0x00 0x00 0x00 0x27]                                        # size = 39
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
@@ -168,4 +137,20 @@ read [0x00 0x00 0x00 0x35]                                        # size = 53
      [0x40]                                                       # state = null
      [0x40]                                                       # resume = null
      [0x41]                                                       # aborted = true
-     [0..29]                                                      # body = 29 random bytes
+     [0x00 0x53 0x77 0xa0 0x0a]                                   # message format = amqp-value, constructor = vbin8, length = 10
+     [0..10]                                                      # body = 10 random bytes
+
+# transfer frame
+read [0x00 0x00 0x00 0x23]                                        # size = 35
+     [0x02]                                                       # doff = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x00]                                                  # channel = 0
+     [0x00 0x53 0x14]                                             # performative = transfer (20)
+     [0xc0 0x07 0x05]                                             # list type (list8), length = 7, fields = 5
+     [0x43]                                                       # handle = 0
+     [0x43]                                                       # delivery-id = 0
+     [0xa0 0x00]                                                  # delivery-tag = empty bytes
+     [0x43]                                                       # message-format = 0
+     [0x41]                                                       # settled = true
+     [0x00 0x53 0x77 0xa0 0x0a]                                   # message format = amqp-value, constructor = vbin8, length = 10
+     [0..10]                                                      # body = 10 random bytes
