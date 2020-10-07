@@ -52,7 +52,7 @@ read nukleus:data.ext ${amqp:dataEx()
 read [0..100]
 # TODO: read option nukleus:flags "cont"
 read [0..100]
-# TODO: read option nukleus:flags "rst"
+# TODO: read option nukleus:flags "incomplete"
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))

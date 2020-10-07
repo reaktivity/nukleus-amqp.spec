@@ -50,7 +50,7 @@ write ${amqp:randomBytes(100)}
 # TODO: write option nukleus:flags "cont"
 write ${amqp:randomBytes(100)}
 # TODO: write flush
-# TODO: write option nukleus:flags "rst"
+# TODO: write option nukleus:flags "incomplete"
 
 write nukleus:data.ext ${amqp:dataEx()
                              .typeId(nukleus:id("amqp"))

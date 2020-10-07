@@ -45,8 +45,11 @@ read nukleus:data.ext ${amqp:dataEx()
                             .bodyKind("VALUE_BINARY32")
                             .deferred(300 - 100)
                             .build()}
+# TODO: read option nukleus:flags "init"
 read [0..100]
+# TODO: read option nukleus:flags "cont"
 read [0..100]
+# TODO: read option nukleus:flags "incomplete"
 read [0..100]
 
 # message 2
