@@ -51,6 +51,7 @@ read nukleus:data.ext ${amqp:dataEx()
 # TODO: read option nukleus:flags "init"
 read [0..100]
 # TODO: read option nukleus:flags "incomplete"
+read nukleus:data.empty
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
