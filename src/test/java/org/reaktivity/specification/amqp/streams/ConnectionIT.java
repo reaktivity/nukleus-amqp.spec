@@ -194,4 +194,30 @@ public class ConnectionIT
         k3po.notifyBarrier("ROUTED_SERVER");
         k3po.finish();
     }
+
+    @Test
+    @Specification({
+        "${scripts}/open.with.outgoing.locales/client",
+        "${scripts}/open.with.outgoing.locales/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldOpenWithOutgoingLocales() throws Exception
+
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/reject.open.with.outgoing.locales.when.enus.omitted/client",
+        "${scripts}/reject.open.with.outgoing.locales.when.enus.omitted/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldRejectOpenWithOutgoingLocalesWhenEnusOmitted() throws Exception
+
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
 }
