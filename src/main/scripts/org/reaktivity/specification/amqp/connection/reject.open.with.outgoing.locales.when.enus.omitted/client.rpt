@@ -50,7 +50,7 @@ read [0x00 0x00 0x00 0x16]                                       # size = 22
      [0xa1 0x06] "server"                                        # container-id = "server"
 
  # close frame with error
-read [0x00 0x00 0x00 0x48]                                       # size = 38
+read [0x00 0x00 0x00 0x26]                                       # size = 38
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
