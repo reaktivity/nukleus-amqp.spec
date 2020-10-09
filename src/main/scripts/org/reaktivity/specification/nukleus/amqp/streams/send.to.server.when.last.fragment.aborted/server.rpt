@@ -14,29 +14,31 @@
 # under the License.
 #
 
-connect await ROUTED_CLIENT
-        "nukleus://streams/amqp#0"
-        option nukleus:window 8192
-        option nukleus:transmission "duplex"
+property serverTransport "nukleus://streams/target#0"
 
-write nukleus:begin.ext ${amqp:beginEx()
-                              .typeId(nukleus:id("amqp"))
-                              .address("clients")
-                              .capabilities("RECEIVE_ONLY")
-                              .senderSettleMode("SETTLED")
-                              .receiverSettleMode("FIRST")
-                              .build()}
+accept ${serverTransport}
+  option nukleus:window 8192
+  option nukleus:transmission "duplex"
+
+accepted
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
                              .address("clients")
-                             .capabilities("RECEIVE_ONLY")
+                             .capabilities("SEND_ONLY")
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
+
+write nukleus:begin.ext ${amqp:beginEx()
+                              .typeId(nukleus:id("amqp"))
+                              .address("clients")
+                              .capabilities("SEND_ONLY")
+                              .senderSettleMode("SETTLED")
+                              .receiverSettleMode("FIRST")
+                              .build()}
 connected
 
-# message 1
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
                             .deliveryTag("")
@@ -45,14 +47,14 @@ read nukleus:data.ext ${amqp:dataEx()
                             .bodyKind("VALUE_BINARY32")
                             .deferred(300 - 100)
                             .build()}
+
 # TODO: read option nukleus:flags "init"
 read [0..100]
-# TODO: read option nukleus:flags "cont"
+# TODO: read option nukleus:flags "none"
 read [0..100]
 # TODO: read option nukleus:flags "incomplete"
-read [0..100]
+read nukleus:data.empty
 
-# message 2
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
                             .deliveryTag("")
@@ -60,6 +62,7 @@ read nukleus:data.ext ${amqp:dataEx()
                             .flags("SETTLED")
                             .bodyKind("VALUE_BINARY8")
                             .build()}
+
 read [0..10]
 
-read closed
+write close

@@ -1311,10 +1311,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.client.when.aborted.at.init.message/client",
-        "${scripts}/transfer.to.client.when.aborted.at.init.message/server"})
+        "${scripts}/transfer.to.client.when.first.fragment.aborted/client",
+        "${scripts}/transfer.to.client.when.first.fragment.aborted/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToClientAbortedInitialMessage() throws Exception
+    public void shouldTransferToClientWhenFirstFragmentAborted() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -1323,10 +1323,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.client.when.aborted.at.non.last.message.fragment/client",
-        "${scripts}/transfer.to.client.when.aborted.at.non.last.message.fragment/server"})
+        "${scripts}/transfer.to.client.when.middle.fragment.aborted/client",
+        "${scripts}/transfer.to.client.when.middle.fragment.aborted/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToClientAbortedNonLastMessageFragment() throws Exception
+    public void shouldTransferToClientWhenMiddleFragmentAborted() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -1335,10 +1335,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.client.when.aborted.at.last.message.fragment/client",
-        "${scripts}/transfer.to.client.when.aborted.at.last.message.fragment/server"})
+        "${scripts}/transfer.to.client.when.last.fragment.aborted/client",
+        "${scripts}/transfer.to.client.when.last.fragment.aborted/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToClientAbortedLastMessageFragment() throws Exception
+    public void shouldTransferToClientWhenLastFragmentAborted() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -1347,10 +1347,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.server.when.aborted.at.init.message/client",
-        "${scripts}/transfer.to.server.when.aborted.at.init.message/server"})
+        "${scripts}/transfer.to.server.when.first.fragment.aborted/client",
+        "${scripts}/transfer.to.server.when.first.fragment.aborted/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToServerAbortedInitialMessage() throws Exception
+    public void shouldTransferToServerWhenFirstFragmentAborted() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -1359,10 +1359,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.server.when.aborted.at.non.last.message.fragment/client",
-        "${scripts}/transfer.to.server.when.aborted.at.non.last.message.fragment/server"})
+        "${scripts}/transfer.to.server.when.middle.fragment.aborted/client",
+        "${scripts}/transfer.to.server.when.middle.fragment.aborted/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToServerWhenAbortedAtNonLastMessageFragment() throws Exception
+    public void shouldTransferToServerWhenMiddleFragmentAborted() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -1371,10 +1371,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.server.when.aborted.at.last.message.fragment/client",
-        "${scripts}/transfer.to.server.when.aborted.at.last.message.fragment/server"})
+        "${scripts}/transfer.to.server.when.last.fragment.aborted/client",
+        "${scripts}/transfer.to.server.when.last.fragment.aborted/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToServerWhenAbortedAtLastMessageFragment() throws Exception
+    public void shouldTransferToServerWhenLastFragmentAborted() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
