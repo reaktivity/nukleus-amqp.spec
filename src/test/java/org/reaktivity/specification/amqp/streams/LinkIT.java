@@ -1308,4 +1308,16 @@ public class LinkIT
         k3po.notifyBarrier("ROUTED_SERVER");
         k3po.finish();
     }
+
+    @Test
+    @Specification({
+        "${scripts}/attach.as.receiver.then.detach.with.error.then.flow/client",
+        "${scripts}/attach.as.receiver.then.detach.with.error.then.flow/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldNotTriggerErrorWhenReceivingFlowAfterDetach() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
 }
