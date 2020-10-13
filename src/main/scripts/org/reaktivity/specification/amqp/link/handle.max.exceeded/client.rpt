@@ -54,7 +54,7 @@ write [0x00 0x00 0x00 0x1b]                                      # size = 27
       [0x70 0x00 0x00 0x07 0xff]                                 # incoming-window = 2047
       [0x70 0x7f 0xff 0xff 0xff]                                 # outgoing-window = 2147483647
 
-read [0x00 0x00 0x00 0x1e]                                       # size = 31
+read [0x00 0x00 0x00 0x1f]                                       # size = 31
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
@@ -153,12 +153,12 @@ write [0x00 0x00 0x00 0x2b]                                      # size = 43
       [0xa1 0x07] "clients"                                      # address = "clients"
 
 # close frame with error
-read [0x00 0x00 0x00 0x30]                                       # size = 48
+read [0x00 0x00 0x00 0x33]                                       # size = 51
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
      [0x00 0x53 0x18]                                            # performative = close (24)
-     [0xc0 0x3b 0x01]                                            # list type (list8), length = 59, fields = 1
+     [0xc0 0x26 0x01]                                            # list type (list8), length = 38, fields = 1
      [0x00 0x53 0x1d]                                            # error header
      [0xc0 0x20 0x01]                                            # list type (list8), length = 32, fields = 1
      [0xa3 0x1d] "amqp:connection:framing-error"                 # condition = "amqp:connection:framing-error"
