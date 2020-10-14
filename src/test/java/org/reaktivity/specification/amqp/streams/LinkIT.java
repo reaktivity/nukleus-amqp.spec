@@ -1323,6 +1323,18 @@ public class LinkIT
 
     @Test
     @Specification({
+        "${scripts}/handle.max.exceeded/client",
+        "${scripts}/handle.max.exceeded/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldCloseConnectionWhenHandleMaxExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/reject.attach.as.receiver.when.route.does.not.match/client",
         "${scripts}/reject.attach.as.receiver.when.route.does.not.match/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
