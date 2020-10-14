@@ -32,7 +32,7 @@ read [0..8] # authorization
 read ${core:string("amqp#0")}
 read ${core:string("target#0")}
 read ${amqp:routeEx()
-           .address("clients")
+           .address("clients/receive")
            .capabilities("RECEIVE_ONLY")
            .build()}
 

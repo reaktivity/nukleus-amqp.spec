@@ -1320,4 +1320,16 @@ public class LinkIT
         k3po.notifyBarrier("ROUTED_SERVER");
         k3po.finish();
     }
+
+    @Test
+    @Specification({
+        "${scripts}/reject.attach.as.receiver.when.route.does.not.match/client",
+        "${scripts}/reject.attach.as.receiver.when.route.does.not.match/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldRejectAttachAsReceiverWhenRouteDoesNotMatch() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
 }

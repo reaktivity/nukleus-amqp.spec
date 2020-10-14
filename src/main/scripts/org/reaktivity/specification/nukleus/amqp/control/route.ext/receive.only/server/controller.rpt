@@ -34,7 +34,7 @@ write ${routeAuthorization}
 write ${core:string("amqp#0")}
 write ${core:string("target#0")}
 write ${amqp:routeEx()
-            .address("clients")
+            .address("clients/receive")
             .capabilities("RECEIVE_ONLY")
             .build()}
 write flush
