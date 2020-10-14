@@ -66,87 +66,17 @@ write [0x00 0x00 0x00 0x1f]                                       # size = 31
       [0x52 0x01]                                                 # next-outgoing-id = 1
       [0x70 0x00 0x01 0x00 0x00]                                  # incoming-window = 65536
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
-      [0x52 0x02]                                                 # handle-max = 2
+      [0x52 0x0a]                                                 # handle-max = 10
 
 # attach frame exchange for link1
-read [0x00 0x00 0x00 0x2a]                                        # size = 42
+read [0x00 0x00 0x00 0x2b]                                        # size = 43
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x12]                                             # performative = attach (18)
-     [0xc0 0x1d 0x06]                                             # list type (list8), length = 29, fields = 6
+     [0xc0 0x1e 0x06]                                             # list type (list8), length = 30, fields = 6
      [0xa1 0x05] "link1"                                          # name = "link1"
-     [0x43]                                                       # handle = 0
-     [0x41]                                                       # role = receiver
-     [0x50 0x01]                                                  # snd-settle-mode = settled
-     [0x50 0x00]                                                  # rcv-settle-mode = first
-     [0x00 0x53 0x28]                                             # source
-     [0xc0 0x0a 0x01]                                             # list type (list8), length = 10, fields = 1
-     [0xa1 0x07] "clients"                                        # address = "clients"
-
-write [0x00 0x00 0x00 0x31]                                       # size = 49
-      [0x02]                                                      # doff = 2
-      [0x00]                                                      # type = AMQP (0)
-      [0x00 0x00]                                                 # channel = 0
-      [0x00 0x53 0x12]                                            # performative = attach (18)
-      [0xc0 0x24 0x0a]                                            # list type (list8), length = 36, fields = 10
-      [0xa1 0x05] "link1"                                         # name = "link1"
-      [0x43]                                                      # handle = 0
-      [0x42]                                                      # role = sender
-      [0x50 0x01]                                                 # snd-settle-mode = settled
-      [0x50 0x00]                                                 # rcv-settle-mode = first
-      [0x00 0x53 0x28]                                            # source
-      [0xc0 0x0a 0x01]                                            # list type (list8), length = 10, fields = 1
-      [0xa1 0x07] "clients"                                       # address = "clients"
-      [0x00 0x53 0x29 0x45]                                       # target = empty list
-      [0x40]                                                      # unsettled = null
-      [0x40]                                                      # incomplete-unsettled = null (default = false)
-      [0x43]                                                      # initial-delivery-count = 0
-
-# attach frame exchange for link2
-read [0x00 0x00 0x00 0x2b]                                        # size = 43
-     [0x02]                                                       # doff = 2
-     [0x00]                                                       # type = AMQP (0)
-     [0x00 0x00]                                                  # channel  = 0
-     [0x00 0x53 0x12]                                             # performative = attach (18)
-     [0xc0 0x1e 0x06]                                             # list type (list8), length = 30, fields = 6
-     [0xa1 0x05] "link2"                                          # name = "link2"
-     [0x52 0x01]                                                  # handle = 1
-     [0x41]                                                       # role = receiver
-     [0x50 0x01]                                                  # snd-settle-mode = settled
-     [0x50 0x00]                                                  # rcv-settle-mode = first
-     [0x00 0x53 0x28]                                             # source
-     [0xc0 0x0a 0x01]                                             # list type (list8), length = 10, fields = 1
-     [0xa1 0x07] "clients"                                        # address = "clients"
-
-write [0x00 0x00 0x00 0x32]                                       # size = 50
-      [0x02]                                                      # doff = 2
-      [0x00]                                                      # type = AMQP (0)
-      [0x00 0x00]                                                 # channel  = 0
-      [0x00 0x53 0x12]                                            # performative = attach (18)
-      [0xc0 0x25 0x0a]                                            # list type (list8), length = 37, fields = 10
-      [0xa1 0x05] "link2"                                         # name = "link2"
-      [0x52 0x01]                                                 # handle = 1
-      [0x42]                                                      # role = sender
-      [0x50 0x01]                                                 # snd-settle-mode = settled
-      [0x50 0x00]                                                 # rcv-settle-mode = first
-      [0x00 0x53 0x28]                                            # source
-      [0xc0 0x0a 0x01]                                            # list type (list8), length = 10, fields = 1
-      [0xa1 0x07] "clients"                                       # address = "clients"
-      [0x00 0x53 0x29 0x45]                                       # target = empty list
-      [0x40]                                                      # unsettled = null
-      [0x40]                                                      # incomplete-unsettled = null (default = false)
-      [0x43]                                                      # initial-delivery-count = 0
-
-# attach frame
-read [0x00 0x00 0x00 0x2b]                                        # size = 43
-     [0x02]                                                       # doff = 2
-     [0x00]                                                       # type = AMQP (0)
-     [0x00 0x00]                                                  # channel = 0
-     [0x00 0x53 0x12]                                             # performative = attach (18)
-     [0xc0 0x1e 0x06]                                             # list type (list8), length = 30, fields = 6
-     [0xa1 0x05] "link3"                                          # name = "link3"
-     [0x52 0x02]                                                  # handle = 2
+     [0x52 0x0b]                                                  # handle = 11
      [0x41]                                                       # role = receiver
      [0x50 0x01]                                                  # snd-settle-mode = settled
      [0x50 0x00]                                                  # rcv-settle-mode = first

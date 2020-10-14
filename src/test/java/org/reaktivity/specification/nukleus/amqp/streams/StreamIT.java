@@ -1507,17 +1507,4 @@ public class StreamIT
         k3po.notifyBarrier("ROUTED_CLIENT");
         k3po.finish();
     }
-
-    @Test
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    @Specification({
-        "${streams}/handle.max.exceeded/client",
-        "${streams}/handle.max.exceeded/server"
-    })
-    public void shouldCloseConnectionHandleMaxExceeded() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_CLIENT");
-        k3po.finish();
-    }
 }
