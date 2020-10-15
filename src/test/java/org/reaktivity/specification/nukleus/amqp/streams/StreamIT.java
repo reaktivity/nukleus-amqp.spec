@@ -1511,6 +1511,19 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
+        "${streams}/connect.then.abort/client",
+        "${streams}/connect.then.abort/server"
+    })
+    public void shouldConnectThenAbort() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
         "${streams}/max.message.size.exceeded/client",
         "${streams}/max.message.size.exceeded/server"
     })
