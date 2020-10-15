@@ -85,19 +85,17 @@ write [0x00 0x00 0x00 0x3b]                                      # size = 59
       [0x40]                                                     # incomplete-unsettled = null (default = false)
       [0x43]                                                     # initial-delivery-count = 0
 
-read [0x00 0x00 0x00 0x29]                                       # size = 41
+read [0x00 0x00 0x00 0x1b]                                       # size = 27
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
      [0x00 0x53 0x12]                                            # performative = attach (18)
-     [0xc0 0x1c 0x06]                                            # list (list8), length = 28, fields = 6
+     [0xc0 0x0e 0x05]                                            # list (list8), length = 14, fields = 5
      [0xa1 0x05] "link1"                                         # name = "link1"
      [0x43]                                                      # handle = 0
      [0x41]                                                      # role = receiver
      [0x50 0x02]                                                 # snd-settle-mode = mixed
      [0x50 0x00]                                                 # rcv-settle-mode = first
-     [0x00 0x53 0x28 0xc0 0x09 0x01]                             # source list (list8), length = 9, fields = 1
-     [0xa1 0x06] "server"                                        # address = "server"
 
 # detach frame exchange
 read [0x00 0x00 0x00 0x2f]                                       # size = 47
