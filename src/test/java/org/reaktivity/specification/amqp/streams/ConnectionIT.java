@@ -197,10 +197,10 @@ public class ConnectionIT
 
     @Test
     @Specification({
-        "${scripts}/open.with.outgoing.locales/client",
-        "${scripts}/open.with.outgoing.locales/server"})
+        "${scripts}/open.with.outgoing.locales.negotiated.default/client",
+        "${scripts}/open.with.outgoing.locales.negotiated.default/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldOpenWithOutgoingLocales() throws Exception
+    public void shouldOpenWithOutgoingLocalesNegotiatedDefault() throws Exception
 
     {
         k3po.start();
@@ -210,10 +210,10 @@ public class ConnectionIT
 
     @Test
     @Specification({
-        "${scripts}/reject.open.with.outgoing.locales.when.enus.omitted/client",
-        "${scripts}/reject.open.with.outgoing.locales.when.enus.omitted/server"})
+        "${scripts}/open.with.outgoing.locales.negotiated.non.default/client",
+        "${scripts}/open.with.outgoing.locales.negotiated.non.default/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldRejectOpenWithOutgoingLocalesWhenEnusOmitted() throws Exception
+    public void shouldOpenWithOutgoingLocalesNegatiatedNonDefault() throws Exception
 
     {
         k3po.start();

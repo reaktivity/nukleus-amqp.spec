@@ -41,28 +41,18 @@ write [0x00 0x00 0x00 0x21]                                      # size = 33
       [0xa3]                                                     # array item type = ietf-language-tag
       [0x02] "jp"                                                # array item = "jp"
 
-read [0x00 0x00 0x00 0x16]                                       # size = 22
+read [0x00 0x00 0x00 0x22]                                       # size = 34
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
      [0x00 0x53 0x10]                                            # performative = open (16)
-     [0xc0 0x09 0x01]                                            # list type (LIST1), length = 9, fields = 1
+     [0xc0 0x15 0x07]                                            # list type (LIST1), length = 21, fields = 7
      [0xa1 0x06] "server"                                        # container-id = "server"
-
- # close frame with error
-read [0x00 0x00 0x00 0x26]                                       # size = 38
-     [0x02]                                                      # doff = 2
-     [0x00]                                                      # type = AMQP (0)
-     [0x00 0x00]                                                 # channel = 0
-     [0x00 0x53 0x18]                                            # performative = close (24)
-     [0xc0 0x19 0x01]                                            # list type (list8), length = 25, fields = 1
-     [0x00 0x53 0x1d]                                            # error header
-     [0xc0 0x13 0x01]                                            # list type (list8), length = 19, fields = 1
-     [0xa3 0x10] "amqp:not-allowed"                              # condition = "amqp:not-allowed"
-
-write [0x00 0x00 0x00 0x0c]                                       # size = 12
-      [0x02]                                                      # doff = 2
-      [0x00]                                                      # type = AMQP (0)
-      [0x00 0x00]                                                 # channel = 0
-      [0x00 0x53 0x18]                                            # performative = close (24)
-      [0x45]                                                      # list type (list0)
+     [0x40]                                                      # hostname = null
+     [0x40]                                                      # max-frame-size = null
+     [0x40]                                                      # channel-max = null
+     [0x40]                                                      # idle-time-out = null
+     [0x40]                                                      # outgoing-locales = null
+     [0xe0 0x05 0x01]                                            # incoming-locales, array type (array8), length = 5, fields = 1
+     [0xa3]                                                      # array item type = ietf-language-tag
+     [0x02] "jp"                                                 # array item = "jp"
