@@ -1362,7 +1362,7 @@ public class LinkIT
         "${scripts}/transfer.to.client.max.message.size.exceeded/client",
         "${scripts}/transfer.to.client.max.message.size.exceeded/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldDAttachAsReceiverThenDetachWhenMaxMessageSizeExceeded() throws Exception
+    public void shouldAttachAsReceiverThenDetachWhenMaxMessageSizeExceeded() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");

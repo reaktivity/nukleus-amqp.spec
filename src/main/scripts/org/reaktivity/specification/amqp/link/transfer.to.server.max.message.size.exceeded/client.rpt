@@ -92,7 +92,7 @@ read [0x00 0x00 0x00 0x3d]                                       # size = 61
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
      [0x00 0x53 0x12]                                            # performative = attach (18)
-     [0xc0 0x30 0x07]                                            # list (list8), length = 48, fields = 7
+     [0xc0 0x30 0x0b]                                            # list (list8), length = 48, fields = 11
      [0xa1 0x05] "link1"                                         # name = "link1"
      [0x43]                                                      # handle = 0
      [0x41]                                                      # role = receiver
