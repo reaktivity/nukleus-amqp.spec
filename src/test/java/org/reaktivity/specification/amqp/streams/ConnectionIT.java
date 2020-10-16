@@ -194,4 +194,30 @@ public class ConnectionIT
         k3po.notifyBarrier("ROUTED_SERVER");
         k3po.finish();
     }
+
+    @Test
+    @Specification({
+        "${scripts}/open.with.outgoing.locales.negotiated.default/client",
+        "${scripts}/open.with.outgoing.locales.negotiated.default/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldOpenWithOutgoingLocalesNegotiatedDefault() throws Exception
+
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/open.with.outgoing.locales.negotiated.non.default/client",
+        "${scripts}/open.with.outgoing.locales.negotiated.non.default/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldOpenWithOutgoingLocalesNegatiatedNonDefault() throws Exception
+
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
 }
