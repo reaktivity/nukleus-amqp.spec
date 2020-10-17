@@ -87,12 +87,12 @@ write [0x00 0x00 0x00 0x3b]                                      # size = 59
       [0x40]                                                     # incomplete-unsettled = null (default = false)
       [0x43]                                                     # initial-delivery-count = 0
 
-read [0x00 0x00 0x00 0x38]                                       # size = 56
+read [0x00 0x00 0x00 0x3d]                                       # size = 61
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
      [0x00 0x53 0x12]                                            # performative = attach (18)
-     [0xc0 0x2b 0x07]                                            # list (list8), length = 43, fields = 7
+     [0xc0 0x30 0x0b]                                            # list (list8), length = 48, fields = 11
      [0xa1 0x05] "link1"                                         # name = "link1"
      [0x43]                                                      # handle = 0
      [0x41]                                                      # role = receiver
@@ -102,6 +102,10 @@ read [0x00 0x00 0x00 0x38]                                       # size = 56
      [0xa1 0x06] "server"                                        # address = "server"
      [0x00 0x53 0x29 0xc0 0x0a 0x01]                             # target list (list8), length = 10, fields = 1
      [0xa1 0x07] "clients"                                       # address = "clients"
+     [0x40]                                                      # unsettled = null
+     [0x40]                                                      # incomplete-unsettled = null
+     [0x40]                                                      # initial-delivery-count = null
+     [0x53 0x64]                                                 # max-message-size = 100
 
 # flow frame
 read [0x00 0x00 0x00 0x1d]                                       # size = 29
@@ -132,3 +136,25 @@ write [0x00 0x00 0x02 0x10]                                      # size = 528
       [0x41]                                                     # settled = true
       [0x00 0x53 0x77 0xb0 0x00 0x00 0x01 0xf4]                  # message format = amqp-value,constructor = vbin32,length = 500
       ${amqp:randomBytes(500)}                                   # body = 500 random bytes
+
+# detach frame exchange
+read [0x00 0x00 0x00 0x37]                                       # size = 55
+     [0x02]                                                      # doff = 2
+     [0x00]                                                      # type = AMQP (0)
+     [0x00 0x00]                                                 # channel = 0
+     [0x00 0x53 0x16]                                            # performative = detach (22)
+     [0xc0 0x2a 0x03]                                            # list type (list8), length = 42, fields = 3
+     [0x43]                                                      # handle = 0
+     [0x41]                                                      # closed = true
+     [0x00 0x53 0x1d]                                            # error header
+     [0xc0 0x22 0x01]                                            # list type (list8), length = 34, fields = 1
+     [0xa3 0x1f] "amqp:link:message-size-exceeded"               # error = amqp:link:message-size-exceeded
+
+write [0x00 0x00 0x00 0x10]                                      # size = 16
+      [0x02]                                                     # doff = 2
+      [0x00]                                                     # type = AMQP (0)
+      [0x00 0x00]                                                # channel = 0
+      [0x00 0x53 0x16]                                           # performative = detach (22)
+      [0xc0 0x03 0x02]                                           # list type (list8), length = 3, fields = 2
+      [0x43]                                                     # handle = 0
+      [0x41]                                                     # closed = true
