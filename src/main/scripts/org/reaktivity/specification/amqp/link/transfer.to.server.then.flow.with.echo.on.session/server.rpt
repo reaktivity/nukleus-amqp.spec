@@ -136,25 +136,31 @@ read [0x00 0x00 0x00 0x1e]                                        # size = 30
      "Text!"                                                      # body = "Text!"
 
 # flow frame
-read [0x00 0x00 0x00 0x12]                                       # size = 18
-     [0x02]                                                      # doff = 2
-     [0x00]                                                      # type = AMQP (0)
-     [0x00 0x00]                                                 # channel = 0
-     [0x00 0x53 0x13]                                            # performative = flow (19)
-     [0xc0 0x05 0x04]                                            # list type (list8), length = 5, fields = 4
-     [0x43]                                                      # next-incoming-id = 0
-     [0x43]                                                      # incoming-window = 0
-     [0x43]                                                      # next-outgoing-id = 0
-     [0x43]                                                      # outgoing-window = 0
+read [0x00 0x00 0x00 0x19]                                        # size = 25
+     [0x02]                                                       # doff = 2
+     [0x00]                                                       # type = AMQP (0)
+     [0x00 0x00]                                                  # channel = 0
+     [0x00 0x53 0x13]                                             # performative = flow (19)
+     [0xc0 0x0c 0x0a]                                             # list type (list8), length = 12, fields = 10
+     [0x43]                                                       # next-incoming-id = 0
+     [0x43]                                                       # incoming-window = 0
+     [0x43]                                                       # next-outgoing-id = 0
+     [0x43]                                                       # outgoing-window = 0
+     [0x40]                                                       # handle = null
+     [0x40]                                                       # delivery-count = null
+     [0x40]                                                       # link-credit = null
+     [0x40]                                                       # available = null
+     [0x40]                                                       # drain = null
+     [0x41]                                                       # echo = true
 
 # flow frame
-write [0x00 0x00 0x00 0x12]                                      # size = 18
-      [0x02]                                                     # doff = 2
-      [0x00]                                                     # type = AMQP (0)
-      [0x00 0x00]                                                # channel = 0
-      [0x00 0x53 0x13]                                           # performative = flow (19)
-      [0xc0 0x05 0x04]                                           # list type (list8), length = 5, fields = 4
-      [0x43]                                                     # next-incoming-id = 0
-      [0x43]                                                     # incoming-window = 0
-      [0x43]                                                     # next-outgoing-id = 0
-      [0x43]                                                     # outgoing-window = 0
+write [0x00 0x00 0x00 0x19]                                       # size = 25
+      [0x02]                                                      # doff = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x00]                                                 # channel = 0
+      [0x00 0x53 0x13]                                            # performative = flow (19)
+      [0xc0 0x0c 0x07]                                            # list type (list8), length = 12, fields = 4
+      [0x52 0x02]                                                 # next-incoming-id = 2
+      [0x52 0x07]                                                 # incoming-window = 7
+      [0x52 0x01]                                                 # next-outgoing-id = 1
+      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
