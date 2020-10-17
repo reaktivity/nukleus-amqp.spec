@@ -135,13 +135,27 @@ read [0x00 0x00 0x00 0x1e]                                        # size = 30
      [0x00 0x53 0x77 0xa1 0x05]                                   # message format = amqp-value, constructor = str8-utf8
      "Text!"                                                      # body = "Text!"
 
+write [0x00 0x00 0x00 0x1e]                                       # size = 30
+      [0x02]                                                      # doff = 2
+      [0x00]                                                      # type = AMQP (0)
+      [0x00 0x00]                                                 # channel = 0
+      [0x00 0x53 0x13]                                            # performative = flow (19)
+      [0xc0 0x11 0x07]                                            # list type (list8), length = 17, fields = 7
+      [0x52 0x02]                                                 # next-incoming-id = 2
+      [0x52 0x08]                                                 # incoming-window = 8
+      [0x52 0x01]                                                 # next-outgoing-id = 1
+      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
+      [0x43]                                                      # handle = 0
+      [0x52 0x01]                                                 # delivery-count = 1
+      [0x52 0x08]                                                 # link-credit = 8
+
 # flow frame
-read [0x00 0x00 0x00 0x19]                                        # size = 25
+read [0x00 0x00 0x00 0x18]                                        # size = 24
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x13]                                             # performative = flow (19)
-     [0xc0 0x0c 0x0a]                                             # list type (list8), length = 12, fields = 10
+     [0xc0 0x0b 0x0a]                                             # list type (list8), length = 11, fields = 10
      [0x43]                                                       # next-incoming-id = 0
      [0x43]                                                       # incoming-window = 0
      [0x43]                                                       # next-outgoing-id = 0
@@ -159,8 +173,8 @@ write [0x00 0x00 0x00 0x19]                                       # size = 25
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x13]                                            # performative = flow (19)
-      [0xc0 0x0c 0x07]                                            # list type (list8), length = 12, fields = 4
+      [0xc0 0x0c 0x04]                                            # list type (list8), length = 12, fields = 4
       [0x52 0x02]                                                 # next-incoming-id = 2
-      [0x52 0x07]                                                 # incoming-window = 7
+      [0x52 0x08]                                                 # incoming-window = 8
       [0x52 0x01]                                                 # next-outgoing-id = 1
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647

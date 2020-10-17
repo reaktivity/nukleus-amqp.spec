@@ -1533,4 +1533,17 @@ public class StreamIT
         k3po.notifyBarrier("ROUTED_CLIENT");
         k3po.finish();
     }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.server.then.flow.with.echo/client",
+        "${streams}/send.to.server.then.flow.with.echo/server"
+    })
+    public void shouldSendToServerThenFlowWithEcho() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
 }
