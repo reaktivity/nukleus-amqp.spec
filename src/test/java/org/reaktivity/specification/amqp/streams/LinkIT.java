@@ -1395,6 +1395,30 @@ public class LinkIT
 
     @Test
     @Specification({
+        "${scripts}/reject.flow.with.inconsistent.fields/client",
+        "${scripts}/reject.flow.with.inconsistent.fields/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldCloseConnectionWhenFlowWithInconsistentFields() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/flow.without.handle/client",
+        "${scripts}/flow.without.handle/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldSupportFlowWithoutHandle() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/flow.with.unattached.handle/client",
         "${scripts}/flow.with.unattached.handle/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
