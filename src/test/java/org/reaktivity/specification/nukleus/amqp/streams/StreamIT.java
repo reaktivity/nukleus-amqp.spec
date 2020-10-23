@@ -1546,4 +1546,17 @@ public class StreamIT
         k3po.notifyBarrier("ROUTED_CLIENT");
         k3po.finish();
     }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/abort.after.sending.first.fragment/client",
+        "${streams}/abort.after.sending.first.fragment/server"
+    })
+    public void shouldAbortAfterSendingFirstFragment() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
 }
