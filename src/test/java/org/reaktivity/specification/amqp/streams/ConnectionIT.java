@@ -220,4 +220,16 @@ public class ConnectionIT
         k3po.notifyBarrier("ROUTED_SERVER");
         k3po.finish();
     }
+
+    @Test
+    @Specification({
+        "${scripts}/reject.incorrect.fields.key.type/client",
+        "${scripts}/reject.incorrect.fields.key.type/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldRejectIncorrectFieldsKeyType() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
 }
