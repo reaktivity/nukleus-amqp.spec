@@ -1440,4 +1440,16 @@ public class LinkIT
         k3po.notifyBarrier("ROUTED_SERVER");
         k3po.finish();
     }
+
+    @Test
+    @Specification({
+        "${scripts}/reject.transfer.with.more.inconsistent.fields/client",
+        "${scripts}/reject.transfer.with.more.inconsistent.fields/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldRejectTransferWithMoreWhenFieldsAreInconsistent() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
 }
