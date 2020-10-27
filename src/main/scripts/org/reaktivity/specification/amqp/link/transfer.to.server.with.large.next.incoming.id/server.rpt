@@ -47,16 +47,16 @@ write [0x00 0x00 0x00 0x1c]                                       # size = 28
       [0x70 0x00 0x00 0x03 0xe8]                                  # max frame size = 1000
 
 # begin frame exchange
-read [0x00 0x00 0x00 0x1b]                                        # size = 27
-     [0x02]                                                       # doff = 2
-     [0x00]                                                       # type = AMQP (0)
-     [0x00 0x00]                                                  # channel = 0
-     [0x00 0x53 0x11]                                             # performative = begin (17)
-     [0xc0 0x0e 0x04]                                             # list type (list8), length = 14, fields = 4
-     [0x40]                                                       # remote-channel = null
-     [0x52 0x01]                                                  # next-outgoing-id = 1
-     [0x70 0x00 0x00 0x07 0xff]                                   # incoming-window = 2047
-     [0x70 0x7f 0xff 0xff 0xff]                                   # outgoing-window = 2147483647
+read [0x00 0x00 0x00 0x1e]                                      # size = 30
+     [0x02]                                                     # doff = 2
+     [0x00]                                                     # type = AMQP (0)
+     [0x00 0x00]                                                # channel = 0
+     [0x00 0x53 0x11]                                           # performative = begin (17)
+     [0xc0 0x11 0x04]                                           # list type (list8), length = 17, fields = 4
+     [0x40]                                                     # remote-channel = null
+     [0x70 0xff 0xff 0xff 0xff]                                 # next-outgoing-id = 4294967295
+     [0x70 0x00 0x00 0x07 0xff]                                 # incoming-window = 2047
+     [0x70 0x7f 0xff 0xff 0xff]                                 # outgoing-window = 2147483647
 
 write [0x00 0x00 0x00 0x1d]                                       # size = 29
       [0x02]                                                      # doff = 2
@@ -70,12 +70,12 @@ write [0x00 0x00 0x00 0x1d]                                       # size = 29
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
 
 # attach frame exchange
-read [0x00 0x00 0x00 0x3f]                                        # size = 63
+read [0x00 0x00 0x00 0x3b]                                        # size = 59
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
      [0x00 0x53 0x12]                                             # performative = attach (18)
-     [0xc0 0x32 0x0a]                                             # list (list8), length = 50, fields = 10
+     [0xc0 0x2e 0x0a]                                             # list (list8), length = 46, fields = 10
      [0xa1 0x05] "link1"                                          # name = "link1"
      [0x43]                                                       # handle = 0
      [0x42]                                                       # role = sender
@@ -87,7 +87,7 @@ read [0x00 0x00 0x00 0x3f]                                        # size = 63
      [0xa1 0x07] "clients"                                        # address = "clients"
      [0x40]                                                       # unsettled = null
      [0x40]                                                       # incomplete-unsettled = null (default = false)
-     [0x70 0xff 0xff 0xff 0xfd]                                   # initial-delivery-count = 0xffff_fffd
+     [0x43]                                                       # initial-delivery-count = 0
 
 write [0x00 0x00 0x00 0x38]                                       # size = 56
       [0x02]                                                      # doff = 2
@@ -106,18 +106,18 @@ write [0x00 0x00 0x00 0x38]                                       # size = 56
       [0xa1 0x07] "clients"                                       # address = "clients"
 
 # flow frame
-write [0x00 0x00 0x00 0x21]                                       # size = 33
+write [0x00 0x00 0x00 0x20]                                       # size = 32
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x13]                                            # performative = flow (19)
-      [0xc0 0x14 0x07]                                            # list type (list8), length = 20, fields = 7
-      [0x52 0x01]                                                 # next-incoming-id = 1
+      [0xc0 0x13 0x07]                                            # list type (list8), length = 19, fields = 7
+      [0x70 0xff 0xff 0xff 0xff]                                  # next-incoming-id = 4294967295
       [0x52 0x08]                                                 # incoming-window = 8
       [0x52 0x01]                                                 # next-outgoing-id = 1
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
       [0x43]                                                      # handle = 0
-      [0x70 0xff 0xff 0xff 0xfd]                                  # delivery-count = 0xffff_fffd
+      [0x43]                                                      # delivery-count = 0
       [0x52 0x08]                                                 # link-credit = 8
 
 # transfer frame
@@ -136,46 +136,16 @@ read [0x00 0x00 0x00 0x1e]                                        # size = 30
      "Text!"                                                      # body = "Text!"
 
 # flow frame
-write [0x00 0x00 0x00 0x21]                                       # size = 33
-      [0x02]                                                      # doff = 2
-      [0x00]                                                      # type = AMQP (0)
-      [0x00 0x00]                                                 # channel = 0
-      [0x00 0x53 0x13]                                            # performative = flow (19)
-      [0xc0 0x14 0x07]                                            # list type (list8), length = 20, fields = 7
-      [0x52 0x02]                                                 # next-incoming-id = 2
-      [0x52 0x08]                                                 # incoming-window = 8
-      [0x52 0x01]                                                 # next-outgoing-id = 1
-      [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
-      [0x43]                                                      # handle = 0
-      [0x70 0xff 0xff 0xff 0xfe]                                  # delivery-count = 0xffff_fffe
-      [0x52 0x08]                                                 # link-credit = 8
-
-# transfer frame
-read [0x00 0x00 0x00 0x1f]                                        # size = 31
-     [0x02]                                                       # doff = 2
-     [0x00]                                                       # type = AMQP (0)
-     [0x00 0x00]                                                  # channel = 0
-     [0x00 0x53 0x14]                                             # performative = transfer (20)
-     [0xc0 0x08 0x05]                                             # list type (list8), length = 8, fields = 5
-     [0x43]                                                       # handle = 0
-     [0x52 0x01]                                                  # delivery-id = 1
-     [0xa0 0x00]                                                  # delivery-tag = empty bytes
-     [0x43]                                                       # message-format = 0
-     [0x41]                                                       # settled = true
-     [0x00 0x53 0x77 0xa1 0x05]                                   # message format = amqp-value, constructor = str8-utf8
-     "Text!"                                                      # body = "Text!"
-
-# flow frame
 write [0x00 0x00 0x00 0x1d]                                       # size = 29
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
       [0x00 0x53 0x13]                                            # performative = flow (19)
       [0xc0 0x10 0x07]                                            # list type (list8), length = 16, fields = 7
-      [0x52 0x03]                                                 # next-incoming-id = 3
+      [0x43]                                                      # next-incoming-id = 0
       [0x52 0x08]                                                 # incoming-window = 8
       [0x52 0x01]                                                 # next-outgoing-id = 1
       [0x70 0x7f 0xff 0xff 0xff]                                  # outgoing-window = 2147483647
       [0x43]                                                      # handle = 0
-      [0x43]                                                      # delivery-count = 0
+      [0x52 0x01]                                                 # delivery-count = 1
       [0x52 0x08]                                                 # link-credit = 8

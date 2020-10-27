@@ -1431,10 +1431,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.server.with.sequence.number/client",
-        "${scripts}/transfer.to.server.with.sequence.number/server"})
+        "${scripts}/transfer.to.server.with.large.delivery.count/client",
+        "${scripts}/transfer.to.server.with.large.delivery.count/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldSupportSequenceNumber() throws Exception
+    public void shouldTransferToServerWithLargeDeliveryCount() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -1447,6 +1447,30 @@ public class LinkIT
         "${scripts}/reject.transfer.with.more.inconsistent.fields/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldRejectTransferWithMoreWhenFieldsAreInconsistent() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.with.large.next.incoming.id/client",
+        "${scripts}/transfer.to.server.with.large.next.incoming.id/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWithLargeNextIncomingId() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.with.invalid.delivery.id/client",
+        "${scripts}/transfer.to.server.with.invalid.delivery.id/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWithInvalidDeliveryId() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");

@@ -1550,10 +1550,10 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
-        "${streams}/send.to.server.with.sequence.number/client",
-        "${streams}/send.to.server.with.sequence.number/server"
+        "${streams}/send.to.server.with.large.delivery.count/client",
+        "${streams}/send.to.server.with.large.delivery.count/server"
     })
-    public void shouldSendToServerWithSequenceNumber() throws Exception
+    public void shouldSendToServerWithLargeDeliveryCount() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
@@ -1567,6 +1567,19 @@ public class StreamIT
         "${streams}/abort.after.sending.first.fragment/server"
     })
     public void shouldAbortAfterSendingFirstFragment() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.server.with.invalid.delivery.id/client",
+        "${streams}/send.to.server.with.invalid.delivery.id/server"
+    })
+    public void shouldToServerWithInvalidDeliveryId() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
