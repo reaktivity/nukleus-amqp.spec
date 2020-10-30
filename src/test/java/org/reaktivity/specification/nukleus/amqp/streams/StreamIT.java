@@ -1511,8 +1511,8 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
-        "${streams}/connect.then.abort/client",
-        "${streams}/connect.then.abort/server"
+        "${streams}/connect.as.receiver.then.abort/client",
+        "${streams}/connect.as.receiver.then.abort/server"
     })
     public void shouldConnectThenAbort() throws Exception
     {
@@ -1524,8 +1524,8 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
-        "${streams}/max.message.size.exceeded/client",
-        "${streams}/max.message.size.exceeded/server"
+        "${streams}/connect.as.sender.then.abort/client",
+        "${streams}/connect.as.sender.then.abort/server"
     })
     public void shouldAbortStreamWhenMaxMessageSizeExceeded() throws Exception
     {
