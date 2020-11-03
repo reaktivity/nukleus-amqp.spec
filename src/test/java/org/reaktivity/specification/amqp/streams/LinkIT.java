@@ -255,10 +255,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.client.with.application.properties/client",
-        "${scripts}/transfer.to.client.with.application.properties/server"})
+        "${scripts}/transfer.to.client.with.application.properties.str8utf8.value/client",
+        "${scripts}/transfer.to.client.with.application.properties.str8utf8.value/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToClientWithApplicationProperties() throws Exception
+    public void shouldTransferToClientWithApplicationPropertiesStr8Utf8Value() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -267,10 +267,10 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.server.with.application.properties/client",
-        "${scripts}/transfer.to.server.with.application.properties/server"})
+        "${scripts}/transfer.to.server.with.application.properties.str8utf8.value/client",
+        "${scripts}/transfer.to.server.with.application.properties.str8utf8.value/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToServerWithApplicationProperties() throws Exception
+    public void shouldTransferToServerWithApplicationPropertiesStr8Utf8Value() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -1471,6 +1471,30 @@ public class LinkIT
         "${scripts}/transfer.to.server.with.invalid.delivery.id/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldTransferToServerWithInvalidDeliveryId() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.with.application.properties.uint8.value/client",
+        "${scripts}/transfer.to.client.with.application.properties.uint8.value/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWithApplicationPropertiesUint8Value() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.with.application.properties.uint8.value/client",
+        "${scripts}/transfer.to.server.with.application.properties.uint8.value/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWithApplicationPropertiesUint8Value() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");

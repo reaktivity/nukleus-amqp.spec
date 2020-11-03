@@ -343,7 +343,7 @@ public final class AmqpFunctions
 
         public AmqpDataExBuilder property(
             String key,
-            String value)
+            byte[] value)
         {
             if (propertiesRW != null && !isPropertiesSet)
             {
@@ -351,7 +351,8 @@ public final class AmqpFunctions
                 dataExRW.properties(properties);
                 isPropertiesSet = true;
             }
-            dataExRW.applicationPropertiesItem(a -> a.key(key).value(value));
+            dataExRW.applicationPropertiesItem(a -> a.key(key)
+                                                     .value(v -> v.bytes(o -> o.set(value))));
             return this;
         }
 
@@ -620,7 +621,7 @@ public final class AmqpFunctions
 
         public AmqpDataExMatcherBuilder property(
             String key,
-            String value)
+            byte[] value)
         {
             if (applicationPropertiesRW == null)
             {
@@ -628,7 +629,8 @@ public final class AmqpFunctions
                     new AmqpApplicationPropertyFW())
                     .wrap(new UnsafeBuffer(new byte[1024]), 0, 1024);
             }
-            applicationPropertiesRW.item(a -> a.key(key).value(value));
+            applicationPropertiesRW.item(a -> a.key(key)
+                                               .value(v -> v.bytes(o -> o.set(value))));
             return this;
         }
 

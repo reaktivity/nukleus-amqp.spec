@@ -14,18 +14,13 @@
 # under the License.
 #
 
-connect await ROUTED_CLIENT
-        "nukleus://streams/amqp#0"
-        option nukleus:window 8192
-        option nukleus:transmission "duplex"
+property serverTransport "nukleus://streams/target#0"
 
-write nukleus:begin.ext ${amqp:beginEx()
-                              .typeId(nukleus:id("amqp"))
-                              .address("clients")
-                              .capabilities("SEND_ONLY")
-                              .senderSettleMode("SETTLED")
-                              .receiverSettleMode("FIRST")
-                              .build()}
+accept ${serverTransport}
+  option nukleus:window 8192
+  option nukleus:transmission "duplex"
+
+accepted
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
@@ -34,17 +29,25 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
+
+write nukleus:begin.ext ${amqp:beginEx()
+                              .typeId(nukleus:id("amqp"))
+                              .address("clients")
+                              .capabilities("SEND_ONLY")
+                              .senderSettleMode("SETTLED")
+                              .receiverSettleMode("FIRST")
+                              .build()}
 connected
 
-write nukleus:data.ext ${amqp:dataEx()
-                             .typeId(nukleus:id("amqp"))
-                             .deliveryTag("")
-                             .messageFormat(0)
-                             .flags("SETTLED")
-                             .property("application", "property1")
-                             .bodyKind("VALUE_STRING8")
-                             .build()}
+read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
+                            .deliveryTag("")
+                            .messageFormat(0)
+                            .flags("SETTLED")
+                            .property("application", core:fromHex("5201"))
+                            .bodyKind("VALUE_STRING8")
+                            .build()}
 
-write "Text!"
+read "Text!"
 
-read closed
+write close

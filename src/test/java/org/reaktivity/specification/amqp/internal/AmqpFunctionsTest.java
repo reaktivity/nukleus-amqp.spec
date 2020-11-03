@@ -297,7 +297,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
-            .property("annotation", "property1")
+            .property("annotation", "property1".getBytes(UTF_8))
             .bodyKind("VALUE")
             .build();
 
@@ -306,7 +306,7 @@ public class AmqpFunctionsTest
         amqpDataEx.applicationProperties().forEach(a ->
         {
             assertEquals(a.key().asString(), "annotation");
-            assertEquals(a.value().asString(), "property1");
+            assertEquals(a.value().bytes().toString(), "octets[9]");
         });
     }
 
@@ -335,8 +335,8 @@ public class AmqpFunctionsTest
             .messageFormat(0)
             .flags("SETTLED")
             .messageId("message1")
-            .property("annotation1", "property1")
-            .property("annotation2", "property2")
+            .property("annotation1", "property1".getBytes(UTF_8))
+            .property("annotation2", "property12".getBytes(UTF_8))
             .bodyKind("VALUE")
             .build();
 
@@ -351,10 +351,10 @@ public class AmqpFunctionsTest
             switch (key)
             {
             case "annotation1":
-                assertEquals(a.value().asString(), "property1");
+                assertEquals(a.value().bytes().toString(), "octets[9]");
                 break;
             case "annotation2":
-                assertEquals(a.value().asString(), "property2");
+                assertEquals(a.value().bytes().toString(), "octets[10]");
                 break;
             }
         });
@@ -620,8 +620,8 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .property("property4", "1")
-            .property("property3", "2")
+            .property("property4", "1".getBytes(UTF_8))
+            .property("property3", "2".getBytes(UTF_8))
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -634,8 +634,8 @@ public class AmqpFunctionsTest
             .properties(p -> p.messageId(m -> m.stringtype("message1"))
                               .userId(u -> u.bytes(b2 -> b2.set("user1".getBytes())))
                               .to("clients"))
-            .applicationProperties(b -> b.item(i -> i.key("property1").value("1"))
-                                         .item(i -> i.key("property2").value("2")))
+            .applicationProperties(b -> b.item(i -> i.key("property1").value(v -> v.bytes(o -> o.set("1".getBytes(UTF_8)))))
+                                         .item(i -> i.key("property2").value(v -> v.bytes(o -> o.set("2".getBytes(UTF_8))))))
             .bodyKind(b -> b.set(VALUE))
             .build();
 
@@ -863,8 +863,8 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .property("property1", "1")
-            .property("property2", "2")
+            .property("property1", "1".getBytes(UTF_8))
+            .property("property2", "2".getBytes(UTF_8))
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -877,8 +877,8 @@ public class AmqpFunctionsTest
             .properties(p -> p.messageId(m -> m.stringtype("message1"))
                               .userId(u -> u.bytes(b2 -> b2.set("user1".getBytes())))
                               .to("clients"))
-            .applicationProperties(b -> b.item(i -> i.key("property1").value("1"))
-                                         .item(i -> i.key("property2").value("2")))
+            .applicationProperties(b -> b.item(i -> i.key("property1").value(v -> v.bytes(o -> o.set("1".getBytes(UTF_8)))))
+                                         .item(i -> i.key("property2").value(v -> v.bytes(o -> o.set("2".getBytes(UTF_8))))))
             .bodyKind(b -> b.set(VALUE))
             .build();
 

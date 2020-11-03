@@ -14,26 +14,29 @@
 # under the License.
 #
 
-connect await ROUTED_CLIENT
-        "nukleus://streams/amqp#0"
-        option nukleus:window 8192
-        option nukleus:transmission "duplex"
+property serverTransport "nukleus://streams/target#0"
 
-write nukleus:begin.ext ${amqp:beginEx()
-                              .typeId(nukleus:id("amqp"))
-                              .address("clients")
-                              .capabilities("RECEIVE_ONLY")
-                              .senderSettleMode("SETTLED")
-                              .receiverSettleMode("FIRST")
-                              .build()}
+accept ${serverTransport}
+  option nukleus:window 8192
+  option nukleus:transmission "duplex"
+
+accepted
 
 read nukleus:begin.ext ${amqp:beginEx()
                              .typeId(nukleus:id("amqp"))
                              .address("clients")
-                             .capabilities("RECEIVE_ONLY")
+                             .capabilities("SEND_ONLY")
                              .senderSettleMode("SETTLED")
                              .receiverSettleMode("FIRST")
                              .build()}
+
+write nukleus:begin.ext ${amqp:beginEx()
+                              .typeId(nukleus:id("amqp"))
+                              .address("clients")
+                              .capabilities("SEND_ONLY")
+                              .senderSettleMode("SETTLED")
+                              .receiverSettleMode("FIRST")
+                              .build()}
 connected
 
 read nukleus:data.ext ${amqp:dataEx()
@@ -41,10 +44,10 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryTag("")
                             .messageFormat(0)
                             .flags("SETTLED")
-                            .property("application", "property1")
+                            .property("application", amqp:string("property1"))
                             .bodyKind("VALUE_STRING8")
                             .build()}
 
 read "Text!"
 
-read closed
+write close
