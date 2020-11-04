@@ -1,0 +1,75 @@
+#
+# Copyright 2016-2020 The Reaktivity Project
+#
+# The Reaktivity Project licenses this file to you under the Apache License,
+# version 2.0 (the "License"); you may not use this file except in compliance
+# with the License. You may obtain a copy of the License at:
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+
+connect await ROUTED_CLIENT
+        "nukleus://streams/amqp#0"
+        option nukleus:window 8192
+        option nukleus:transmission "duplex"
+
+write nukleus:begin.ext ${amqp:beginEx()
+                              .typeId(nukleus:id("amqp"))
+                              .address("clients")
+                              .capabilities("RECEIVE_ONLY")
+                              .senderSettleMode("SETTLED")
+                              .receiverSettleMode("FIRST")
+                              .build()}
+
+read nukleus:begin.ext ${amqp:beginEx()
+                             .typeId(nukleus:id("amqp"))
+                             .address("clients")
+                             .capabilities("RECEIVE_ONLY")
+                             .senderSettleMode("SETTLED")
+                             .receiverSettleMode("FIRST")
+                             .build()}
+connected
+
+read nukleus:data.ext ${amqp:dataEx()
+                            .typeId(nukleus:id("amqp"))
+                            .deliveryTag("")
+                            .messageFormat(0)
+                            .flags("SETTLED")
+                            .property("null", core:fromHex("40"))
+                            .property("boolean", core:fromHex("5601"))
+                            .property("true", core:fromHex("41"))
+                            .property("false", core:fromHex("42"))
+                            .property("ubyte", core:fromHex("50ff"))
+                            .property("ushort", core:fromHex("60ffff"))
+                            .property("uint", core:fromHex("70ffffffff"))
+                            .property("smalluint", core:fromHex("52ff"))
+                            .property("uint0", core:fromHex("43"))
+                            .property("ulong", core:fromHex("80ffffffffffffffff"))
+                            .property("smallulong", core:fromHex("53ff"))
+                            .property("ulong0", core:fromHex("44"))
+                            .property("byte", core:fromHex("5101"))
+                            .property("short", core:fromHex("610100"))
+                            .property("int", core:fromHex("7100000001"))
+                            .property("smallint", core:fromHex("5401"))
+                            .property("long", core:fromHex("810000000000000001"))
+                            .property("smalllong", core:fromHex("5501"))
+                            .property("char", core:fromHex("7300000031"))
+                            .property("timestamp", core:fromHex("83000000005f36bde8"))
+                            .property("vbin8", amqp:binary8("vbin8"))
+                            .property("vbin32", amqp:binary32("vbin32"))
+                            .property("str8-utf8", amqp:string8("str8-utf8"))
+                            .property("str32-utf8", amqp:string32("str32-utf8"))
+                            .property("sym8", amqp:symbol8("sym8"))
+                            .property("sym32", amqp:symbol32("sym32"))
+                            .bodyKind("VALUE_STRING8")
+                            .build()}
+
+read "Text!"
+
+read closed

@@ -24,12 +24,17 @@ import static org.junit.Assert.assertTrue;
 import static org.kaazing.k3po.lang.internal.el.ExpressionFactoryUtils.newExpressionFactory;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.abortEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.beginEx;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.binary32;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.binary8;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.dataEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.matchDataEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomBytes;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomString;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.routeEx;
-import static org.reaktivity.specification.amqp.internal.AmqpFunctions.string;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.string32;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.string8;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.symbol32;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.symbol8;
 import static org.reaktivity.specification.amqp.internal.types.AmqpBodyKind.VALUE;
 
 import java.nio.ByteBuffer;
@@ -920,7 +925,7 @@ public class AmqpFunctionsTest
     @Test
     public void shouldCreateAmqpStringBytes() throws Exception
     {
-        final byte[] string = string("1");
+        final byte[] string = string8("1");
 
         assertArrayEquals(string, new byte[] {(byte) 0xa1, 0x01, 0x31});
         assertEquals(3, string.length);
@@ -929,8 +934,53 @@ public class AmqpFunctionsTest
     @Test
     public void shouldCreateAmqpStringBytesWithLargeString() throws Exception
     {
-        final byte[] string = string(randomString(300));
+        final byte[] string = string8(randomString(300));
         assertEquals(305, string.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpString32Bytes() throws Exception
+    {
+        final byte[] string = string32("value");
+
+        assertArrayEquals(string, new byte[] {(byte) 0xb1, 0x00, 0x00, 0x00, 0x05, 0x76, 0x61, 0x6C, 0x75, 0x65});
+        assertEquals(10, string.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpBinary8Bytes() throws Exception
+    {
+        final byte[] binary = binary8("value");
+
+        assertArrayEquals(binary, new byte[] {(byte) 0xa0, 0x05, 0x76, 0x61, 0x6C, 0x75, 0x65});
+        assertEquals(7, binary.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpBinary32Bytes() throws Exception
+    {
+        final byte[] binary = binary32("value");
+
+        assertArrayEquals(binary, new byte[] {(byte) 0xb0, 0x00, 0x00, 0x00, 0x05, 0x76, 0x61, 0x6C, 0x75, 0x65});
+        assertEquals(10, binary.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpSymbol8Bytes() throws Exception
+    {
+        final byte[] symbol = symbol8("value");
+
+        assertArrayEquals(symbol, new byte[] {(byte) 0xa3, 0x05, 0x76, 0x61, 0x6C, 0x75, 0x65});
+        assertEquals(7, symbol.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpSymbol32Bytes() throws Exception
+    {
+        final byte[] symbol = symbol32("value");
+
+        assertArrayEquals(symbol, new byte[] {(byte) 0xb3, 0x00, 0x00, 0x00, 0x05, 0x76, 0x61, 0x6C, 0x75, 0x65});
+        assertEquals(10, symbol.length);
     }
 
     @Test(expected = AssertionError.class)

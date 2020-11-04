@@ -44,7 +44,7 @@ write [0x00 0x00 0x00 0x1c]                                       # size = 28
       [0xc0 0x0f 0x03]                                            # list type (LIST1), length = 15, fields = 3
       [0xa1 0x06] "server"                                        # container-id = "server"
       [0x40]                                                      # hostname = null
-      [0x70 0x00 0x00 0x07 0xd0]                                  # max frame size = 2000
+      [0x70 0x00 0x00 0x03 0xe8]                                  # max frame size = 1000
 
 # begin frame exchange
 read [0x00 0x00 0x00 0x1b]                                        # size = 27
@@ -121,7 +121,7 @@ write [0x00 0x00 0x00 0x1d]                                       # size = 29
       [0x52 0x08]                                                 # link-credit = 8
 
 # transfer frame
-read [0x00 0x00 0x05 0xb1]                                        # size = 1457
+read [0x00 0x00 0x01 0x78]                                        # size = 376
      [0x02]                                                       # doff = 2
      [0x00]                                                       # type = AMQP (0)
      [0x00 0x00]                                                  # channel = 0
@@ -133,7 +133,7 @@ read [0x00 0x00 0x05 0xb1]                                        # size = 1457
      [0x43]                                                       # message-format = 0
      [0x41]                                                       # settled = true
      [0x00 0x53 0x74]                                             # application-properties header
-     [0xd1 0x00 0x00 0x05 0x8b 0x00 0x00 0x00 0x34]               # map32, length = 1419, fields = 51
+     [0xd1 0x00 0x00 0x01 0x52 0x00 0x00 0x00 0x34]               # map32, length = 338, fields = 52
      [0xa1 0x04] "null"                                           # map key = "null"
      [0x40]                                                       # map value = null type
      [0xa1 0x07] "boolean"                                        # map key = "boolean"
@@ -173,18 +173,18 @@ read [0x00 0x00 0x05 0xb1]                                        # size = 1457
      [0xa1 0x04] "char"                                           # map key = "char"
      [0x73 0x00 0x00 0x00 0x31]                                   # map value = '1'
      [0xa1 0x09] "timestamp"                                      # map key = "timestamp"
-     [0x83 0x00 0x00 0x00 0x00 0x5F 0x36 0xBD 0xE8]               # map value = 1597423080
+     [0x83 0x00 0x00 0x00 0x00 0x5f 0x36 0xbd 0xe8]               # map value = 1597423080
      [0xa1 0x05] "vbin8"                                          # map key = "vbin8"
-     [0xa0 0x0a] [0..10]                                          # map value = 10 random bytes
+     [0xa0 0x05] "vbin8"                                          # map value = "vbin8" bytes
      [0xa1 0x06] "vbin32"                                         # map key = "vbin32"
-     [0xb0 0x00 0x00 0x01 0xf4] [0..500]                          # map value = 500 random bytes
+     [0xb0 0x00 0x00 0x00 0x06] "vbin32"                          # map value = "vbin32" bytes
      [0xa1 0x09] "str8-utf8"                                      # map key = "str8-utf8"
-     [0xa1 0x05] "Text!"                                          # map value = "Text!"
+     [0xa1 0x09] "str8-utf8"                                      # map value = "str8-utf8"
      [0xa1 0x0a] "str32-utf8"                                     # map key = "str32-utf8"
-     [0xb1 0x00 0x00 0x01 0x2c] [0..300]                          # map value = 300 random string
+     [0xb1 0x00 0x00 0x00 0x0a] "str32-utf8"                      # map value = "str32-utf8"
      [0xa1 0x04] "sym8"                                           # map key = "sym8"
-     [0xa3 0x05] "Text!"                                          # map value = "Text!"
+     [0xa3 0x04] "sym8"                                           # map value = "sym8"
      [0xa1 0x05] "sym32"                                          # map key = "sym32"
-     [0xb3 0x00 0x00 0x01 0x2c] [0..300]                          # map value = 300 random string
+     [0xb3 0x00 0x00 0x00 0x05] "sym32"                           # map value = "sym32"
      [0x00 0x53 0x77 0xa1 0x05]                                   # message format = amqp-value, vbin32, size = 5
      "Text!"                                                      # body = "Text!"

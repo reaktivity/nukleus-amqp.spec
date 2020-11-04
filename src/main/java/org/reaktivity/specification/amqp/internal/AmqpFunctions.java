@@ -45,6 +45,12 @@ import org.reaktivity.specification.amqp.internal.types.stream.AmqpDataExFW;
 public final class AmqpFunctions
 {
     private static final int MAX_BUFFER_SIZE = 1024 * 8;
+    private static final byte VBIN8_TYPE = (byte) 0xa0;
+    private static final byte VBIN32_TYPE = (byte) 0xb0;
+    private static final byte STR8UTF8_TYPE = (byte) 0xa1;
+    private static final byte STR32UTF8_TYPE = (byte) 0xb1;
+    private static final byte SYM8_TYPE = (byte) 0xa3;
+    private static final byte SYM32_TYPE = (byte) 0xb3;
 
     public static class AmqpRouteExBuilder
     {
@@ -820,23 +826,63 @@ public final class AmqpFunctions
     }
 
     @Function
-    public static byte[] string(
+    public static byte[] string8(
         String value)
     {
-        int valueLength = value.length();
-        int byteLength = Byte.BYTES + (valueLength > 0xff ? Integer.BYTES : Byte.BYTES) + valueLength;
+        int length = value.length();
+        int byteLength = Byte.BYTES + (length > 0xff ? Integer.BYTES : Byte.BYTES) + length;
 
-        byte[] bytes;
-        if (valueLength > 0xff)
-        {
-            bytes = ByteBuffer.allocate(byteLength).put((byte) 0xb1).putInt(valueLength).put(value.getBytes(UTF_8)).array();
-        }
-        else
-        {
-            bytes = ByteBuffer.allocate(byteLength).put((byte) 0xa1).put((byte) valueLength).put(value.getBytes(UTF_8)).array();
-        }
+        return ByteBuffer.allocate(byteLength).put(STR8UTF8_TYPE).put((byte) length).put(value.getBytes(UTF_8)).array();
+    }
 
-        return bytes;
+    @Function
+    public static byte[] string32(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = Byte.BYTES + Integer.BYTES + length;
+
+        return ByteBuffer.allocate(byteLength).put(STR32UTF8_TYPE).putInt(length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] binary8(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = Byte.BYTES + Byte.BYTES + length;
+
+        return ByteBuffer.allocate(byteLength).put(VBIN8_TYPE).put((byte) length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] binary32(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = Byte.BYTES + Integer.BYTES + length;
+
+        return ByteBuffer.allocate(byteLength).put(VBIN32_TYPE).putInt(length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] symbol8(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = Byte.BYTES + Byte.BYTES + length;
+
+        return ByteBuffer.allocate(byteLength).put(SYM8_TYPE).put((byte) length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] symbol32(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = Byte.BYTES + Integer.BYTES + length;
+
+        return ByteBuffer.allocate(byteLength).put(SYM32_TYPE).putInt(length).put(value.getBytes(UTF_8)).array();
     }
 
     public static class Mapper extends FunctionMapperSpi.Reflective
