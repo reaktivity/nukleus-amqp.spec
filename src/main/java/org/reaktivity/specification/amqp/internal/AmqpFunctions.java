@@ -15,6 +15,7 @@
  */
 package org.reaktivity.specification.amqp.internal;
 
+import static java.nio.charset.StandardCharsets.UTF_16BE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.nio.ByteBuffer;
@@ -45,12 +46,40 @@ import org.reaktivity.specification.amqp.internal.types.stream.AmqpDataExFW;
 public final class AmqpFunctions
 {
     private static final int MAX_BUFFER_SIZE = 1024 * 8;
+
+    private static final byte[] NULL_TYPE = new byte[] {0x40};
+    private static final byte BOOLEAN_TYPE = (byte) 0x56;
+    private static final byte[] TRUE_TYPE = new byte[] {0x41};
+    private static final byte[] FALSE_TYPE = new byte[] {0x42};
+    private static final byte UBYTE_TYPE = (byte) 0x50;
+    private static final byte USHORT_TYPE = (byte) 0x60;
+    private static final byte UINT_TYPE = (byte) 0x70;
+    private static final byte SMALLUINT_TYPE = (byte) 0x52;
+    private static final byte[] UINT0_TYPE = new byte[] {0x43};
+    private static final byte ULONG_TYPE = (byte) 0x80;
+    private static final byte SMALLULONG_TYPE = (byte) 0x53;
+    private static final byte[] ULONG0_TYPE = new byte[] {0x44};
+    private static final byte BYTE_TYPE = (byte) 0x51;
+    private static final byte SHORT_TYPE = (byte) 0x61;
+    private static final byte INT_TYPE = (byte) 0x71;
+    private static final byte SMALLINT_TYPE = (byte) 0x54;
+    private static final byte LONG_TYPE = (byte) 0x81;
+    private static final byte SMALLLONG_TYPE = (byte) 0x55;
+    private static final byte CHAR_TYPE = (byte) 0x73;
+    private static final byte TIMESTAMP_TYPE = (byte) 0x83;
+
     private static final byte VBIN8_TYPE = (byte) 0xa0;
     private static final byte VBIN32_TYPE = (byte) 0xb0;
     private static final byte STR8UTF8_TYPE = (byte) 0xa1;
     private static final byte STR32UTF8_TYPE = (byte) 0xb1;
     private static final byte SYM8_TYPE = (byte) 0xa3;
     private static final byte SYM32_TYPE = (byte) 0xb3;
+
+    private static final int CONSTRUCTOR_BYTE_SIZE = 1;
+    private static final int FIXED_SIZE1 = 1;
+    private static final int FIXED_SIZE2 = 2;
+    private static final int FIXED_SIZE4 = 4;
+    private static final int FIXED_SIZE8 = 8;
 
     public static class AmqpRouteExBuilder
     {
@@ -825,24 +854,155 @@ public final class AmqpFunctions
         return buffer.toString();
     }
 
-    @Function
-    public static byte[] string8(
-        String value)
+    @Function(name = "_null")
+    public static byte[] nullValue()
     {
-        int length = value.length();
-        int byteLength = Byte.BYTES + (length > 0xff ? Integer.BYTES : Byte.BYTES) + length;
+        return NULL_TYPE;
+    }
 
-        return ByteBuffer.allocate(byteLength).put(STR8UTF8_TYPE).put((byte) length).put(value.getBytes(UTF_8)).array();
+    @Function(name = "boolean")
+    public static byte[] booleanValue(
+        boolean value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        byte byteValue = (byte) (value ? 0x01 : 0x00);
+        return ByteBuffer.allocate(byteLength).put(BOOLEAN_TYPE).put(byteValue).array();
+    }
+
+    @Function(name = "_true")
+    public static byte[] trueValue()
+    {
+        return TRUE_TYPE;
+    }
+
+    @Function(name = "_false")
+    public static byte[] falseValue()
+    {
+        return FALSE_TYPE;
     }
 
     @Function
-    public static byte[] string32(
+    public static byte[] ubyte(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        return ByteBuffer.allocate(byteLength).put(UBYTE_TYPE).put((byte) value).array();
+    }
+
+    @Function
+    public static byte[] ushort(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE2;
+        return ByteBuffer.allocate(byteLength).put(USHORT_TYPE).putShort((short) value).array();
+    }
+
+    @Function
+    public static byte[] uint(
+        long value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4;
+        return ByteBuffer.allocate(byteLength).put(UINT_TYPE).putInt((int) value).array();
+    }
+
+    @Function
+    public static byte[] smalluint(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        return ByteBuffer.allocate(byteLength).put(SMALLUINT_TYPE).put((byte) value).array();
+    }
+
+    @Function
+    public static byte[] uint0()
+    {
+        return UINT0_TYPE;
+    }
+
+    @Function
+    public static byte[] ulong(
+        long value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE8;
+        return ByteBuffer.allocate(byteLength).put(ULONG_TYPE).putLong(value).array();
+    }
+
+    @Function
+    public static byte[] smallulong(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        return ByteBuffer.allocate(byteLength).put(SMALLULONG_TYPE).put((byte) value).array();
+    }
+
+    @Function
+    public static byte[] ulong0()
+    {
+        return ULONG0_TYPE;
+    }
+
+    @Function(name = "byte")
+    public static byte[] byteValue(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        return ByteBuffer.allocate(byteLength).put(BYTE_TYPE).put((byte) value).array();
+    }
+
+    @Function(name = "short")
+    public static byte[] shortValue(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE2;
+        return ByteBuffer.allocate(byteLength).put(SHORT_TYPE).putShort((short) value).array();
+    }
+
+    @Function(name = "int")
+    public static byte[] intValue(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4;
+        return ByteBuffer.allocate(byteLength).put(INT_TYPE).putInt(value).array();
+    }
+
+    @Function
+    public static byte[] smallint(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        return ByteBuffer.allocate(byteLength).put(SMALLINT_TYPE).put((byte) value).array();
+    }
+
+    @Function(name = "long")
+    public static byte[] longValue(
+        long value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE8;
+        return ByteBuffer.allocate(byteLength).put(LONG_TYPE).putLong(value).array();
+    }
+
+    @Function
+    public static byte[] smalllong(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        return ByteBuffer.allocate(byteLength).put(SMALLLONG_TYPE).put((byte) value).array();
+    }
+
+    @Function(name = "char")
+    public static byte[] charValue(
         String value)
     {
-        int length = value.length();
-        int byteLength = Byte.BYTES + Integer.BYTES + length;
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4;
+        return ByteBuffer.allocate(byteLength).put(CHAR_TYPE).putShort((short) 0).put(value.getBytes(UTF_16BE)).array();
+    }
 
-        return ByteBuffer.allocate(byteLength).put(STR32UTF8_TYPE).putInt(length).put(value.getBytes(UTF_8)).array();
+    @Function
+    public static byte[] timestamp(
+        long value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE8;
+        return ByteBuffer.allocate(byteLength).put(TIMESTAMP_TYPE).putLong(value).array();
     }
 
     @Function
@@ -850,7 +1010,7 @@ public final class AmqpFunctions
         String value)
     {
         int length = value.length();
-        int byteLength = Byte.BYTES + Byte.BYTES + length;
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1 + length;
 
         return ByteBuffer.allocate(byteLength).put(VBIN8_TYPE).put((byte) length).put(value.getBytes(UTF_8)).array();
     }
@@ -860,9 +1020,29 @@ public final class AmqpFunctions
         String value)
     {
         int length = value.length();
-        int byteLength = Byte.BYTES + Integer.BYTES + length;
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4 + length;
 
         return ByteBuffer.allocate(byteLength).put(VBIN32_TYPE).putInt(length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] string8(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1 + length;
+
+        return ByteBuffer.allocate(byteLength).put(STR8UTF8_TYPE).put((byte) length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] string32(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4 + length;
+
+        return ByteBuffer.allocate(byteLength).put(STR32UTF8_TYPE).putInt(length).put(value.getBytes(UTF_8)).array();
     }
 
     @Function
@@ -870,7 +1050,7 @@ public final class AmqpFunctions
         String value)
     {
         int length = value.length();
-        int byteLength = Byte.BYTES + Byte.BYTES + length;
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1 + length;
 
         return ByteBuffer.allocate(byteLength).put(SYM8_TYPE).put((byte) length).put(value.getBytes(UTF_8)).array();
     }
@@ -880,7 +1060,7 @@ public final class AmqpFunctions
         String value)
     {
         int length = value.length();
-        int byteLength = Byte.BYTES + Integer.BYTES + length;
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4 + length;
 
         return ByteBuffer.allocate(byteLength).put(SYM32_TYPE).putInt(length).put(value.getBytes(UTF_8)).array();
     }
