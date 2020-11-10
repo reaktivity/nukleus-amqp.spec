@@ -19,6 +19,8 @@ import static java.nio.charset.StandardCharsets.UTF_16BE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -80,6 +82,39 @@ public final class AmqpFunctions
     private static final int FIXED_SIZE2 = 2;
     private static final int FIXED_SIZE4 = 4;
     private static final int FIXED_SIZE8 = 8;
+
+    private static final Map<String, Byte> BYTES_BY_NAMES;
+    static
+    {
+        final Map<String, Byte> byteByNames = new HashMap<>();
+        byteByNames.put("null", NULL_TYPE[0]);
+        byteByNames.put("boolean", BOOLEAN_TYPE);
+        byteByNames.put("true", TRUE_TYPE[0]);
+        byteByNames.put("false", FALSE_TYPE[0]);
+        byteByNames.put("ubyte", UBYTE_TYPE);
+        byteByNames.put("ushort", USHORT_TYPE);
+        byteByNames.put("uint", UINT_TYPE);
+        byteByNames.put("smalluint", SMALLUINT_TYPE);
+        byteByNames.put("uint0", UINT0_TYPE[0]);
+        byteByNames.put("ulong", ULONG_TYPE);
+        byteByNames.put("smallulong", SMALLULONG_TYPE);
+        byteByNames.put("ulong0", ULONG0_TYPE[0]);
+        byteByNames.put("byte", BYTE_TYPE);
+        byteByNames.put("short", SHORT_TYPE);
+        byteByNames.put("int", INT_TYPE);
+        byteByNames.put("smallint", SMALLINT_TYPE);
+        byteByNames.put("long", LONG_TYPE);
+        byteByNames.put("smalllong", SMALLLONG_TYPE);
+        byteByNames.put("char", CHAR_TYPE);
+        byteByNames.put("timestamp", TIMESTAMP_TYPE);
+        byteByNames.put("vbin8", VBIN8_TYPE);
+        byteByNames.put("vbin32", VBIN32_TYPE);
+        byteByNames.put("str8-utf8", STR8UTF8_TYPE);
+        byteByNames.put("str32-utf8", STR32UTF8_TYPE);
+        byteByNames.put("sym8", SYM8_TYPE);
+        byteByNames.put("sym32", SYM32_TYPE);
+        BYTES_BY_NAMES = byteByNames;
+    }
 
     public static class AmqpRouteExBuilder
     {
@@ -1063,6 +1098,18 @@ public final class AmqpFunctions
         int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4 + length;
 
         return ByteBuffer.allocate(byteLength).put(SYM32_TYPE).putInt(length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] propertyTypes(
+        String... values)
+    {
+        ByteBuffer buffer = ByteBuffer.allocate(values.length);
+        for (String value : values)
+        {
+            buffer.put(BYTES_BY_NAMES.get(value));
+        }
+        return buffer.array();
     }
 
     public static class Mapper extends FunctionMapperSpi.Reflective

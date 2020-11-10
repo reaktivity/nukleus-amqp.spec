@@ -35,6 +35,7 @@ import static org.reaktivity.specification.amqp.internal.AmqpFunctions.intValue;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.longValue;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.matchDataEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.nullValue;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.propertyTypes;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomBytes;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomString;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.routeEx;
@@ -1181,6 +1182,19 @@ public class AmqpFunctionsTest
 
         assertArrayEquals(symbol, new byte[] {(byte) 0xb3, 0x00, 0x00, 0x00, 0x05, 0x76, 0x61, 0x6C, 0x75, 0x65});
         assertEquals(10, symbol.length);
+    }
+
+    @Test
+    public void shouldCreatePropertyTypesBytes() throws Exception
+    {
+        final byte[] types = propertyTypes("null", "boolean", "true", "false", "ubyte", "ushort", "uint", "smalluint",
+            "uint0", "ulong", "smallulong", "ulong0", "byte", "short", "int", "smallint", "long",
+            "smalllong", "char", "timestamp", "vbin8", "vbin32", "str8-utf8", "str32-utf8", "sym8", "sym32");
+
+        assertArrayEquals(types, new byte[] {0x40, 0x56, 0x41, 0x42, 0x50, 0x60, 0x70, 0x52, 0x43, (byte) 0x80, 0x53, 0x44,
+            0x51, 0x61, 0x71, 0x54, (byte) 0x81, 0x55, 0x73, (byte) 0x83, (byte) 0xa0, (byte) 0xb0, (byte) 0xa1, (byte) 0xb1,
+            (byte) 0xa3, (byte) 0xb3});
+        assertEquals(26, types.length);
     }
 
     @Test(expected = AssertionError.class)
