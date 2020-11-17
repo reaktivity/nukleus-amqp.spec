@@ -1032,13 +1032,13 @@ public final class AmqpFunctions
 
         byte[] valueArray = value.getBytes(UTF_8);
         ByteBuffer buffer = ByteBuffer.allocate(byteLength).put(CHAR_TYPE);
-        if (codePoint >= 0 && codePoint <= 0x7f)
+        if (codePoint <= 0x7f)
         {
             buffer.putShort((short) 0)
                 .put((byte) 0)
                 .put((byte) (valueArray[0] & 0x7f));
         }
-        else if (codePoint >= 0x80 && codePoint <= 0x07ff)
+        else if (codePoint <= 0x07ff)
         {
             int byte1 = valueArray[0] & 0x1f;
             int byte2 = valueArray[1] & 0x3f;
@@ -1046,7 +1046,7 @@ public final class AmqpFunctions
                 .put((byte) (byte1 >> 2))
                 .put((byte) (byte2 | byte1 << 6));
         }
-        else if (codePoint >= 0x0800 && codePoint <= 0xffff)
+        else if (codePoint <= 0xffff)
         {
             int byte1 = valueArray[0] & 0x0f;
             int byte2 = valueArray[1] & 0x3f;
@@ -1056,7 +1056,7 @@ public final class AmqpFunctions
                 .put((byte) (byte2 >> 2 | byte1 << 4))
                 .put((byte) (byte3 | byte2 << 6));
         }
-        else
+        else if (codePoint <= 0x10ffff)
         {
             int byte1 = valueArray[0] & 0x07;
             int byte2 = valueArray[1] & 0x3f;
