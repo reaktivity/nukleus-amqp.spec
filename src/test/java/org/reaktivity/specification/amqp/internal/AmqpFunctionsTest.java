@@ -1124,10 +1124,25 @@ public class AmqpFunctionsTest
     @Test
     public void shouldCreateAmqpCharValue() throws Exception
     {
-        final byte[] value = charValue("1");
+        final byte[] oneByteLengthChar = charValue("1");
 
-        assertArrayEquals(value, new byte[] {(byte) 0x73, 0x00, 0x00, 0x00, 0x31});
-        assertEquals(5, value.length);
+        assertArrayEquals(oneByteLengthChar, new byte[] {(byte) 0x73, 0x00, 0x00, 0x00, 0x31});
+        assertEquals(5, oneByteLengthChar.length);
+
+        final byte[] twoByteLengthChar = charValue("¢");
+
+        assertArrayEquals(twoByteLengthChar, new byte[] {(byte) 0x73, 0x00, 0x00, 0x00, (byte) 0xa2});
+        assertEquals(5, twoByteLengthChar.length);
+
+        final byte[] threeByteLengthChar = charValue("€");
+
+        assertArrayEquals(threeByteLengthChar, new byte[] {(byte) 0x73, 0x00, 0x00, 0x20, (byte) 0xac});
+        assertEquals(5, threeByteLengthChar.length);
+
+        final byte[] fourByteLengthChar = charValue("\uD800\uDF48");
+
+        assertArrayEquals(fourByteLengthChar, new byte[] {(byte) 0x73, 0x00, 0x01, 0x03, (byte) 0x48});
+        assertEquals(5, fourByteLengthChar.length);
     }
 
     @Test

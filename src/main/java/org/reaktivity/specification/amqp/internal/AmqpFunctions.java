@@ -15,7 +15,6 @@
  */
 package org.reaktivity.specification.amqp.internal;
 
-import static java.nio.charset.StandardCharsets.UTF_16BE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.nio.ByteBuffer;
@@ -1029,7 +1028,46 @@ public final class AmqpFunctions
         String value)
     {
         int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4;
-        return ByteBuffer.allocate(byteLength).put(CHAR_TYPE).putShort((short) 0).put(value.getBytes(UTF_16BE)).array();
+        int codePoint = value.codePointAt(0);
+
+        byte[] valueArray = value.getBytes(UTF_8);
+        ByteBuffer buffer = ByteBuffer.allocate(byteLength).put(CHAR_TYPE);
+        if (codePoint >= 0 && codePoint <= 0x7f)
+        {
+            buffer.putShort((short) 0)
+                .put((byte) 0)
+                .put((byte) (valueArray[0] & 0x7f));
+        }
+        else if (codePoint >= 0x80 && codePoint <= 0x07ff)
+        {
+            int byte1 = valueArray[0] & 0x1f;
+            int byte2 = valueArray[1] & 0x3f;
+            buffer.putShort((short) 0)
+                .put((byte) (byte1 >> 2))
+                .put((byte) (byte2 | byte1 << 6));
+        }
+        else if (codePoint >= 0x0800 && codePoint <= 0xffff)
+        {
+            int byte1 = valueArray[0] & 0x0f;
+            int byte2 = valueArray[1] & 0x3f;
+            int byte3 = valueArray[2] & 0x3f;
+            buffer.put((byte) 0)
+                .put((byte) (byte1 >> 4))
+                .put((byte) (byte2 >> 2 | byte1 << 4))
+                .put((byte) (byte3 | byte2 << 6));
+        }
+        else
+        {
+            int byte1 = valueArray[0] & 0x07;
+            int byte2 = valueArray[1] & 0x3f;
+            int byte3 = valueArray[2] & 0x3f;
+            int byte4 = valueArray[3] & 0x3f;
+            buffer.put((byte) (byte1 >> 6))
+                .put((byte) (byte2 >> 4 | byte1 << 6))
+                .put((byte) (byte3 >> 2 | byte2 << 4))
+                .put((byte) (byte4 | byte3 << 6));
+        }
+        return buffer.array();
     }
 
     @Function
