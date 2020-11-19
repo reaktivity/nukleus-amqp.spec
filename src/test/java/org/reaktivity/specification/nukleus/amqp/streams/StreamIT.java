@@ -275,32 +275,6 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
-        "${streams}/send.to.client.with.application.properties/client",
-        "${streams}/send.to.client.with.application.properties/server"
-    })
-    public void shouldSendToClientWithApplicationProperties() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_CLIENT");
-        k3po.finish();
-    }
-
-    @Test
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    @Specification({
-        "${streams}/send.to.server.with.application.properties/client",
-        "${streams}/send.to.server.with.application.properties/server"
-    })
-    public void shouldSendToServerWithApplicationProperties() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_CLIENT");
-        k3po.finish();
-    }
-
-    @Test
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    @Specification({
         "${streams}/send.to.client.with.footer/client",
         "${streams}/send.to.client.with.footer/server"
     })
@@ -1579,7 +1553,33 @@ public class StreamIT
         "${streams}/send.to.server.with.invalid.delivery.id/client",
         "${streams}/send.to.server.with.invalid.delivery.id/server"
     })
-    public void shouldToServerWithInvalidDeliveryId() throws Exception
+    public void shouldSendToServerWithInvalidDeliveryId() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.client.with.application.properties/client",
+        "${streams}/send.to.client.with.application.properties/server"
+    })
+    public void shouldSendToClientWithApplicationProperties() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.server.with.application.properties/client",
+        "${streams}/send.to.server.with.application.properties/server"
+    })
+    public void shouldSendToServerWithApplicationProperties() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");

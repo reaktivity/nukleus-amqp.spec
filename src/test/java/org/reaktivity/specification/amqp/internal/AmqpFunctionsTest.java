@@ -24,12 +24,38 @@ import static org.junit.Assert.assertTrue;
 import static org.kaazing.k3po.lang.internal.el.ExpressionFactoryUtils.newExpressionFactory;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.abortEx;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.beginEx;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.binary32;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.binary8;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.booleanValue;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.byteValue;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.charValue;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.dataEx;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.falseValue;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.intValue;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.longValue;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.matchDataEx;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.nullValue;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.propertyTypes;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomBytes;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.randomString;
 import static org.reaktivity.specification.amqp.internal.AmqpFunctions.routeEx;
-import static org.reaktivity.specification.amqp.internal.AmqpFunctions.string;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.shortValue;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.smallint;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.smalllong;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.smalluint;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.smallulong;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.string32;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.string8;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.symbol32;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.symbol8;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.timestamp;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.trueValue;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.ubyte;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.uint;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.uint0;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.ulong;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.ulong0;
+import static org.reaktivity.specification.amqp.internal.AmqpFunctions.ushort;
 import static org.reaktivity.specification.amqp.internal.types.AmqpBodyKind.VALUE;
 
 import java.nio.ByteBuffer;
@@ -297,7 +323,7 @@ public class AmqpFunctionsTest
             .deliveryTag("00")
             .messageFormat(0)
             .flags("SETTLED")
-            .property("annotation", "property1")
+            .property("annotation", "property1".getBytes(UTF_8))
             .bodyKind("VALUE")
             .build();
 
@@ -306,7 +332,7 @@ public class AmqpFunctionsTest
         amqpDataEx.applicationProperties().forEach(a ->
         {
             assertEquals(a.key().asString(), "annotation");
-            assertEquals(a.value().asString(), "property1");
+            assertEquals(a.value().bytes().toString(), "octets[9]");
         });
     }
 
@@ -335,8 +361,8 @@ public class AmqpFunctionsTest
             .messageFormat(0)
             .flags("SETTLED")
             .messageId("message1")
-            .property("annotation1", "property1")
-            .property("annotation2", "property2")
+            .property("annotation1", "property1".getBytes(UTF_8))
+            .property("annotation2", "property12".getBytes(UTF_8))
             .bodyKind("VALUE")
             .build();
 
@@ -351,10 +377,10 @@ public class AmqpFunctionsTest
             switch (key)
             {
             case "annotation1":
-                assertEquals(a.value().asString(), "property1");
+                assertEquals(a.value().bytes().toString(), "octets[9]");
                 break;
             case "annotation2":
-                assertEquals(a.value().asString(), "property2");
+                assertEquals(a.value().bytes().toString(), "octets[10]");
                 break;
             }
         });
@@ -620,8 +646,8 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .property("property4", "1")
-            .property("property3", "2")
+            .property("property4", "1".getBytes(UTF_8))
+            .property("property3", "2".getBytes(UTF_8))
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -634,8 +660,8 @@ public class AmqpFunctionsTest
             .properties(p -> p.messageId(m -> m.stringtype("message1"))
                               .userId(u -> u.bytes(b2 -> b2.set("user1".getBytes())))
                               .to("clients"))
-            .applicationProperties(b -> b.item(i -> i.key("property1").value("1"))
-                                         .item(i -> i.key("property2").value("2")))
+            .applicationProperties(b -> b.item(i -> i.key("property1").value(v -> v.bytes(o -> o.set("1".getBytes(UTF_8)))))
+                                         .item(i -> i.key("property2").value(v -> v.bytes(o -> o.set("2".getBytes(UTF_8))))))
             .bodyKind(b -> b.set(VALUE))
             .build();
 
@@ -863,8 +889,8 @@ public class AmqpFunctionsTest
     {
         BytesMatcher matcher = matchDataEx()
             .typeId(0)
-            .property("property1", "1")
-            .property("property2", "2")
+            .property("property1", "1".getBytes(UTF_8))
+            .property("property2", "2".getBytes(UTF_8))
             .build();
 
         ByteBuffer byteBuf = ByteBuffer.allocate(1024);
@@ -877,8 +903,8 @@ public class AmqpFunctionsTest
             .properties(p -> p.messageId(m -> m.stringtype("message1"))
                               .userId(u -> u.bytes(b2 -> b2.set("user1".getBytes())))
                               .to("clients"))
-            .applicationProperties(b -> b.item(i -> i.key("property1").value("1"))
-                                         .item(i -> i.key("property2").value("2")))
+            .applicationProperties(b -> b.item(i -> i.key("property1").value(v -> v.bytes(o -> o.set("1".getBytes(UTF_8)))))
+                                         .item(i -> i.key("property2").value(v -> v.bytes(o -> o.set("2".getBytes(UTF_8))))))
             .bodyKind(b -> b.set(VALUE))
             .build();
 
@@ -920,7 +946,7 @@ public class AmqpFunctionsTest
     @Test
     public void shouldCreateAmqpStringBytes() throws Exception
     {
-        final byte[] string = string("1");
+        final byte[] string = string8("1");
 
         assertArrayEquals(string, new byte[] {(byte) 0xa1, 0x01, 0x31});
         assertEquals(3, string.length);
@@ -929,8 +955,261 @@ public class AmqpFunctionsTest
     @Test
     public void shouldCreateAmqpStringBytesWithLargeString() throws Exception
     {
-        final byte[] string = string(randomString(300));
-        assertEquals(305, string.length);
+        final byte[] string = string8(randomString(300));
+        assertEquals(302, string.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpNullValue() throws Exception
+    {
+        final byte[] value = nullValue();
+
+        assertArrayEquals(value, new byte[] {(byte) 0x40});
+        assertEquals(1, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpBooleanValue() throws Exception
+    {
+        final byte[] value = booleanValue(true);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x56, 0x01});
+        assertEquals(2, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpTrueValue() throws Exception
+    {
+        final byte[] value = trueValue();
+
+        assertArrayEquals(value, new byte[] {(byte) 0x41});
+        assertEquals(1, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpFalseValue() throws Exception
+    {
+        final byte[] value = falseValue();
+
+        assertArrayEquals(value, new byte[] {(byte) 0x42});
+        assertEquals(1, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpUbyteValue() throws Exception
+    {
+        final byte[] value = ubyte(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x50, 0x01});
+        assertEquals(2, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpUshortValue() throws Exception
+    {
+        final byte[] value = ushort(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x60, 0x00, 0x01});
+        assertEquals(3, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpUintValue() throws Exception
+    {
+        final byte[] value = uint(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x70, 0x00, 0x00, 0x00, 0x01});
+        assertEquals(5, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpSmalluintValue() throws Exception
+    {
+        final byte[] value = smalluint(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x52, 0x01});
+        assertEquals(2, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpUint0Value() throws Exception
+    {
+        final byte[] value = uint0();
+
+        assertArrayEquals(value, new byte[] {(byte) 0x43});
+        assertEquals(1, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpUlongValue() throws Exception
+    {
+        final byte[] value = ulong(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01});
+        assertEquals(9, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpSmallulongValue() throws Exception
+    {
+        final byte[] value = smallulong(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x53, 0x01});
+        assertEquals(2, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpUlong0Value() throws Exception
+    {
+        final byte[] value = ulong0();
+
+        assertArrayEquals(value, new byte[] {(byte) 0x44});
+        assertEquals(1, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpByteValue() throws Exception
+    {
+        final byte[] value = byteValue(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x51, 0x01});
+        assertEquals(2, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpShortValue() throws Exception
+    {
+        final byte[] value = shortValue(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x61, 0x00, 0x01});
+        assertEquals(3, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpIntValue() throws Exception
+    {
+        final byte[] value = intValue(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x71, 0x00, 0x00, 0x00, 0x01});
+        assertEquals(5, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpSmallintValue() throws Exception
+    {
+        final byte[] value = smallint(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x54, 0x01});
+        assertEquals(2, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpLongValue() throws Exception
+    {
+        final byte[] value = longValue(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x81, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01});
+        assertEquals(9, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpSmalllongValue() throws Exception
+    {
+        final byte[] value = smalllong(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x55, 0x01});
+        assertEquals(2, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpCharValue() throws Exception
+    {
+        final byte[] oneByteLengthChar = charValue("1");
+
+        assertArrayEquals(oneByteLengthChar, new byte[] {(byte) 0x73, 0x00, 0x00, 0x00, 0x31});
+        assertEquals(5, oneByteLengthChar.length);
+
+        final byte[] twoByteLengthChar = charValue("¢");
+
+        assertArrayEquals(twoByteLengthChar, new byte[] {(byte) 0x73, 0x00, 0x00, 0x00, (byte) 0xa2});
+        assertEquals(5, twoByteLengthChar.length);
+
+        final byte[] threeByteLengthChar = charValue("€");
+
+        assertArrayEquals(threeByteLengthChar, new byte[] {(byte) 0x73, 0x00, 0x00, 0x20, (byte) 0xac});
+        assertEquals(5, threeByteLengthChar.length);
+
+        final byte[] fourByteLengthChar = charValue("\uD800\uDF48");
+
+        assertArrayEquals(fourByteLengthChar, new byte[] {(byte) 0x73, 0x00, 0x01, 0x03, (byte) 0x48});
+        assertEquals(5, fourByteLengthChar.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpTimestampValue() throws Exception
+    {
+        final byte[] value = timestamp(1);
+
+        assertArrayEquals(value, new byte[] {(byte) 0x83, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01});
+        assertEquals(9, value.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpString32Bytes() throws Exception
+    {
+        final byte[] string = string32("value");
+
+        assertArrayEquals(string, new byte[] {(byte) 0xb1, 0x00, 0x00, 0x00, 0x05, 0x76, 0x61, 0x6C, 0x75, 0x65});
+        assertEquals(10, string.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpBinary8Bytes() throws Exception
+    {
+        final byte[] binary = binary8("value");
+
+        assertArrayEquals(binary, new byte[] {(byte) 0xa0, 0x05, 0x76, 0x61, 0x6C, 0x75, 0x65});
+        assertEquals(7, binary.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpBinary32Bytes() throws Exception
+    {
+        final byte[] binary = binary32("value");
+
+        assertArrayEquals(binary, new byte[] {(byte) 0xb0, 0x00, 0x00, 0x00, 0x05, 0x76, 0x61, 0x6C, 0x75, 0x65});
+        assertEquals(10, binary.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpSymbol8Bytes() throws Exception
+    {
+        final byte[] symbol = symbol8("value");
+
+        assertArrayEquals(symbol, new byte[] {(byte) 0xa3, 0x05, 0x76, 0x61, 0x6C, 0x75, 0x65});
+        assertEquals(7, symbol.length);
+    }
+
+    @Test
+    public void shouldCreateAmqpSymbol32Bytes() throws Exception
+    {
+        final byte[] symbol = symbol32("value");
+
+        assertArrayEquals(symbol, new byte[] {(byte) 0xb3, 0x00, 0x00, 0x00, 0x05, 0x76, 0x61, 0x6C, 0x75, 0x65});
+        assertEquals(10, symbol.length);
+    }
+
+    @Test
+    public void shouldCreatePropertyTypesBytes() throws Exception
+    {
+        final byte[] types = propertyTypes("null", "boolean", "true", "false", "ubyte", "ushort", "uint", "smalluint",
+            "uint0", "ulong", "smallulong", "ulong0", "byte", "short", "int", "smallint", "long",
+            "smalllong", "char", "timestamp", "vbin8", "vbin32", "str8-utf8", "str32-utf8", "sym8", "sym32");
+
+        assertArrayEquals(types, new byte[] {0x40, 0x56, 0x41, 0x42, 0x50, 0x60, 0x70, 0x52, 0x43, (byte) 0x80, 0x53, 0x44,
+            0x51, 0x61, 0x71, 0x54, (byte) 0x81, 0x55, 0x73, (byte) 0x83, (byte) 0xa0, (byte) 0xb0, (byte) 0xa1, (byte) 0xb1,
+            (byte) 0xa3, (byte) 0xb3});
+        assertEquals(26, types.length);
     }
 
     @Test(expected = AssertionError.class)

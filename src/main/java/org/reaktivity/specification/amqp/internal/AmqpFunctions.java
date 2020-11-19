@@ -18,6 +18,8 @@ package org.reaktivity.specification.amqp.internal;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -45,6 +47,73 @@ import org.reaktivity.specification.amqp.internal.types.stream.AmqpDataExFW;
 public final class AmqpFunctions
 {
     private static final int MAX_BUFFER_SIZE = 1024 * 8;
+
+    private static final byte[] NULL_TYPE = new byte[] {0x40};
+    private static final byte BOOLEAN_TYPE = (byte) 0x56;
+    private static final byte[] TRUE_TYPE = new byte[] {0x41};
+    private static final byte[] FALSE_TYPE = new byte[] {0x42};
+    private static final byte UBYTE_TYPE = (byte) 0x50;
+    private static final byte USHORT_TYPE = (byte) 0x60;
+    private static final byte UINT_TYPE = (byte) 0x70;
+    private static final byte SMALLUINT_TYPE = (byte) 0x52;
+    private static final byte[] UINT0_TYPE = new byte[] {0x43};
+    private static final byte ULONG_TYPE = (byte) 0x80;
+    private static final byte SMALLULONG_TYPE = (byte) 0x53;
+    private static final byte[] ULONG0_TYPE = new byte[] {0x44};
+    private static final byte BYTE_TYPE = (byte) 0x51;
+    private static final byte SHORT_TYPE = (byte) 0x61;
+    private static final byte INT_TYPE = (byte) 0x71;
+    private static final byte SMALLINT_TYPE = (byte) 0x54;
+    private static final byte LONG_TYPE = (byte) 0x81;
+    private static final byte SMALLLONG_TYPE = (byte) 0x55;
+    private static final byte CHAR_TYPE = (byte) 0x73;
+    private static final byte TIMESTAMP_TYPE = (byte) 0x83;
+
+    private static final byte VBIN8_TYPE = (byte) 0xa0;
+    private static final byte VBIN32_TYPE = (byte) 0xb0;
+    private static final byte STR8UTF8_TYPE = (byte) 0xa1;
+    private static final byte STR32UTF8_TYPE = (byte) 0xb1;
+    private static final byte SYM8_TYPE = (byte) 0xa3;
+    private static final byte SYM32_TYPE = (byte) 0xb3;
+
+    private static final int CONSTRUCTOR_BYTE_SIZE = 1;
+    private static final int FIXED_SIZE1 = 1;
+    private static final int FIXED_SIZE2 = 2;
+    private static final int FIXED_SIZE4 = 4;
+    private static final int FIXED_SIZE8 = 8;
+
+    private static final Map<String, Byte> BYTES_BY_NAMES;
+    static
+    {
+        final Map<String, Byte> byteByNames = new HashMap<>();
+        byteByNames.put("null", NULL_TYPE[0]);
+        byteByNames.put("boolean", BOOLEAN_TYPE);
+        byteByNames.put("true", TRUE_TYPE[0]);
+        byteByNames.put("false", FALSE_TYPE[0]);
+        byteByNames.put("ubyte", UBYTE_TYPE);
+        byteByNames.put("ushort", USHORT_TYPE);
+        byteByNames.put("uint", UINT_TYPE);
+        byteByNames.put("smalluint", SMALLUINT_TYPE);
+        byteByNames.put("uint0", UINT0_TYPE[0]);
+        byteByNames.put("ulong", ULONG_TYPE);
+        byteByNames.put("smallulong", SMALLULONG_TYPE);
+        byteByNames.put("ulong0", ULONG0_TYPE[0]);
+        byteByNames.put("byte", BYTE_TYPE);
+        byteByNames.put("short", SHORT_TYPE);
+        byteByNames.put("int", INT_TYPE);
+        byteByNames.put("smallint", SMALLINT_TYPE);
+        byteByNames.put("long", LONG_TYPE);
+        byteByNames.put("smalllong", SMALLLONG_TYPE);
+        byteByNames.put("char", CHAR_TYPE);
+        byteByNames.put("timestamp", TIMESTAMP_TYPE);
+        byteByNames.put("vbin8", VBIN8_TYPE);
+        byteByNames.put("vbin32", VBIN32_TYPE);
+        byteByNames.put("str8-utf8", STR8UTF8_TYPE);
+        byteByNames.put("str32-utf8", STR32UTF8_TYPE);
+        byteByNames.put("sym8", SYM8_TYPE);
+        byteByNames.put("sym32", SYM32_TYPE);
+        BYTES_BY_NAMES = byteByNames;
+    }
 
     public static class AmqpRouteExBuilder
     {
@@ -343,7 +412,7 @@ public final class AmqpFunctions
 
         public AmqpDataExBuilder property(
             String key,
-            String value)
+            byte[] value)
         {
             if (propertiesRW != null && !isPropertiesSet)
             {
@@ -351,7 +420,8 @@ public final class AmqpFunctions
                 dataExRW.properties(properties);
                 isPropertiesSet = true;
             }
-            dataExRW.applicationPropertiesItem(a -> a.key(key).value(value));
+            dataExRW.applicationPropertiesItem(a -> a.key(key)
+                                                     .value(v -> v.bytes(o -> o.set(value))));
             return this;
         }
 
@@ -620,7 +690,7 @@ public final class AmqpFunctions
 
         public AmqpDataExMatcherBuilder property(
             String key,
-            String value)
+            byte[] value)
         {
             if (applicationPropertiesRW == null)
             {
@@ -628,7 +698,8 @@ public final class AmqpFunctions
                     new AmqpApplicationPropertyFW())
                     .wrap(new UnsafeBuffer(new byte[1024]), 0, 1024);
             }
-            applicationPropertiesRW.item(a -> a.key(key).value(value));
+            applicationPropertiesRW.item(a -> a.key(key)
+                                               .value(v -> v.bytes(o -> o.set(value))));
             return this;
         }
 
@@ -817,24 +888,266 @@ public final class AmqpFunctions
         return buffer.toString();
     }
 
+    @Function(name = "_null")
+    public static byte[] nullValue()
+    {
+        return NULL_TYPE;
+    }
+
+    @Function(name = "boolean")
+    public static byte[] booleanValue(
+        boolean value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        byte byteValue = (byte) (value ? 0x01 : 0x00);
+        return ByteBuffer.allocate(byteLength).put(BOOLEAN_TYPE).put(byteValue).array();
+    }
+
+    @Function(name = "_true")
+    public static byte[] trueValue()
+    {
+        return TRUE_TYPE;
+    }
+
+    @Function(name = "_false")
+    public static byte[] falseValue()
+    {
+        return FALSE_TYPE;
+    }
+
     @Function
-    public static byte[] string(
+    public static byte[] ubyte(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        return ByteBuffer.allocate(byteLength).put(UBYTE_TYPE).put((byte) value).array();
+    }
+
+    @Function
+    public static byte[] ushort(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE2;
+        return ByteBuffer.allocate(byteLength).put(USHORT_TYPE).putShort((short) value).array();
+    }
+
+    @Function
+    public static byte[] uint(
+        long value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4;
+        return ByteBuffer.allocate(byteLength).put(UINT_TYPE).putInt((int) value).array();
+    }
+
+    @Function
+    public static byte[] smalluint(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        return ByteBuffer.allocate(byteLength).put(SMALLUINT_TYPE).put((byte) value).array();
+    }
+
+    @Function
+    public static byte[] uint0()
+    {
+        return UINT0_TYPE;
+    }
+
+    @Function
+    public static byte[] ulong(
+        long value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE8;
+        return ByteBuffer.allocate(byteLength).put(ULONG_TYPE).putLong(value).array();
+    }
+
+    @Function
+    public static byte[] smallulong(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        return ByteBuffer.allocate(byteLength).put(SMALLULONG_TYPE).put((byte) value).array();
+    }
+
+    @Function
+    public static byte[] ulong0()
+    {
+        return ULONG0_TYPE;
+    }
+
+    @Function(name = "byte")
+    public static byte[] byteValue(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        return ByteBuffer.allocate(byteLength).put(BYTE_TYPE).put((byte) value).array();
+    }
+
+    @Function(name = "short")
+    public static byte[] shortValue(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE2;
+        return ByteBuffer.allocate(byteLength).put(SHORT_TYPE).putShort((short) value).array();
+    }
+
+    @Function(name = "int")
+    public static byte[] intValue(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4;
+        return ByteBuffer.allocate(byteLength).put(INT_TYPE).putInt(value).array();
+    }
+
+    @Function
+    public static byte[] smallint(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        return ByteBuffer.allocate(byteLength).put(SMALLINT_TYPE).put((byte) value).array();
+    }
+
+    @Function(name = "long")
+    public static byte[] longValue(
+        long value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE8;
+        return ByteBuffer.allocate(byteLength).put(LONG_TYPE).putLong(value).array();
+    }
+
+    @Function
+    public static byte[] smalllong(
+        int value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1;
+        return ByteBuffer.allocate(byteLength).put(SMALLLONG_TYPE).put((byte) value).array();
+    }
+
+    @Function(name = "char")
+    public static byte[] charValue(
         String value)
     {
-        int valueLength = value.length();
-        int byteLength = Byte.BYTES + (valueLength > 0xff ? Integer.BYTES : Byte.BYTES) + valueLength;
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4;
+        int codePoint = value.codePointAt(0);
 
-        byte[] bytes;
-        if (valueLength > 0xff)
+        byte[] valueArray = value.getBytes(UTF_8);
+        ByteBuffer buffer = ByteBuffer.allocate(byteLength).put(CHAR_TYPE);
+        if (codePoint <= 0x7f)
         {
-            bytes = ByteBuffer.allocate(byteLength).put((byte) 0xb1).putInt(valueLength).put(value.getBytes(UTF_8)).array();
+            buffer.putShort((short) 0)
+                .put((byte) 0)
+                .put((byte) (valueArray[0] & 0x7f));
         }
-        else
+        else if (codePoint <= 0x07ff)
         {
-            bytes = ByteBuffer.allocate(byteLength).put((byte) 0xa1).put((byte) valueLength).put(value.getBytes(UTF_8)).array();
+            int byte1 = valueArray[0] & 0x1f;
+            int byte2 = valueArray[1] & 0x3f;
+            buffer.putShort((short) 0)
+                .put((byte) (byte1 >> 2))
+                .put((byte) (byte2 | byte1 << 6));
         }
+        else if (codePoint <= 0xffff)
+        {
+            int byte1 = valueArray[0] & 0x0f;
+            int byte2 = valueArray[1] & 0x3f;
+            int byte3 = valueArray[2] & 0x3f;
+            buffer.put((byte) 0)
+                .put((byte) (byte1 >> 4))
+                .put((byte) (byte2 >> 2 | byte1 << 4))
+                .put((byte) (byte3 | byte2 << 6));
+        }
+        else if (codePoint <= 0x10ffff)
+        {
+            int byte1 = valueArray[0] & 0x07;
+            int byte2 = valueArray[1] & 0x3f;
+            int byte3 = valueArray[2] & 0x3f;
+            int byte4 = valueArray[3] & 0x3f;
+            buffer.put((byte) (byte1 >> 6))
+                .put((byte) (byte2 >> 4 | byte1 << 6))
+                .put((byte) (byte3 >> 2 | byte2 << 4))
+                .put((byte) (byte4 | byte3 << 6));
+        }
+        return buffer.array();
+    }
 
-        return bytes;
+    @Function
+    public static byte[] timestamp(
+        long value)
+    {
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE8;
+        return ByteBuffer.allocate(byteLength).put(TIMESTAMP_TYPE).putLong(value).array();
+    }
+
+    @Function
+    public static byte[] binary8(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1 + length;
+
+        return ByteBuffer.allocate(byteLength).put(VBIN8_TYPE).put((byte) length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] binary32(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4 + length;
+
+        return ByteBuffer.allocate(byteLength).put(VBIN32_TYPE).putInt(length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] string8(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1 + length;
+
+        return ByteBuffer.allocate(byteLength).put(STR8UTF8_TYPE).put((byte) length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] string32(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4 + length;
+
+        return ByteBuffer.allocate(byteLength).put(STR32UTF8_TYPE).putInt(length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] symbol8(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE1 + length;
+
+        return ByteBuffer.allocate(byteLength).put(SYM8_TYPE).put((byte) length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] symbol32(
+        String value)
+    {
+        int length = value.length();
+        int byteLength = CONSTRUCTOR_BYTE_SIZE + FIXED_SIZE4 + length;
+
+        return ByteBuffer.allocate(byteLength).put(SYM32_TYPE).putInt(length).put(value.getBytes(UTF_8)).array();
+    }
+
+    @Function
+    public static byte[] propertyTypes(
+        String... values)
+    {
+        ByteBuffer buffer = ByteBuffer.allocate(values.length);
+        for (String value : values)
+        {
+            buffer.put(BYTES_BY_NAMES.get(value));
+        }
+        return buffer.array();
     }
 
     public static class Mapper extends FunctionMapperSpi.Reflective
