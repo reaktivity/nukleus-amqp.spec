@@ -41,7 +41,7 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deliveryTag("")
                             .messageFormat(0)
                             .flags("SETTLED")
-                            .annotation("annotation1", amqp:string("1"))
+                            .annotation("annotation1", amqp:string8("1"))
                             .bodyKind("VALUE_STRING8")
                             .build()}
 

@@ -63,7 +63,7 @@ scope amqp
     struct AmqpApplicationProperty
     {
         string32 key;
-        string32 value; // TODO: should be any type (excludes list, map, array)
+        AmqpBinary value;
     }
 
     enum AmqpMessagePropertyKind
