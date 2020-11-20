@@ -255,30 +255,6 @@ public class LinkIT
 
     @Test
     @Specification({
-        "${scripts}/transfer.to.client.with.application.properties/client",
-        "${scripts}/transfer.to.client.with.application.properties/server"})
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToClientWithApplicationProperties() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_SERVER");
-        k3po.finish();
-    }
-
-    @Test
-    @Specification({
-        "${scripts}/transfer.to.server.with.application.properties/client",
-        "${scripts}/transfer.to.server.with.application.properties/server"})
-    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
-    public void shouldTransferToServerWithApplicationProperties() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_SERVER");
-        k3po.finish();
-    }
-
-    @Test
-    @Specification({
         "${scripts}/transfer.to.client.with.footer/client",
         "${scripts}/transfer.to.client.with.footer/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
@@ -1323,10 +1299,33 @@ public class LinkIT
 
     @Test
     @Specification({
+        "${scripts}/attach.as.receiver.then.detach.with.error.then.flow/client",
+        "${scripts}/attach.as.receiver.then.detach.with.error.then.flow/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldNotTriggerErrorWhenReceivingFlowAfterDetach() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/transfer.to.client.when.middle.fragment.aborted/client",
         "${scripts}/transfer.to.client.when.middle.fragment.aborted/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldTransferToClientWhenMiddleFragmentAborted() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+    @Test
+    @Specification({
+        "${scripts}/handle.max.exceeded/client",
+        "${scripts}/handle.max.exceeded/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldCloseConnectionWhenHandleMaxExceeded() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -1339,6 +1338,17 @@ public class LinkIT
         "${scripts}/transfer.to.client.when.last.fragment.aborted/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldTransferToClientWhenLastFragmentAborted() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+    @Test
+    @Specification({
+        "${scripts}/reject.attach.when.handle.in.use/client",
+        "${scripts}/reject.attach.when.handle.in.use/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldCloseConnectionWhenAttachWithHandleInUse() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -1359,6 +1369,18 @@ public class LinkIT
 
     @Test
     @Specification({
+        "${scripts}/transfer.to.server.max.message.size.exceeded/client",
+        "${scripts}/transfer.to.server.max.message.size.exceeded/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldAttachAsSenderThenDetachWhenMaxMessageSizeExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/transfer.to.server.when.middle.fragment.aborted/client",
         "${scripts}/transfer.to.server.when.middle.fragment.aborted/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
@@ -1371,10 +1393,166 @@ public class LinkIT
 
     @Test
     @Specification({
+        "${scripts}/transfer.to.client.max.message.size.exceeded/client",
+        "${scripts}/transfer.to.client.max.message.size.exceeded/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldAttachAsReceiverThenDetachWhenMaxMessageSizeExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/transfer.to.server.when.last.fragment.aborted/client",
         "${scripts}/transfer.to.server.when.last.fragment.aborted/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldTransferToServerWhenLastFragmentAborted() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.then.flow.with.echo.on.session/client",
+        "${scripts}/transfer.to.server.then.flow.with.echo.on.session/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerThenFlowWithEchoOnSession() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.then.flow.with.echo.on.link/client",
+        "${scripts}/transfer.to.server.then.flow.with.echo.on.link/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerThenFlowWithEchoOnLink() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/reject.flow.with.inconsistent.fields/client",
+        "${scripts}/reject.flow.with.inconsistent.fields/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldCloseConnectionWhenFlowWithInconsistentFields() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/flow.without.handle/client",
+        "${scripts}/flow.without.handle/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldSupportFlowWithoutHandle() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/flow.with.unattached.handle/client",
+        "${scripts}/flow.with.unattached.handle/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldRejectFlowWithUnattachedHandle() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.with.large.delivery.count/client",
+        "${scripts}/transfer.to.server.with.large.delivery.count/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWithLargeDeliveryCount() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/reject.transfer.with.more.inconsistent.fields/client",
+        "${scripts}/reject.transfer.with.more.inconsistent.fields/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldRejectTransferWithMoreWhenFieldsAreInconsistent() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.with.large.next.incoming.id/client",
+        "${scripts}/transfer.to.server.with.large.next.incoming.id/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWithLargeNextIncomingId() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.with.invalid.delivery.id/client",
+        "${scripts}/transfer.to.server.with.invalid.delivery.id/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWithInvalidDeliveryId() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.with.application.properties/client",
+        "${scripts}/transfer.to.server.with.application.properties/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWithApplicationProperties() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.with.application.properties/client",
+        "${scripts}/transfer.to.client.with.application.properties/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWithApplicationProperties() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/reject.durable.message.when.durable.not.supported/client",
+        "${scripts}/reject.durable.message.when.durable.not.supported/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldRejectDurableMessageWhenDurableNotSupported() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");

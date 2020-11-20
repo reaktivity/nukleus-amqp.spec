@@ -118,7 +118,7 @@ read [0x00 0x00 0x00 0x23]                                        # size = 35
      [0x70 0x00 0x00 0x03 0xe8]                                   # link-credit = 1000
 
 # transfer frame
-write [0x00 0x00 0x00 0x3c]                                       # size = 60
+write [0x00 0x00 0x01 0x78]                                       # size = 376
       [0x02]                                                      # doff = 2
       [0x00]                                                      # type = AMQP (0)
       [0x00 0x00]                                                 # channel = 0
@@ -130,8 +130,58 @@ write [0x00 0x00 0x00 0x3c]                                       # size = 60
       [0x43]                                                      # message-format = 0
       [0x41]                                                      # settled = true
       [0x00 0x53 0x74]                                            # application-properties header
-      [0xc1 0x19 0x02]                                            # map8, length = 25, fields = 2
-      [0xa1 0x0b] "application"                                   # map key = "application"
-      [0xa1 0x09] "property1"                                     # map value = "property1"
-      [0x00 0x53 0x77 0xa1 0x05]                                  # message format = amqp-value, str8utf8, size = 5
+      [0xd1 0x00 0x00 0x01 0x52 0x00 0x00 0x00 0x34]              # map32, length = 338, fields = 52
+      [0xa1 0x04] "null"                                          # map key = "null"
+      [0x40]                                                      # map value = null type
+      [0xa1 0x07] "boolean"                                       # map key = "boolean"
+      [0x56 0x01]                                                 # map value = true
+      [0xa1 0x04] "true"                                          # map key = "true"
+      [0x41]                                                      # map value = true type
+      [0xa1 0x05] "false"                                         # map key = "false"
+      [0x42]                                                      # map value = false type
+      [0xa1 0x05] "ubyte"                                         # map key = "ubyte"
+      [0x50 0x01]                                                 # map value = 1
+      [0xa1 0x06] "ushort"                                        # map key = "ushort"
+      [0x60 0x00 0x01]                                            # map value = 1
+      [0xa1 0x04] "uint"                                          # map key = "uint"
+      [0x70 0x00 0x00 0x00 0x01]                                  # map value = 1
+      [0xa1 0x09] "smalluint"                                     # map key = "smalluint"
+      [0x52 0x01]                                                 # map value = 1
+      [0xa1 0x05] "uint0"                                         # map key = "uint0"
+      [0x43]                                                      # map value = uint0 type
+      [0xa1 0x05] "ulong"                                         # map key = "ulong"
+      [0x80 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01]              # map value = 1
+      [0xa1 0x0a] "smallulong"                                    # map key = "smallulong"
+      [0x53 0x01]                                                 # map value = 1
+      [0xa1 0x06] "ulong0"                                        # map key = "ulong0"
+      [0x44]                                                      # map value = ulong0 type
+      [0xa1 0x04] "byte"                                          # map key = "byte"
+      [0x51 0x01]                                                 # map value = 1
+      [0xa1 0x05] "short"                                         # map key = "short"
+      [0x61 0x00 0x01]                                            # map value = 1
+      [0xa1 0x03] "int"                                           # map key = "int"
+      [0x71 0x00 0x00 0x00 0x01]                                  # map value = 1
+      [0xa1 0x08] "smallint"                                      # map key = "smallint"
+      [0x54 0x01]                                                 # map value = 1
+      [0xa1 0x04] "long"                                          # map key = "long"
+      [0x81 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01]              # map value = 1
+      [0xa1 0x09] "smalllong"                                     # map key = "smalllong"
+      [0x55 0x01]                                                 # map value = 1
+      [0xa1 0x04] "char"                                          # map key = "char"
+      [0x73 0x00 0x00 0x00 0x31]                                  # map value = '1'
+      [0xa1 0x09] "timestamp"                                     # map key = "timestamp"
+      [0x83 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x01]              # map value = 1
+      [0xa1 0x05] "vbin8"                                         # map key = "vbin8"
+      [0xa0 0x05] "vbin8"                                         # map value = "vbin8" bytes
+      [0xa1 0x06] "vbin32"                                        # map key = "vbin32"
+      [0xb0 0x00 0x00 0x00 0x06] "vbin32"                         # map value = "vbin32" bytes
+      [0xa1 0x09] "str8-utf8"                                     # map key = "str8-utf8"
+      [0xa1 0x09] "str8-utf8"                                     # map value = "str8-utf8"
+      [0xa1 0x0a] "str32-utf8"                                    # map key = "str32-utf8"
+      [0xb1 0x00 0x00 0x00 0x0a] "str32-utf8"                     # map value = "str32-utf8"
+      [0xa1 0x04] "sym8"                                          # map key = "sym8"
+      [0xa3 0x04] "sym8"                                          # map value = "sym8"
+      [0xa1 0x05] "sym32"                                         # map key = "sym32"
+      [0xb3 0x00 0x00 0x00 0x05] "sym32"                          # map value = "sym32"
+      [0x00 0x53 0x77 0xa1 0x05]                                  # message format = amqp-value, vbin32, size = 5
       "Text!"                                                     # body = "Text!"
