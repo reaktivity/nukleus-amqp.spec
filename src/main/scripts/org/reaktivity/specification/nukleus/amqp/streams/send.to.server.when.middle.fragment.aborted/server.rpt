@@ -48,10 +48,13 @@ read nukleus:data.ext ${amqp:dataEx()
                             .deferred(300 - 100)
                             .build()}
 
-# TODO: read option nukleus:flags "init"
+read option nukleus:flags "init"
 read [0..100]
-# TODO: read option nukleus:flags "incomplete"
+
+read option nukleus:flags "incomplete"
 read nukleus:data.empty
+
+read option nukleus:flags "auto"
 
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))

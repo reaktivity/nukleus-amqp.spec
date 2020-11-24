@@ -36,7 +36,6 @@ read nukleus:begin.ext ${amqp:beginEx()
                              .build()}
 connected
 
-# message 1
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
                             .deliveryTag("")
@@ -45,14 +44,18 @@ read nukleus:data.ext ${amqp:dataEx()
                             .bodyKind("VALUE_BINARY32")
                             .deferred(300 - 100)
                             .build()}
-# TODO: read option nukleus:flags "init"
-read [0..100]
-# TODO: read option nukleus:flags "none"
-read [0..100]
-# TODO: read option nukleus:flags "incomplete"
+
+read option nukleus:flags "init"
 read [0..100]
 
-# message 2
+read option nukleus:flags "none"
+read [0..100]
+
+read option nukleus:flags "incomplete"
+read [0..100]
+
+read option nukleus:flags "auto"
+
 read nukleus:data.ext ${amqp:dataEx()
                             .typeId(nukleus:id("amqp"))
                             .deliveryTag("")

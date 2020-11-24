@@ -47,9 +47,11 @@ write nukleus:data.ext ${amqp:dataEx()
                              .flags("SETTLED")
                              .bodyKind("VALUE_BINARY8")
                              .build()}
-# TODO: write option nukleus:flags "init, incomplete"
+write option nukleus:flags "init incomplete"
 write ${amqp:randomBytes(10)}
-# TODO: write flush
+write flush
+
+write option nukleus:flags "auto"
 
 write nukleus:data.ext ${amqp:dataEx()
                              .typeId(nukleus:id("amqp"))
