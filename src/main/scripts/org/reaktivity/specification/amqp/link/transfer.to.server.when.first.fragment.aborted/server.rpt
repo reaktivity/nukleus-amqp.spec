@@ -128,7 +128,7 @@ read [0x00 0x00 0x00 0x27]                                        # size = 39
      [0x00 0x53 0x14]                                             # performative = transfer (20)
      [0xc0 0x0b 0x0a]                                             # list type (list8), length = 11, fields = 10
      [0x43]                                                       # handle = 0
-     [0x40]                                                       # delivery-id = 0
+     [0x43]                                                       # delivery-id = 0
      [0x40]                                                       # delivery-tag = null
      [0x40]                                                       # message-format = null
      [0x40]                                                       # settled = null
