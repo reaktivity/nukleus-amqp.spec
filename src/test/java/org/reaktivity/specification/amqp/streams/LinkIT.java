@@ -1488,4 +1488,28 @@ public class LinkIT
         k3po.notifyBarrier("ROUTED_SERVER");
         k3po.finish();
     }
+
+    @Test
+    @Specification({
+        "${scripts}/client.sent.flush/client",
+        "${scripts}/client.sent.flush/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldReceiveClientSentFlush() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/server.sent.flush/client",
+        "${scripts}/server.sent.flush/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldReceiveServerSentFlush() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
 }
