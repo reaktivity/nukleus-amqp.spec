@@ -1287,6 +1287,18 @@ public class LinkIT
 
     @Test
     @Specification({
+        "${scripts}/transfer.to.client.when.first.fragment.aborted/client",
+        "${scripts}/transfer.to.client.when.first.fragment.aborted/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWhenFirstFragmentAborted() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/attach.as.receiver.then.detach.with.error.then.flow/client",
         "${scripts}/attach.as.receiver.then.detach.with.error.then.flow/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
@@ -1297,6 +1309,17 @@ public class LinkIT
         k3po.finish();
     }
 
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.client.when.middle.fragment.aborted/client",
+        "${scripts}/transfer.to.client.when.middle.fragment.aborted/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWhenMiddleFragmentAborted() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
     @Test
     @Specification({
         "${scripts}/handle.max.exceeded/client",
@@ -1311,10 +1334,33 @@ public class LinkIT
 
     @Test
     @Specification({
+        "${scripts}/transfer.to.client.when.last.fragment.aborted/client",
+        "${scripts}/transfer.to.client.when.last.fragment.aborted/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToClientWhenLastFragmentAborted() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+    @Test
+    @Specification({
         "${scripts}/reject.attach.when.handle.in.use/client",
         "${scripts}/reject.attach.when.handle.in.use/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldCloseConnectionWhenAttachWithHandleInUse() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.when.first.fragment.aborted/client",
+        "${scripts}/transfer.to.server.when.first.fragment.aborted/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWhenFirstFragmentAborted() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
@@ -1335,10 +1381,34 @@ public class LinkIT
 
     @Test
     @Specification({
+        "${scripts}/transfer.to.server.when.middle.fragment.aborted/client",
+        "${scripts}/transfer.to.server.when.middle.fragment.aborted/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWhenMiddleFragmentAborted() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/transfer.to.client.max.message.size.exceeded/client",
         "${scripts}/transfer.to.client.max.message.size.exceeded/server"})
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     public void shouldAttachAsReceiverThenDetachWhenMaxMessageSizeExceeded() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/transfer.to.server.when.last.fragment.aborted/client",
+        "${scripts}/transfer.to.server.when.last.fragment.aborted/server"})
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    public void shouldTransferToServerWhenLastFragmentAborted() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
