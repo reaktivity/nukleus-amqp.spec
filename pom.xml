@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.reaktivity</groupId>
   <artifactId>nukleus-amqp.spec</artifactId>
-  <version>0.55</version>
+  <version>0.56</version>
   <name>AMQP Nukleus Specification</name>
   <description>AMQP Nukleus Specification</description>
   <url>https://github.com/reaktivity/nukleus-amqp.spec</url>
@@ -287,6 +287,9 @@
                     <requireReleaseDeps>
                       <message>No Snapshots Allowed!</message>
                     </requireReleaseDeps>
+                    <requireJavaVersion>
+                      <version>[9,10)</version>
+                    </requireJavaVersion>
                   </rules>
                 </configuration>
               </execution>
