@@ -1485,10 +1485,36 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
+        "${streams}/send.to.client.when.first.fragment.aborted/client",
+        "${streams}/send.to.client.when.first.fragment.aborted/server"
+    })
+    public void shouldSendToClientWhenFirstFragmentAborted() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
         "${streams}/connect.as.receiver.then.abort/client",
         "${streams}/connect.as.receiver.then.abort/server"
     })
     public void shouldConnectThenAbort() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.client.when.middle.fragment.aborted/client",
+        "${streams}/send.to.client.when.middle.fragment.aborted/server"
+    })
+    public void shouldSendToClientWhenMiddleFragmentAborted() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
@@ -1511,10 +1537,36 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
+        "${streams}/send.to.client.when.last.fragment.aborted/client",
+        "${streams}/send.to.client.when.last.fragment.aborted/server"
+    })
+    public void shouldSendToClientWhenLastFragmentAborted() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
         "${streams}/send.to.server.then.flow.with.echo/client",
         "${streams}/send.to.server.then.flow.with.echo/server"
     })
     public void shouldSendToServerThenFlowWithEcho() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.server.when.first.fragment.aborted/client",
+        "${streams}/send.to.server.when.first.fragment.aborted/server"
+    })
+    public void shouldSendToServerWhenFirstFragmentAborted() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
@@ -1537,10 +1589,36 @@ public class StreamIT
     @Test
     @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
     @Specification({
+        "${streams}/send.to.server.when.middle.fragment.aborted/client",
+        "${streams}/send.to.server.when.middle.fragment.aborted/server"
+    })
+    public void shouldSendToServerWhenMiddleFragmentAborted() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
         "${streams}/abort.after.sending.first.fragment/client",
         "${streams}/abort.after.sending.first.fragment/server"
     })
     public void shouldAbortAfterSendingFirstFragment() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @ScriptProperty("serverTransport \"nukleus://streams/amqp#0\"")
+    @Specification({
+        "${streams}/send.to.server.when.last.fragment.aborted/client",
+        "${streams}/send.to.server.when.last.fragment.aborted/server"
+    })
+    public void shouldSendToServerWhenLastFragmentAborted() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
