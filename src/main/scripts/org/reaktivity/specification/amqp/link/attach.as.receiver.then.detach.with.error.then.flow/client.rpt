@@ -81,19 +81,19 @@ write [0x00 0x00 0x00 0x2a]                                      # size = 42
       [0xc0 0x0a 0x01]                                           # list type (list8), length = 10, fields = 1
       [0xa1 0x07] "clients"                                      # address = "clients"
 
-read [0x00 0x00 0x00 0x23]                                       # size = 35
+read [0x00 0x00 0x00 0x20]                                       # size = 32
      [0x02]                                                      # doff = 2
      [0x00]                                                      # type = AMQP (0)
      [0x00 0x00]                                                 # channel = 0
      [0x00 0x53 0x12]                                            # performative = attach (18)
-     [0xc0 0x16 0x0a]                                            # list type (list8), length = 22, fields = 10
+     [0xc0 0x13 0x0a]                                            # list type (list8), length = 19, fields = 10
      [0xa1 0x05] "link1"                                         # name = "link1"
      [0x43]                                                      # handle = 0
      [0x42]                                                      # role = sender
      [0x50 0x02]                                                 # snd-settle-mode = mixed
      [0x50 0x00]                                                 # rcv-settle-mode = first
      [0x40]                                                      # source = null
-     [0x00 0x53 0x29 0x45]                                       # target = empty list
+     [0x40]                                                      # target = null
      [0x40]                                                      # unsettled = null
      [0x40]                                                      # incomplete-unsettled = null (default = false)
      [0x43]                                                      # initial-delivery-count = 0
