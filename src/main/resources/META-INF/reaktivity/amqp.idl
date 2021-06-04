@@ -125,15 +125,6 @@ scope amqp
         VALUE
     }
 
-    scope control
-    {
-        struct AmqpRouteEx
-        {
-            string8 address;
-            AmqpCapabilities capabilities = SEND_AND_RECEIVE;
-        }
-    }
-
     scope stream
     {
         struct AmqpBeginEx extends core::stream::Extension

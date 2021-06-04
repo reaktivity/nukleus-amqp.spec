@@ -1,0 +1,16 @@
+{
+    "bindings":
+    [
+        {
+            "entry": "app#0",
+            "type" : "amqp",
+            "kind": "client",
+            "routes":
+            [
+                {
+                    "exit": "net#0"
+                }
+            ]
+        }
+    ]
+}
